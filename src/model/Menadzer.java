@@ -4,15 +4,19 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model_enum.Privilegija;
 
 /**
  *
  * @author Korisnik
  */
-public class Menadzer {
-    
+public class Menadzer implements OpstiDomenskiObjekat {
+
     private String jmbg;
     private String imePrezime;
     private String email;
@@ -110,7 +114,66 @@ public class Menadzer {
     public String toString() {
         return imePrezime;
     }
-    
-    
-    
+
+    @Override
+    public boolean napuni(ResultSet rs) {
+        try {
+            jmbg = rs.getString("m.jmbg");
+            imePrezime = rs.getString("m.imePrezime");
+            email = rs.getString("m.email");
+            lozinka = rs.getString("m.lozinka");
+            kontakt = rs.getString("m.kontakt");
+            privilegija = Privilegija.valueOf(rs.getString("m.privilegija"));
+        } catch (SQLException ex) {
+            Logger.getLogger(Menadzer.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String vratiKljuc() {
+        return "'" + jmbg + "'";
+    }
+
+    @Override
+    public String vratiImeKlaseUcitaj() {
+        return "menadzer m";
+    }
+
+    @Override
+    public String vratiImeKlaseUpisi() {
+        return "menadzer";
+    }
+
+    @Override
+    public String vratiVrednostAtributa() {
+        return "('"+jmbg+"','"+imePrezime+"','"+email+"','"+lozinka+"','"+kontakt+"','"+privilegija+"')";
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        return "jmbg='"+jmbg+"',imePrezime='"+imePrezime+"',email='"+email+"',lozinka='"+lozinka+"',kontakt='"+kontakt+"',privilegija='"+privilegija+"'";
+    }
+
+    @Override
+    public String vratiListuAtributa() {
+        return "(jmbg,imePrezime,email,lozinka,kontakt,privilegija)";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlog() {
+        return "";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlogove() {
+        return "";
+    }
+
+    @Override
+    public boolean postojiRelacija() {
+        return true;
+    }
+
 }

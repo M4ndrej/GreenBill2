@@ -12,7 +12,8 @@ public interface OpstiDomenskiObjekat {
     
     public boolean napuni(ResultSet rs);
     public String vratiKljuc();
-    public String vratiImeKlase();
+    public String vratiImeKlaseUcitaj();
+    public String vratiImeKlaseUpisi();
     public String vratiVrednostAtributa();
     public String postaviVrednostAtributa();
     public String vratiListuAtributa();

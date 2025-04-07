@@ -4,13 +4,17 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Korisnik
  */
-public class Otpremac {
+public class Otpremac implements OpstiDomenskiObjekat{
     
     private String jmbg;
     private String imePrezime;
@@ -64,6 +68,63 @@ public class Otpremac {
     @Override
     public String toString() {
         return imePrezime;
+    }
+
+    @Override
+    public boolean napuni(ResultSet rs) {
+        try {
+            jmbg = rs.getString("otp.jmbg");
+            imePrezime = rs.getString("otp.imePrezime");
+        } catch (SQLException ex) {
+            Logger.getLogger(Otpremac.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String vratiKljuc() {
+        return jmbg;
+    }
+
+    @Override
+    public String vratiImeKlaseUcitaj() {
+        return "otpremac otp";
+    }
+
+    @Override
+    public String vratiImeKlaseUpisi() {
+        return "otpremac";
+    }
+
+    @Override
+    public String vratiVrednostAtributa() {
+        return "('"+jmbg+"','"+imePrezime+"')";
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        return "jmbg='"+jmbg+"',imePrezime='"+imePrezime+"'";
+    }
+
+    @Override
+    public String vratiListuAtributa() {
+        return "(jmbg,imePrezime)";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlog() {
+        return "";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlogove() {
+        return "";
+    }
+
+    @Override
+    public boolean postojiRelacija() {
+        return true;
     }
     
     

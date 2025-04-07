@@ -103,18 +103,23 @@ public class GazdinskaJedinica implements OpstiDomenskiObjekat{
     }
 
     @Override
-    public String vratiImeKlase() {
+    public String vratiImeKlaseUcitaj() {
         return "gazdinska_jedinica gj";
+    }
+    
+    @Override
+    public String vratiImeKlaseUpisi() {
+        return "gazdinska_jedinica";
     }
 
     @Override
     public String vratiVrednostAtributa() {
-        return "('"+sifra+","+lokalitet.getId()+","+naziv+"')" ;
+        return "("+sifra+","+lokalitet.getId()+",'"+naziv+"')" ;
     }
 
     @Override
     public String postaviVrednostAtributa() {
-        return "sifra='"+sifra+"',lokalitet='"+lokalitet.getId()+"',naziv='"+naziv+"'";
+        return "sifra="+sifra+",lokalitet="+lokalitet.getId()+",naziv='"+naziv+"'";
     }
 
     @Override

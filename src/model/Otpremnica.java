@@ -4,15 +4,19 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Korisnik
  */
-public class Otpremnica {
-    
+public class Otpremnica implements OpstiDomenskiObjekat {
+
     private String broj;
     private Date datum;
     private double ukupnaCena;
@@ -121,7 +125,87 @@ public class Otpremnica {
         final Otpremnica other = (Otpremnica) obj;
         return Objects.equals(this.broj, other.broj);
     }
-    
-    
-    
+
+    @Override
+    public boolean napuni(ResultSet rs) {
+        try {
+            broj = rs.getString("otp_doc.broj");
+            java.sql.Date sqlDate = rs.getDate("otp_doc.datum");
+            datum = new Date(sqlDate.getTime());
+            ukupnaCena = rs.getDouble("otp_doc.ukupnaCena");
+            verifikovana = rs.getBoolean("otp_doc.verifikovana");
+        } catch (SQLException ex) {
+            Logger.getLogger(Otpremnica.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String vratiKljuc() {
+        return broj;
+    }
+
+    @Override
+    public String vratiImeKlaseUcitaj() {
+        return "otpremnica otp_doc";
+    }
+
+    @Override
+    public String vratiImeKlaseUpisi() {
+        return "otpremnica";
+    }
+
+    @Override
+    public String vratiVrednostAtributa() {
+        java.sql.Date sqlDatum = new java.sql.Date(datum.getTime());
+        return "('" + broj + "','" + sqlDatum + "'," + ukupnaCena + "," + verifikovana + ",'" + menadzer.getJmbg() + "','" + otpremac.getJmbg() + "'," + gazdinskaJedinica.getSifra() + "," + gazdinskaJedinica.getLokalitet().getId() + ",'" + kupac.getPib() + "','" + kupac.getMaticniBroj() + "')";
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        java.sql.Date sqlDatum = new java.sql.Date(datum.getTime());
+        return "broj='" + broj + "',datum='" + sqlDatum + "',ukupnaCena=" + ukupnaCena + ",verifikovana=" + verifikovana + ",menadzer='" + menadzer.getJmbg() + "',otpremac='" + otpremac.getJmbg() + "',gazdinskaJedinica=" + gazdinskaJedinica.getSifra() + ",kupacPib='" + kupac.getPib() + "',kupacMaticniBroj='" + kupac.getMaticniBroj() + "'";
+    }
+
+    @Override
+    public String vratiListuAtributa() {
+        return "(broj,datum,ukupnaCena,verifikovana,menadzer,otpremac,gazdinskaJedinica,lokalitet,kupacPib,kupacMaticniBroj)";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlog() {
+        return "broj="+this.getBroj();
+    }
+
+    @Override
+    public String vratiUslovNadjiSlogove() {
+        StringBuilder sb = new StringBuilder();
+//        sb.append("");
+        boolean prev = false;
+        if(this.broj.matches("^\\d+$")){
+            sb.append("broj = "+this.broj);
+            prev = true;
+        }
+        if(!this.kupac.getNaziv().isEmpty()){
+            if(prev){
+                sb.append(" AND ");
+            }
+            sb.append(" naziv LIKE LOWER ('"+this.kupac.getNaziv().toLowerCase()+"%') ");
+            prev = true;
+        }
+        if(this.otpremac != null){
+            if(prev){
+                sb.append(" AND ");
+            }
+            sb.append(" otpremac LIKE ('"+this.otpremac.getJmbg()+"')");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public boolean postojiRelacija() {
+        return true;
+    }
+
 }

@@ -4,13 +4,17 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Korisnik
  */
-public class StavkaOtpremnice {
+public class StavkaOtpremnice implements OpstiDomenskiObjekat{
     
     private int redniBroj;
     private Otpremnica otpremnica;
@@ -18,7 +22,7 @@ public class StavkaOtpremnice {
     private double iznos;
     private double rabat;
     private int pdv;
-    private double izbosPdv;
+    private double iznosPdv;
     private double ukupnoSaPdv;
     private Proizvod proizvod;
     private OdeljenjeOdsek odeljenjeOdsek;
@@ -26,14 +30,14 @@ public class StavkaOtpremnice {
     public StavkaOtpremnice() {
     }
 
-    public StavkaOtpremnice(int redniBroj, Otpremnica otpremnica, double ukupnaKolicina, double iznos, double rabat, int pdv, double izbosPdv, double ukupnoSaPdv, Proizvod proizvod, OdeljenjeOdsek odeljenjeOdsek) {
+    public StavkaOtpremnice(int redniBroj, Otpremnica otpremnica, double ukupnaKolicina, double iznos, double rabat, int pdv, double iznosPdv, double ukupnoSaPdv, Proizvod proizvod, OdeljenjeOdsek odeljenjeOdsek) {
         this.redniBroj = redniBroj;
         this.otpremnica = otpremnica;
         this.ukupnaKolicina = ukupnaKolicina;
         this.iznos = iznos;
         this.rabat = rabat;
         this.pdv = pdv;
-        this.izbosPdv = izbosPdv;
+        this.iznosPdv = iznosPdv;
         this.ukupnoSaPdv = ukupnoSaPdv;
         this.proizvod = proizvod;
         this.odeljenjeOdsek = odeljenjeOdsek;
@@ -87,12 +91,12 @@ public class StavkaOtpremnice {
         this.pdv = pdv;
     }
 
-    public double getIzbosPdv() {
-        return izbosPdv;
+    public double getIznosPdv() {
+        return iznosPdv;
     }
 
-    public void setIzbosPdv(double izbosPdv) {
-        this.izbosPdv = izbosPdv;
+    public void setIznosPdv(double izbosPdv) {
+        this.iznosPdv = izbosPdv;
     }
 
     public double getUkupnoSaPdv() {
@@ -143,6 +147,68 @@ public class StavkaOtpremnice {
             return false;
         }
         return Objects.equals(this.otpremnica, other.otpremnica);
+    }
+
+    @Override
+    public boolean napuni(ResultSet rs) {
+        try {
+            redniBroj = rs.getInt("s.redniBroj");
+            ukupnaKolicina = rs.getDouble("s.ukupnaKolicina");
+            iznos = rs.getDouble("s.iznos");
+            rabat = rs.getDouble("s.rabat");
+            pdv = rs.getInt("s.pdv");
+            iznosPdv = rs.getDouble("s.iznosPdv");
+            ukupnoSaPdv = rs.getDouble("s.ukupnoSaPdv");
+        } catch (SQLException ex) {
+            Logger.getLogger(StavkaOtpremnice.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String vratiKljuc() {
+        return redniBroj+","+otpremnica.getBroj();
+    }
+
+    @Override
+    public String vratiImeKlaseUcitaj() {
+        return "stavka_otpremnica s";
+    }
+
+    @Override
+    public String vratiImeKlaseUpisi() {
+        return "stavka_otpremnice";
+    }
+
+    @Override
+    public String vratiVrednostAtributa() {
+        return "("+redniBroj+",'"+otpremnica.getBroj()+"',"+ukupnaKolicina+","+iznos+","+rabat+","+pdv+","+iznosPdv+","+ukupnoSaPdv+","+proizvod.getId()+","+odeljenjeOdsek.getId()+","+odeljenjeOdsek.getGazdinskaJedinica().getSifra()+","+odeljenjeOdsek.getGazdinskaJedinica().getLokalitet().getId()+")";
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        return "redniBroj="+redniBroj+",otpremnica='"+otpremnica.getBroj()+"',ukupnaKolicina="+ukupnaKolicina+",iznos="+iznos+",rabat="+rabat+",pdv="+pdv+",iznosPdv="+iznosPdv+",ukupnoSaPdv="+ukupnoSaPdv+",proizvod="+proizvod.getId()+",odeljenjeOdsek="+odeljenjeOdsek.getId()+",gazdinskaJedinica="+odeljenjeOdsek.getGazdinskaJedinica().getSifra()+",lokalitet="+odeljenjeOdsek.getGazdinskaJedinica().getLokalitet().getId();
+    }
+
+    @Override
+    public String vratiListuAtributa() {
+        return "(redniBroj,otpremnica,ukupnaKolicina,iznos,rabat,pdv,iznosPdv,ukupnoSaPdv, proizvod,odeljenjeOdsek,gazdinskaJedinica,lokalitet)";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlog() {
+        return "redniBroj=" + this.getRedniBroj() + " AND otpremnica=" + this.getOtpremnica().getBroj();
+    }
+
+    @Override
+    public String vratiUslovNadjiSlogove() {
+        return "";
+    }
+
+    @Override
+    public boolean postojiRelacija() {
+        return true;
     }
     
         

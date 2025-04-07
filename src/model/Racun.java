@@ -4,15 +4,19 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Korisnik
  */
-public class Racun {
-    
+public class Racun implements OpstiDomenskiObjekat {
+
     private String broj;
     private String pozivNaBroj;
     private String napomena;
@@ -140,7 +144,73 @@ public class Racun {
         }
         final Racun other = (Racun) obj;
         return Objects.equals(this.broj, other.broj);
-    } 
-    
-    
+    }
+
+    @Override
+    public boolean napuni(ResultSet rs) {
+        try {
+            broj = rs.getString("r.broj");
+            pozivNaBroj = rs.getString("r.pozivNaBroj");
+            napomena = rs.getString("r.napomena");
+            nacinPlacanja = rs.getString("r.nacinPlacanja");
+            mesto = rs.getString("r.mesto");
+            java.sql.Date sqlDatum = rs.getDate("r.datum");
+            datum = new Date(sqlDatum.getTime());
+            osnovica = rs.getDouble("r.osnovica");
+            pdv = rs.getDouble("r.pdv");
+            komercijalista = rs.getString("r.komercijalista");
+        } catch (SQLException ex) {
+            Logger.getLogger(Racun.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String vratiKljuc() {
+        return broj;
+    }
+
+    @Override
+    public String vratiImeKlaseUcitaj() {
+        return "racun r";
+    }
+
+    @Override
+    public String vratiImeKlaseUpisi() {
+        return "racun";
+    }
+
+    @Override
+    public String vratiVrednostAtributa() {
+        java.sql.Date sqlDatum = new java.sql.Date(datum.getTime());
+        return "('" + broj + "','" + pozivNaBroj + "','" + napomena + "','" + nacinPlacanja + "','" + mesto + "','" + sqlDatum + "'," + osnovica + "," + pdv + ",'" + otpremnica.getBroj() + "','" + komercijalista + "')";
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        java.sql.Date sqlDatum = new java.sql.Date(datum.getTime());
+        return "broj='" + broj + "',pozivNaBroj='" + pozivNaBroj + "',napomena='" + napomena + "',nacinPlacanja='" + nacinPlacanja + "',mesto='" + mesto + "',datum='" + sqlDatum + "',osnovica=" + osnovica + ",pdv=" + pdv + ",otpremnica='" + otpremnica.getBroj() + "',komercijalista='" + komercijalista + "'";
+    }
+
+    @Override
+    public String vratiListuAtributa() {
+        return "(broj,pozivNaBroj,napomena,nacinPlacanja,mesto,datum,osnovica,pdv,otpremnica,komercijalista)";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlog() {
+        return "";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlogove() {
+        return "";
+    }
+
+    @Override
+    public boolean postojiRelacija() {
+        return true;
+    }
+
 }

@@ -4,11 +4,16 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Korisnik
  */
-public class Lokalitet {
+public class Lokalitet implements OpstiDomenskiObjekat{
     private int id;
     private String naziv;
 
@@ -61,6 +66,63 @@ public class Lokalitet {
     @Override
     public String toString() {
         return naziv;
+    }
+
+    @Override
+    public boolean napuni(ResultSet rs) {
+        try {
+            id= rs.getInt("l.id");
+            naziv = rs.getString("l.naziv");
+        } catch (SQLException ex) {
+            Logger.getLogger(Lokalitet.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String vratiKljuc() {
+        return id+"";
+    }
+
+    @Override
+    public String vratiImeKlaseUcitaj() {
+        return "lokalitet l";
+    }
+    
+    @Override
+    public String vratiImeKlaseUpisi() {
+        return "lokalitet";
+    }
+
+    @Override
+    public String vratiVrednostAtributa() {
+        return "('"+naziv+"')";
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        return "naziv='"+naziv+"'";
+    }
+
+    @Override
+    public String vratiListuAtributa() {
+        return "(naziv)";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlog() {
+         return "id="+this.getId();
+    }
+
+    @Override
+    public String vratiUslovNadjiSlogove() {
+        return "";
+    }
+
+    @Override
+    public boolean postojiRelacija() {
+        return true;
     }
     
 }

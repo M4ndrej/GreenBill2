@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Korisnik/Documents/NetBeansProjects/GreenBill/src/model/GazdinskaJedinica.java</file>
-            <file>file:/C:/Users/Korisnik/Documents/NetBeansProjects/GreenBill/src/model/OpstiDomenskiObjekat.java</file>
+            <file>file:/C:/Users/Andrej/Documents/NetBeansProjects/GreenBill/src/main/Statistika.java</file>
+            <file>file:/C:/Users/Andrej/Documents/NetBeansProjects/GreenBill/src/table_models/StatistikaModelTabele.java</file>
+            <file>file:/C:/Users/Andrej/Documents/NetBeansProjects/GreenBill/src/pogled/GlavnaForma.java</file>
+            <file>file:/C:/Users/Andrej/Documents/NetBeansProjects/GreenBill/src/pogled/PanelAnaliza.java</file>
+            <file>file:/C:/Users/Andrej/Documents/NetBeansProjects/GreenBill/src/pogled/dialog/OtpremniceDialog.java</file>
         </group>
     </open-files>
 </project-private>

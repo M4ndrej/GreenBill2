@@ -4,6 +4,10 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model_enum.JedinicaMere;
 import model_enum.Klasa;
 import model_enum.Tip;
@@ -13,8 +17,8 @@ import model_enum.Vrsta;
  *
  * @author Korisnik
  */
-public class Proizvod {
-    
+public class Proizvod implements OpstiDomenskiObjekat {
+
     private int id;
     private Tip tip;
     private Vrsta vrsta;
@@ -116,9 +120,113 @@ public class Proizvod {
 
     @Override
     public String toString() {
-        return tip.toString() + " "+ vrsta.toString()+" "+klasa.toString();
+        return tip.toString() + " " + vrsta.toString() + " " + klasa.toString();
     }
-    
-    
-    
+
+    @Override
+    public boolean napuni(ResultSet rs) {
+        try {
+            id = rs.getInt("p.id");
+            tip = Tip.valueOf(rs.getString("p.tip"));
+            vrsta = Vrsta.valueOf(rs.getString("p.vrsta"));
+            klasa = Klasa.valueOf(rs.getString("p.klasa"));
+            cena = rs.getDouble("p.cena");
+            opis = rs.getString("p.opis");
+            jedinicaMere = JedinicaMere.valueOf(rs.getString("p.mernaJedinica"));
+        } catch (SQLException ex) {
+            Logger.getLogger(Proizvod.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String vratiKljuc() {
+        return id + "";
+    }
+
+    @Override
+    public String vratiImeKlaseUcitaj() {
+        return "proizvod p";
+    }
+
+    @Override
+    public String vratiImeKlaseUpisi() {
+        return "proizvod";
+    }
+
+    @Override
+    public String vratiVrednostAtributa() {
+        return "('" + tip + "','" + vrsta + "','" + klasa + "'," + cena + ",'" + opis + "','" + jedinicaMere + "')";
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        return "tip='" + tip + "',vrsta='" + vrsta + "',klasa='" + klasa + "',cena=" + cena + ",opis='" + opis + "',mernaJedinica='" + jedinicaMere+"'";
+    }
+
+    @Override
+    public String vratiListuAtributa() {
+        return "(tip,vrsta,klasa,cena,opis,mernaJedinica)";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlog() {
+        return "id=" + this.getId();
+    }
+
+    @Override
+    public String vratiUslovNadjiSlogove() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("");
+        boolean prev = false;
+        if (this.tip != null) {
+            sb.append("tip LIKE LOWER ('" + this.tip.toString().toLowerCase() + "') ");
+            prev = true;
+        }
+        if (this.vrsta != null) {
+            if (prev == true) {
+                sb.append(" AND ");
+            }
+            sb.append("vrsta LIKE LOWER ('" + this.vrsta.toString().toLowerCase() + "') ");
+            prev = true;
+        }
+        if (this.klasa != null) {
+            if (prev == true) {
+                sb.append(" AND ");
+            }
+            sb.append("klasa LIKE LOWER ('" + this.klasa.toString().toLowerCase() + "') ");
+            prev = true;
+        }
+        if (cenaOd > -1) {
+            if (prev == true) {
+                sb.append(" AND ");
+            }
+            sb.append("cena > " + this.cenaOd);
+            prev = true;
+        }
+        if (cenaDo > -1) {
+            if (prev == true) {
+                sb.append(" AND ");
+            }
+            sb.append("cena < " + this.cenaDo);
+            prev = true;
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public boolean postojiRelacija() {
+        return true;
+    }
+
+    private double cenaOd = -1;
+    private double cenaDo = -1;
+
+    public void filterCena(double cenaOd, double cenaDo) {
+        this.cenaOd = cenaOd;
+        this.cenaDo = cenaDo;
+    }
+
 }

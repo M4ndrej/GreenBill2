@@ -4,15 +4,19 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Korisnik
  */
-public class OdeljenjeOdsek {
-    
+public class OdeljenjeOdsek implements OpstiDomenskiObjekat {
+
     private int id;
     private String naziv;
     private double doznaka;
@@ -98,10 +102,70 @@ public class OdeljenjeOdsek {
 
     @Override
     public String toString() {
-        return gazdinskaJedinica.getNaziv() +" "+naziv;
+        return this.getGazdinskaJedinica().getNaziv() + " " + naziv;
     }
-    
-    
-    
-    
+
+    @Override
+    public boolean napuni(ResultSet rs) {
+        try {
+            id = rs.getInt("oo.id");
+            naziv = rs.getString("oo.naziv");
+            doznaka = rs.getDouble("oo.doznaka");
+            java.sql.Date sqlDatumDoznake = rs.getDate("oo.datumDoznake");
+            datumDoznake = new Date(sqlDatumDoznake.getTime());
+        } catch (SQLException ex) {
+            Logger.getLogger(OdeljenjeOdsek.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+
+    }
+
+    @Override
+    public String vratiKljuc() {
+        return id + " " + gazdinskaJedinica.getSifra() ;
+    }
+
+    @Override
+    public String vratiImeKlaseUcitaj() {
+        return "odeljenje_odsek oo";
+    }
+
+    @Override
+    public String vratiImeKlaseUpisi() {
+        return "odeljenje_odsek";
+    }
+
+    @Override
+    public String vratiVrednostAtributa() {
+        java.sql.Date sqlDatum = new java.sql.Date(datumDoznake.getTime());
+        return "('" + naziv + "'," + doznaka + ",'" + sqlDatum + "'," + gazdinskaJedinica.getSifra() + "," + gazdinskaJedinica.getLokalitet().getId() + ")";
+    }
+
+    @Override
+    public String postaviVrednostAtributa() {
+        java.sql.Date sqlDatum = new java.sql.Date(datumDoznake.getTime());
+        return "naziv='" + naziv + "',doznaka=" + doznaka + ",datumDoznake='" + sqlDatum + "',gazdinskaJedinica=" + gazdinskaJedinica.getSifra() + ",lokalitet=" + gazdinskaJedinica.getLokalitet().getId();
+    }
+
+    @Override
+    public String vratiListuAtributa() {
+        return "(naziv,doznaka,datumDoznake,gazdinskaJedinica,lokalitet)";
+    }
+
+    @Override
+    public String vratiUslovNadjiSlog() {
+        return "id="+this.getId();
+    }
+
+    @Override
+    public String vratiUslovNadjiSlogove() {
+        return "";
+    }
+
+    @Override
+    public boolean postojiRelacija() {
+        return true;
+    }
+
 }
