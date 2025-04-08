@@ -65,6 +65,7 @@ public class AppStyles {
         UIManager.put("ComboBox.foreground", Color.BLACK);  
         UIManager.put("ComboBox.font", new Font("Arial", Font.PLAIN, 14));
         UIManager.put("ComboBox.border", BorderFactory.createLineBorder(new Color(200, 200, 200)));
+       
     }
 
     private static void setTableStyle() {

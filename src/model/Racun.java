@@ -205,7 +205,7 @@ public class Racun implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiUslovNadjiSlogove() {
-        return "";
+        return "r.broj="+broj;
     }
 
     @Override

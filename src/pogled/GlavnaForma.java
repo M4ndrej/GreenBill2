@@ -4,10 +4,12 @@
  */
 package pogled;
 
+import controller.Controller;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -659,7 +661,7 @@ public class GlavnaForma extends javax.swing.JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 // Ako je panel već selektovan, ništa se ne menja
-                if (selectedPanel != panel) {
+                if (selectedPanel != panel && panel != jPanelAnaliza) {
                     // Vratimo boju prethodnog selektovanog panela
                     if (selectedPanel != null) {
                         selectedPanel.setBackground(new Color(0, 153, 51));
@@ -676,8 +678,10 @@ public class GlavnaForma extends javax.swing.JFrame {
                     ((PanelProizvodi) cardProizvodi).azurirajTabelu();  // Resetujte panel kad se otvori
                     break;
                 case "analiza":
-                    cardLayout.show(mainPanel, "analiza");
-                    ((PanelAnaliza) cardAnaliza).azurirajTabelu();  // Resetujte panel kad se otvori
+                    if ("ADMINISTRATOR".equals(Controller.getInstance().getUlovovani().getPrivilegija().toString())) {
+                        cardLayout.show(mainPanel, "analiza");
+                        ((PanelAnaliza) cardAnaliza).azurirajTabelu();  // Resetujte panel kad se otvori
+                    }
                     break;
                 case "otpremnice":
                     cardLayout.show(mainPanel, "otpremnice");
@@ -735,7 +739,7 @@ public class GlavnaForma extends javax.swing.JFrame {
             ) {
                 // Promenju boju na nijansu RGB(0, 153, 51) kada pređeš mišem
                 if (selectedPanel != panel) {
-                    panel.setBackground(new Color(0, 140, 51));  // Prelaz sa mišem
+                    panel.setBackground(new Color(0, 140, 51));  
                 }
             }
         }

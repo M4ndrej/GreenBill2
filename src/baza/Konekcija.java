@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import konfiguracija.Konfiguracija;
 
 /**
  *
@@ -33,9 +34,9 @@ public class Konekcija {
     public Konekcija() {
         
         try {
-            String url = "jdbc:mysql://localhost:3306/greenbill";
-            String username = "root";
-            String password = "";
+            String url = Konfiguracija.getInstance().getPropertie("url");
+            String username = Konfiguracija.getInstance().getPropertie("username");
+            String password = Konfiguracija.getInstance().getPropertie("password");
             connection = DriverManager.getConnection(url, username, password);
             connection.setAutoCommit(false);
         } catch (SQLException ex) {

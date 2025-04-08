@@ -1,23 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package pogled;
 
 import controller.Controller;
-import email.Email;
 import hashing.Hash;
 import java.awt.Color;
+import java.io.File;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
-import javax.mail.MessagingException;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import konfiguracija.Konfiguracija;
 import model.Menadzer;
-import model.MenadzerPrivilegija;
 import model_enum.Privilegija;
-import view.RegistracijaForma;
 
 /**
  *
@@ -25,13 +20,12 @@ import view.RegistracijaForma;
  */
 public class PrijavaForma extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PrijavaForma
-     */
+   
     public PrijavaForma() {
         initComponents();
         setTitle("Prijava");
         setResizable(false);
+        inicijalizacija();
         setLocationRelativeTo(null);
         popuniComboBox();
     }
@@ -51,8 +45,30 @@ public class PrijavaForma extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jPanelDesno = new javax.swing.JPanel();
+        jPanelPodesavanja = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jTextFieldURL = new javax.swing.JTextField();
+        jPanel22 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jTextFieldUsername = new javax.swing.JTextField();
+        jPanel20 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jPasswordFieldPodesavanja = new javax.swing.JPasswordField();
+        jPanel25 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jButtonPronadjiWord = new javax.swing.JButton();
+        jTextFieldPutanjaWord = new javax.swing.JTextField();
+        jPanel24 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jButtonPronadji = new javax.swing.JButton();
+        jTextFieldPutanja = new javax.swing.JTextField();
+        jPanel21 = new javax.swing.JPanel();
+        jButtonSacuvaj = new javax.swing.JButton();
         jPanelPrijava = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -121,7 +137,7 @@ public class PrijavaForma extends javax.swing.JFrame {
         jPanelLevo.add(jPanel2);
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 51));
-        jPanel3.setPreferredSize(new java.awt.Dimension(200, 100));
+        jPanel3.setPreferredSize(new java.awt.Dimension(200, 150));
 
         jButton1.setBackground(new java.awt.Color(0, 102, 51));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -147,6 +163,18 @@ public class PrijavaForma extends javax.swing.JFrame {
         });
         jPanel3.add(jButton2);
 
+        jButton3.setBackground(new java.awt.Color(0, 153, 51));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("PODEŠAVANJA");
+        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        jButton3.setPreferredSize(new java.awt.Dimension(150, 30));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton3);
+
         jPanelLevo.add(jPanel3);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-tree-96.png"))); // NOI18N
@@ -159,6 +187,154 @@ public class PrijavaForma extends javax.swing.JFrame {
         jPanelDesno.setMinimumSize(new java.awt.Dimension(400, 400));
         jPanelDesno.setPreferredSize(new java.awt.Dimension(400, 400));
         jPanelDesno.setLayout(new java.awt.CardLayout());
+
+        jPanelPodesavanja.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelPodesavanja.setMaximumSize(new java.awt.Dimension(300, 200));
+        jPanelPodesavanja.setLayout(new java.awt.GridBagLayout());
+
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.setMaximumSize(new java.awt.Dimension(300, 200));
+        jPanel10.setMinimumSize(new java.awt.Dimension(300, 200));
+        jPanel10.setPreferredSize(new java.awt.Dimension(300, 400));
+
+        jPanel23.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel23.setMinimumSize(new java.awt.Dimension(300, 100));
+        jPanel23.setPreferredSize(new java.awt.Dimension(300, 50));
+
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("URL");
+        jLabel13.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel23.add(jLabel13);
+
+        jTextFieldURL.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldURL.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldURL.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldURL.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTextFieldURL.setText("jdbc:mysql://localhost:3306/greenbill");
+        jTextFieldURL.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextFieldURL.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel23.add(jTextFieldURL);
+
+        jPanel10.add(jPanel23);
+
+        jPanel22.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel22.setMinimumSize(new java.awt.Dimension(300, 100));
+        jPanel22.setPreferredSize(new java.awt.Dimension(300, 50));
+
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setText("Username");
+        jLabel12.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel22.add(jLabel12);
+
+        jTextFieldUsername.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldUsername.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldUsername.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldUsername.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTextFieldUsername.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextFieldUsername.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel22.add(jTextFieldUsername);
+
+        jPanel10.add(jPanel22);
+
+        jPanel20.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel20.setMinimumSize(new java.awt.Dimension(300, 50));
+        jPanel20.setPreferredSize(new java.awt.Dimension(300, 50));
+
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("Lozinka");
+        jLabel11.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel20.add(jLabel11);
+
+        jPasswordFieldPodesavanja.setBackground(new java.awt.Color(255, 255, 255));
+        jPasswordFieldPodesavanja.setForeground(new java.awt.Color(0, 0, 0));
+        jPasswordFieldPodesavanja.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPasswordFieldPodesavanja.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPasswordFieldPodesavanja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordFieldPodesavanjaActionPerformed(evt);
+            }
+        });
+        jPanel20.add(jPasswordFieldPodesavanja);
+
+        jPanel10.add(jPanel20);
+
+        jPanel25.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel25.setMinimumSize(new java.awt.Dimension(300, 100));
+        jPanel25.setPreferredSize(new java.awt.Dimension(300, 70));
+
+        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel15.setText("Word export");
+        jLabel15.setPreferredSize(new java.awt.Dimension(100, 20));
+        jPanel25.add(jLabel15);
+
+        jButtonPronadjiWord.setText("Pronadji");
+        jButtonPronadjiWord.setPreferredSize(new java.awt.Dimension(100, 27));
+        jButtonPronadjiWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPronadjiWordActionPerformed(evt);
+            }
+        });
+        jPanel25.add(jButtonPronadjiWord);
+
+        jTextFieldPutanjaWord.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldPutanjaWord.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldPutanjaWord.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldPutanjaWord.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTextFieldPutanjaWord.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextFieldPutanjaWord.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel25.add(jTextFieldPutanjaWord);
+
+        jPanel10.add(jPanel25);
+
+        jPanel24.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel24.setMinimumSize(new java.awt.Dimension(300, 100));
+        jPanel24.setPreferredSize(new java.awt.Dimension(300, 70));
+
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("Excel export");
+        jLabel14.setPreferredSize(new java.awt.Dimension(100, 20));
+        jPanel24.add(jLabel14);
+
+        jButtonPronadji.setText("Pronadji");
+        jButtonPronadji.setPreferredSize(new java.awt.Dimension(100, 27));
+        jButtonPronadji.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPronadjiActionPerformed(evt);
+            }
+        });
+        jPanel24.add(jButtonPronadji);
+
+        jTextFieldPutanja.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldPutanja.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldPutanja.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldPutanja.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jTextFieldPutanja.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextFieldPutanja.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel24.add(jTextFieldPutanja);
+
+        jPanel10.add(jPanel24);
+
+        jPanel21.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel21.setMinimumSize(new java.awt.Dimension(300, 60));
+        jPanel21.setPreferredSize(new java.awt.Dimension(300, 60));
+
+        jButtonSacuvaj.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonSacuvaj.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonSacuvaj.setText("Sačuvaj");
+        jButtonSacuvaj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButtonSacuvaj.setPreferredSize(new java.awt.Dimension(200, 30));
+        jButtonSacuvaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSacuvajActionPerformed(evt);
+            }
+        });
+        jPanel21.add(jButtonSacuvaj);
+
+        jPanel10.add(jPanel21);
+
+        jPanelPodesavanja.add(jPanel10, new java.awt.GridBagConstraints());
+
+        jPanelDesno.add(jPanelPodesavanja, "card2");
 
         jPanelPrijava.setBackground(new java.awt.Color(255, 255, 255));
         jPanelPrijava.setMaximumSize(new java.awt.Dimension(300, 200));
@@ -299,14 +475,16 @@ public class PrijavaForma extends javax.swing.JFrame {
         jPanel11.add(jPanel15);
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel16.setMinimumSize(new java.awt.Dimension(300, 50));
-        jPanel16.setPreferredSize(new java.awt.Dimension(300, 50));
+        jPanel16.setMinimumSize(new java.awt.Dimension(300, 60));
+        jPanel16.setPreferredSize(new java.awt.Dimension(300, 60));
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Lozinka");
         jLabel7.setPreferredSize(new java.awt.Dimension(200, 20));
         jPanel16.add(jLabel7);
 
+        jPasswordFieldRegistracija.setBackground(new java.awt.Color(255, 255, 255));
+        jPasswordFieldRegistracija.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPasswordFieldRegistracija.setPreferredSize(new java.awt.Dimension(200, 20));
         jPanel16.add(jPasswordFieldRegistracija);
 
@@ -369,22 +547,30 @@ public class PrijavaForma extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jPanelRegistracija.setVisible(true);
+        jPanelPodesavanja.setVisible(false);
         jPanelPrijava.setVisible(false);
         jButton1.setBackground(new Color(0, 153, 51));
         jButton2.setBackground(new Color(0, 102, 51));
+        jButton3.setBackground(new Color(0, 153, 51));
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jPanelRegistracija.setVisible(false);
+        jPanelPodesavanja.setVisible(false);
         jPanelPrijava.setVisible(true);
         jButton1.setBackground(new Color(0, 102, 51));
         jButton2.setBackground(new Color(0, 153, 51));
+        jButton3.setBackground(new Color(0, 153, 51));
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonPrijavaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrijavaActionPerformed
-        
+
+        if(jTextFieldJmbgPrijava.getText().length() > 15 || jPasswordField.getPassword().length > 20 || !proveriPodesavanja() ){
+             JOptionPane.showMessageDialog(this, "Proverite podatke", "Greška", JOptionPane.ERROR_MESSAGE);
+             return;
+        }
         String jmbg = jTextFieldJmbgPrijava.getText().trim();
         String lozinka = new String(jPasswordField.getPassword());
         String kriptovana = "";
@@ -404,21 +590,25 @@ public class PrijavaForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPrijavaActionPerformed
 
     private void jButtonRegistracijaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistracijaActionPerformed
-        if (jTextFieldJMBG.getText().isEmpty() 
+        if (jTextFieldJMBG.getText().isEmpty()
                 || !jTextFieldJMBG.getText().matches("^\\d{13}$")
-                || jTextFieldImePrezime.getText().isEmpty() 
+                || jTextFieldImePrezime.getText().isEmpty()
+                || jTextFieldImePrezime.getText().length() > 30
                 || jTextFieldEmail.getText().isEmpty()
                 || !jTextFieldEmail.getText().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+                || jTextFieldEmail.getText().length() > 30
                 || jTextFieldKontakt.getText().isEmpty()
-                || jPasswordFieldRegistracija.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Proverite format unetih podataka","Greška",JOptionPane.ERROR_MESSAGE);
+                || jTextFieldKontakt.getText().length() > 30
+                || jPasswordFieldRegistracija.getText().isEmpty()
+                || jPasswordFieldRegistracija.getPassword().length > 20){
+            JOptionPane.showMessageDialog(this, "Proverite format unetih podataka", "Greška", JOptionPane.ERROR_MESSAGE);
             return;
         }
         String jmbg = jTextFieldJMBG.getText();
         String imePrezime = jTextFieldImePrezime.getText();
         String email = jTextFieldEmail.getText();
         String kontakt = jTextFieldKontakt.getText();
-        Privilegija privilegija = (Privilegija)jComboBoxPrivilegija.getSelectedItem();
+        Privilegija privilegija = (Privilegija) jComboBoxPrivilegija.getSelectedItem();
         String lozinka = String.valueOf(jPasswordFieldRegistracija.getPassword());
         String kriptovana = "";
         try {
@@ -427,10 +617,10 @@ public class PrijavaForma extends javax.swing.JFrame {
             Logger.getLogger(PrijavaForma.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        Menadzer menadzer = new Menadzer(jmbg, imePrezime, email,kriptovana, kontakt,privilegija );
+        Menadzer menadzer = new Menadzer(jmbg, imePrezime, email, kriptovana, kontakt, privilegija);
         boolean uspesno = Controller.getInstance().kreirajMenadzer(menadzer);
         if (uspesno) {
-            JOptionPane.showMessageDialog(this, "Dobili ste jednokratnu lozinku na mail "+email, "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Dobili ste jednokratnu lozinku na mail " + email, "Uspešno", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Greška prilikom registracije na sistem", "Greška", JOptionPane.ERROR_MESSAGE);
         }
@@ -439,6 +629,74 @@ public class PrijavaForma extends javax.swing.JFrame {
     private void jPasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordFieldActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        jPanelRegistracija.setVisible(false);
+        jPanelPrijava.setVisible(false);
+        jPanelPodesavanja.setVisible(true);
+        jButton1.setBackground(new Color(0, 153, 51));
+        jButton2.setBackground(new Color(0, 153, 51));
+        jButton3.setBackground(new Color(0, 102, 51));
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jPasswordFieldPodesavanjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldPodesavanjaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordFieldPodesavanjaActionPerformed
+
+    private void jButtonSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajActionPerformed
+        if (proveriPodesavanja()) {
+            JOptionPane.showMessageDialog(this, "Unesite sve podatke", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+  
+
+        String url = jTextFieldURL.getText().trim();
+        String username = jTextFieldUsername.getText().trim();
+        String password = String.valueOf(jPasswordFieldPodesavanja.getPassword());
+        Konfiguracija.getInstance().setPropertie("url", url);
+        Konfiguracija.getInstance().setPropertie("username", username);
+        Konfiguracija.getInstance().setPropertie("password", password);
+
+        String putanja = jTextFieldPutanja.getText().trim();
+        Konfiguracija.getInstance().setPropertie("excel.file.path", putanja);
+
+        String putanjaWord = jTextFieldPutanjaWord.getText().trim();
+        Konfiguracija.getInstance().setPropertie("word.file.path", putanjaWord);
+
+        Konfiguracija.getInstance().sacuvajIzmene();
+        JOptionPane.showMessageDialog(this, "Uspešno izmenjeni podaci", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+
+    }//GEN-LAST:event_jButtonSacuvajActionPerformed
+
+    private void jButtonPronadjiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPronadjiActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Excel Files", "xls", "xlsx"));
+
+        int returnValue = fileChooser.showOpenDialog(this);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+
+            jTextFieldPutanja.setText(selectedFile.getAbsolutePath());
+
+        }
+    }//GEN-LAST:event_jButtonPronadjiActionPerformed
+
+    private void jButtonPronadjiWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPronadjiWordActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Word Files", "docx"));
+
+        int returnValue = fileChooser.showOpenDialog(this);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+
+            jTextFieldPutanjaWord.setText(selectedFile.getAbsolutePath());
+
+        }
+    }//GEN-LAST:event_jButtonPronadjiWordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -478,10 +736,19 @@ public class PrijavaForma extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonPrijava;
+    private javax.swing.JButton jButtonPronadji;
+    private javax.swing.JButton jButtonPronadjiWord;
     private javax.swing.JButton jButtonRegistracija;
+    private javax.swing.JButton jButtonSacuvaj;
     private javax.swing.JComboBox<Privilegija> jComboBoxPrivilegija;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -490,6 +757,7 @@ public class PrijavaForma extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
@@ -499,6 +767,12 @@ public class PrijavaForma extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -506,20 +780,41 @@ public class PrijavaForma extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanelDesno;
     private javax.swing.JPanel jPanelLevo;
+    private javax.swing.JPanel jPanelPodesavanja;
     private javax.swing.JPanel jPanelPrijava;
     private javax.swing.JPanel jPanelRegistracija;
     private javax.swing.JPasswordField jPasswordField;
+    private javax.swing.JPasswordField jPasswordFieldPodesavanja;
     private javax.swing.JPasswordField jPasswordFieldRegistracija;
     private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldImePrezime;
     private javax.swing.JTextField jTextFieldJMBG;
     private javax.swing.JTextField jTextFieldJmbgPrijava;
     private javax.swing.JTextField jTextFieldKontakt;
+    private javax.swing.JTextField jTextFieldPutanja;
+    private javax.swing.JTextField jTextFieldPutanjaWord;
+    private javax.swing.JTextField jTextFieldURL;
+    private javax.swing.JTextField jTextFieldUsername;
     // End of variables declaration//GEN-END:variables
 
     private void popuniComboBox() {
         for (Privilegija p : Privilegija.values()) {
             jComboBoxPrivilegija.addItem(p);
         }
+    }
+
+    private void inicijalizacija() {
+        jPanelPrijava.setVisible(true);
+        jPanelRegistracija.setVisible(false);
+        jPanelPodesavanja.setVisible(false);
+        
+        jTextFieldURL.setText(Konfiguracija.getInstance().getPropertie("url"));
+        jTextFieldUsername.setText(Konfiguracija.getInstance().getPropertie("username"));
+        jTextFieldPutanja.setText(Konfiguracija.getInstance().getPropertie("excel.file.path"));
+        jTextFieldPutanjaWord.setText(Konfiguracija.getInstance().getPropertie("word.file.path"));
+    }
+
+    private boolean proveriPodesavanja() {
+        return !jTextFieldPutanja.getText().isEmpty() && !jTextFieldPutanjaWord.getText().isEmpty() && !jTextFieldURL.getText().isEmpty() && !jTextFieldUsername.getText().isEmpty();
     }
 }

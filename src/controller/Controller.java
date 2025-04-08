@@ -426,6 +426,14 @@ public class Controller {
         return dbb.readOtpremnicaForRacun(racun);
     }
 
+    public boolean vratiListuSviRacun(Racun racun, List<Racun> racuni) {
+        dbb.readWithConditionRacunOtpremnica(racun, racuni);
+        if(racuni == null){
+            return false;
+        }
+        return true;
+    }
+
 
 
     

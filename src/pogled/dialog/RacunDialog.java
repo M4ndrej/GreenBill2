@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package pogled.dialog;
 
 import controller.Controller;
 import data_export.InvoiceExport;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import konfiguracija.Konfiguracija;
 import model.Otpremnica;
 import model.Racun;
 import model.StavkaOtpremnice;
@@ -30,9 +29,6 @@ public class RacunDialog extends javax.swing.JDialog {
     private Otpremnica otpremnica;
     private Racun racun;
 
-    /**
-     * Creates new form RacunDialog
-     */
     public RacunDialog(java.awt.Frame parent, boolean modal, Otpremnica otpremnica) {
         super(parent, modal);
         initComponents();
@@ -68,8 +64,6 @@ public class RacunDialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jTextFieldBrojRacuna = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldMesto = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -85,6 +79,7 @@ public class RacunDialog extends javax.swing.JDialog {
         jTextFieldOsnovica = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jTextFieldPDV = new javax.swing.JTextField();
+        jTextFieldNapomena = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableStavke = new javax.swing.JTable();
@@ -100,10 +95,6 @@ public class RacunDialog extends javax.swing.JDialog {
         jLabel2.setText("Broj računa");
 
         jLabel3.setText("Napomena");
-
-        jTextArea.setColumns(20);
-        jTextArea.setRows(5);
-        jScrollPane2.setViewportView(jTextArea);
 
         jLabel4.setText("Mesto");
 
@@ -195,50 +186,46 @@ public class RacunDialog extends javax.swing.JDialog {
                         .addComponent(jTextFieldOsnovica)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(36, 36, 36)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
-                            .addComponent(jButtonKreiraj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addComponent(jTextFieldPDV, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(129, 129, 129))))
+                        .addGap(129, 129, 129))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButtonKreiraj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldNapomena, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldBrojOtpremnice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextFieldMesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextFieldBrojRacuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextFieldPozivNaBroj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jTextFieldKomercijalista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextFieldNacinPlacanja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonKreiraj, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldBrojOtpremnice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldMesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextFieldNapomena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextFieldBrojRacuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextFieldPozivNaBroj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextFieldKomercijalista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextFieldNacinPlacanja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonKreiraj, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel10)
@@ -285,24 +272,31 @@ public class RacunDialog extends javax.swing.JDialog {
 
     private void jButtonKreirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKreirajActionPerformed
 
-        if(racun != null){
+        if (racun != null) {
+
+            String putanja = izaberiPutanju();
+            if(putanja == null){
+                return;
+            }
+
             Otpremnica otpremnica = Controller.getInstance().vratiOtpremnicaForRacun(racun);
+            System.out.println(otpremnica.getKupac().getNaziv());
             List<StavkaOtpremnice> listaStavki = new ArrayList<>();
-            Controller.getInstance().vratiListuStavkiOtpremnica(listaStavki,  otpremnica);
+            Controller.getInstance().vratiListuStavkiOtpremnica(listaStavki, otpremnica);
             try {
-                InvoiceExport.replacePlaceholdersInDocument("C:\\Users\\Andrej\\Documents\\NetBeansProjects\\GreenBill\\Racun_sema.docx", "D:\\Racuni\\Racun"+racun.getBroj()+".docx", listaStavki, otpremnica, racun);
+                InvoiceExport.replacePlaceholdersInDocument(Konfiguracija.getInstance().getPropertie("word.file.path"), putanja +"\\Racun-"+ racun.getBroj() + ".docx", listaStavki, otpremnica, racun);
             } catch (IOException ex) {
                 Logger.getLogger(RacunDialog.class.getName()).log(Level.SEVERE, null, ex);
             }
-            JOptionPane.showMessageDialog(parent, "Kreiran dokument Racun_"+racun.getBroj()+".docx","Uspešno",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parent, "Kreiran dokument Racun_" + racun.getBroj() + ".docx", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        
+
         if (!jTextFieldBrojRacuna.getText().matches("\\d+")
                 || // Broj računa mora biti cel broj
                 jTextFieldMesto.getText().length() > 50
                 || // Mesto može imati najviše 50 znakova
-                jTextArea.getText().length() > 50
+                jTextFieldNapomena.getText().length() > 50
                 || // Napomena može imati najviše 50 znakova
                 jTextFieldPozivNaBroj.getText().length() > 30
                 || // Poziv na broj može imati najviše 30 znakova
@@ -326,7 +320,7 @@ public class RacunDialog extends javax.swing.JDialog {
         racun.setKomercijalista(jTextFieldKomercijalista.getText());
         racun.setMesto(jTextFieldMesto.getText());
         racun.setNacinPlacanja(jTextFieldNacinPlacanja.getText());
-        racun.setNapomena(jTextArea.getText());
+        racun.setNapomena(jTextFieldNapomena.getText());
         racun.setOsnovica(Double.parseDouble(jTextFieldOsnovica.getText()));
         racun.setOtpremnica(otpremnica);
         racun.setPozivNaBroj(jTextFieldPozivNaBroj.getText());
@@ -375,15 +369,14 @@ public class RacunDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableStavke;
-    private javax.swing.JTextArea jTextArea;
     private javax.swing.JTextField jTextFieldBrojOtpremnice;
     private javax.swing.JTextField jTextFieldBrojRacuna;
     private javax.swing.JTextField jTextFieldDatum;
     private javax.swing.JTextField jTextFieldKomercijalista;
     private javax.swing.JTextField jTextFieldMesto;
     private javax.swing.JTextField jTextFieldNacinPlacanja;
+    private javax.swing.JTextField jTextFieldNapomena;
     private javax.swing.JTextField jTextFieldOsnovica;
     private javax.swing.JTextField jTextFieldPDV;
     private javax.swing.JTextField jTextFieldPozivNaBroj;
@@ -392,9 +385,11 @@ public class RacunDialog extends javax.swing.JDialog {
     private void inicijalizacija(Otpremnica otpremnica) {
         jTextFieldBrojOtpremnice.setText(otpremnica.getBroj());
         jTextFieldBrojOtpremnice.setEnabled(false);
+
         java.util.Date datum = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         jTextFieldDatum.setText(format.format(datum));
+
         jTextFieldDatum.setEnabled(false);
 
         List<StavkaOtpremnice> lista = new ArrayList<>();
@@ -430,11 +425,11 @@ public class RacunDialog extends javax.swing.JDialog {
     }
 
     private void inicijalizacija(Racun racun) {
-        
+
         jButtonKreiraj.setText("Kreiraj word dokument");
         Otpremnica otpremnica = Controller.getInstance().vratiOtpremnicaForRacun(racun);
-        jTextArea.setText(racun.getNapomena());
-        jTextArea.setEditable(false);
+        jTextFieldNapomena.setText(racun.getNapomena());
+        jTextFieldNapomena.setEnabled(false);
         jTextFieldBrojOtpremnice.setText(otpremnica.getBroj());
         jTextFieldBrojOtpremnice.setEnabled(false);
         jTextFieldBrojRacuna.setText(racun.getBroj());
@@ -462,5 +457,21 @@ public class RacunDialog extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne može da učita listu otpremnica", "Greška", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private String izaberiPutanju() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);  
+        fileChooser.setDialogTitle("Izaberite folder za Word dokumente");
+
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFolder = fileChooser.getSelectedFile();
+            return selectedFolder.getAbsolutePath();
+        } else {
+            this.dispose();
+        }
+        return null;
     }
 }

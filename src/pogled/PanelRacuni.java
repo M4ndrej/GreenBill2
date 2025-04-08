@@ -40,7 +40,7 @@ public class PanelRacuni extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextFieldBrojOtpremnice = new javax.swing.JTextField();
+        jTextFieldBrojRacuna = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jButtonFilter = new javax.swing.JButton();
         jButtonOcisti = new javax.swing.JButton();
@@ -64,15 +64,25 @@ public class PanelRacuni extends javax.swing.JPanel {
         jLabel1.setText("Broj računa");
         jLabel1.setPreferredSize(new java.awt.Dimension(100, 16));
 
-        jTextFieldBrojOtpremnice.setPreferredSize(new java.awt.Dimension(300, 30));
+        jTextFieldBrojRacuna.setPreferredSize(new java.awt.Dimension(300, 30));
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
 
         jButtonFilter.setText("Filtriraj");
         jButtonFilter.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButtonFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFilterActionPerformed(evt);
+            }
+        });
 
         jButtonOcisti.setText("Očisti");
         jButtonOcisti.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButtonOcisti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOcistiActionPerformed(evt);
+            }
+        });
 
         jButtonDetalji.setText("Detalji");
         jButtonDetalji.setPreferredSize(new java.awt.Dimension(200, 30));
@@ -90,7 +100,7 @@ public class PanelRacuni extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldBrojOtpremnice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldBrojRacuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -98,8 +108,8 @@ public class PanelRacuni extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonOcisti, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addComponent(jButtonDetalji, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addComponent(jButtonDetalji, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,7 +118,7 @@ public class PanelRacuni extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldBrojOtpremnice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldBrojRacuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonOcisti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,6 +203,27 @@ public class PanelRacuni extends javax.swing.JPanel {
         rd.setVisible(true);
     }//GEN-LAST:event_jButtonDetaljiActionPerformed
 
+    private void jButtonFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFilterActionPerformed
+        if(jTextFieldBrojRacuna.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Unesite kriterijum pretrage","Greška",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String broj = jTextFieldBrojRacuna.getText();
+        Racun racun = new Racun();
+        racun.setBroj(broj);
+        List<Racun> racuni = new ArrayList<>();
+        boolean uspesno = Controller.getInstance().vratiListuSviRacun(racun,racuni);
+        if(uspesno){
+            RacunModelTabele rmt = new RacunModelTabele(racuni);
+            jTableRacuni.setModel(rmt);
+        }
+    }//GEN-LAST:event_jButtonFilterActionPerformed
+
+    private void jButtonOcistiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOcistiActionPerformed
+        jTextFieldBrojRacuna.setText("");
+        inicijalizacija();
+    }//GEN-LAST:event_jButtonOcistiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDetalji;
@@ -205,7 +236,7 @@ public class PanelRacuni extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableRacuni;
-    private javax.swing.JTextField jTextFieldBrojOtpremnice;
+    private javax.swing.JTextField jTextFieldBrojRacuna;
     // End of variables declaration//GEN-END:variables
 
     void azurirajTabelu() {

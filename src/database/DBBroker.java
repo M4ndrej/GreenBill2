@@ -407,4 +407,26 @@ public class DBBroker {
         return otpremnica;
     }
 
+    public List<Racun> readWithConditionRacunOtpremnica(Racun racun,List<Racun> lista) {
+        try {
+            statement = konekcija.getConnection().createStatement();
+            String upit = "SELECT * FROM racun r JOIN otpremnica otp_doc ON r.otpremnica = otp_doc.broj WHERE " + racun.vratiUslovNadjiSlogove();
+            System.out.println(upit);
+            ResultSet rs = statement.executeQuery(upit);
+            while (rs.next()) {
+                Racun r = new Racun();
+                r.napuni(rs);
+                Otpremnica o = new Otpremnica();
+                o.napuni(rs);
+                r.setOtpremnica(o);
+                lista.add(r);
+                System.out.println(r.getBroj());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        return lista;
+    }
+
 }
