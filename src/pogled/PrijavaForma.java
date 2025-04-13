@@ -1,4 +1,3 @@
-
 package pogled;
 
 import controller.Controller;
@@ -20,7 +19,6 @@ import model_enum.Privilegija;
  */
 public class PrijavaForma extends javax.swing.JFrame {
 
-   
     public PrijavaForma() {
         initComponents();
         setTitle("Prijava");
@@ -65,7 +63,7 @@ public class PrijavaForma extends javax.swing.JFrame {
         jTextFieldPutanjaWord = new javax.swing.JTextField();
         jPanel24 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jButtonPronadji = new javax.swing.JButton();
+        jButtonPronadjiExcel = new javax.swing.JButton();
         jTextFieldPutanja = new javax.swing.JTextField();
         jPanel21 = new javax.swing.JPanel();
         jButtonSacuvaj = new javax.swing.JButton();
@@ -79,6 +77,7 @@ public class PrijavaForma extends javax.swing.JFrame {
         jPasswordField = new javax.swing.JPasswordField();
         jPanel8 = new javax.swing.JPanel();
         jButtonPrijava = new javax.swing.JButton();
+        jCheckBoxSacuvajPodatke = new javax.swing.JCheckBox();
         jPanelRegistracija = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -295,14 +294,14 @@ public class PrijavaForma extends javax.swing.JFrame {
         jLabel14.setPreferredSize(new java.awt.Dimension(100, 20));
         jPanel24.add(jLabel14);
 
-        jButtonPronadji.setText("Pronadji");
-        jButtonPronadji.setPreferredSize(new java.awt.Dimension(100, 27));
-        jButtonPronadji.addActionListener(new java.awt.event.ActionListener() {
+        jButtonPronadjiExcel.setText("Pronadji");
+        jButtonPronadjiExcel.setPreferredSize(new java.awt.Dimension(100, 27));
+        jButtonPronadjiExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonPronadjiActionPerformed(evt);
+                jButtonPronadjiExcelActionPerformed(evt);
             }
         });
-        jPanel24.add(jButtonPronadji);
+        jPanel24.add(jButtonPronadjiExcel);
 
         jTextFieldPutanja.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldPutanja.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -360,7 +359,6 @@ public class PrijavaForma extends javax.swing.JFrame {
         jTextFieldJmbgPrijava.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextFieldJmbgPrijava.setForeground(new java.awt.Color(0, 0, 0));
         jTextFieldJmbgPrijava.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextFieldJmbgPrijava.setText("0202003773622");
         jTextFieldJmbgPrijava.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTextFieldJmbgPrijava.setPreferredSize(new java.awt.Dimension(200, 25));
         jPanel6.add(jTextFieldJmbgPrijava);
@@ -378,7 +376,6 @@ public class PrijavaForma extends javax.swing.JFrame {
 
         jPasswordField.setBackground(new java.awt.Color(255, 255, 255));
         jPasswordField.setForeground(new java.awt.Color(0, 0, 0));
-        jPasswordField.setText("emperijeri");
         jPasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPasswordField.setPreferredSize(new java.awt.Dimension(200, 30));
         jPasswordField.addActionListener(new java.awt.event.ActionListener() {
@@ -405,6 +402,10 @@ public class PrijavaForma extends javax.swing.JFrame {
             }
         });
         jPanel8.add(jButtonPrijava);
+
+        jCheckBoxSacuvajPodatke.setText("Zapamti podatke");
+        jCheckBoxSacuvajPodatke.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel8.add(jCheckBoxSacuvajPodatke);
 
         jPanel9.add(jPanel8);
 
@@ -566,19 +567,36 @@ public class PrijavaForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonPrijavaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrijavaActionPerformed
-
-        if(jTextFieldJmbgPrijava.getText().length() > 15 || jPasswordField.getPassword().length > 20 || !proveriPodesavanja() ){
-             JOptionPane.showMessageDialog(this, "Proverite podatke", "Greška", JOptionPane.ERROR_MESSAGE);
-             return;
+        if (!Controller.getInstance().proveriKonekciju()) {
+            JOptionPane.showMessageDialog(this, "Greška u konekciji sa bazom podataka", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        if (jTextFieldJmbgPrijava.getText().length() > 15 || jPasswordField.getPassword().length > 20 || !proveriPodesavanja()) {
+            JOptionPane.showMessageDialog(this, "Proverite podatke", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         String jmbg = jTextFieldJmbgPrijava.getText().trim();
         String lozinka = new String(jPasswordField.getPassword());
         String kriptovana = "";
+
         try {
             kriptovana = Hash.kriptuj(lozinka);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(PrijavaForma.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        if (jCheckBoxSacuvajPodatke.isSelected()) {
+            Konfiguracija.getInstance().setPropertie("jmbg", jmbg);
+            Konfiguracija.getInstance().setPropertie("lozinka", lozinka);
+            Konfiguracija.getInstance().sacuvajIzmene();
+        } else {
+            Konfiguracija.getInstance().setPropertie("jmbg", "");
+            Konfiguracija.getInstance().setPropertie("lozinka", "");
+            Konfiguracija.getInstance().sacuvajIzmene();
+        }
+
         boolean uspesno = Controller.getInstance().prijaviMenadzer(jmbg, kriptovana);
         if (uspesno) {
             GlavnaForma gf = new GlavnaForma();
@@ -600,7 +618,7 @@ public class PrijavaForma extends javax.swing.JFrame {
                 || jTextFieldKontakt.getText().isEmpty()
                 || jTextFieldKontakt.getText().length() > 30
                 || jPasswordFieldRegistracija.getText().isEmpty()
-                || jPasswordFieldRegistracija.getPassword().length > 20){
+                || jPasswordFieldRegistracija.getPassword().length > 20) {
             JOptionPane.showMessageDialog(this, "Proverite format unetih podataka", "Greška", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -620,7 +638,7 @@ public class PrijavaForma extends javax.swing.JFrame {
         Menadzer menadzer = new Menadzer(jmbg, imePrezime, email, kriptovana, kontakt, privilegija);
         boolean uspesno = Controller.getInstance().kreirajMenadzer(menadzer);
         if (uspesno) {
-            JOptionPane.showMessageDialog(this, "Dobili ste jednokratnu lozinku na mail " + email, "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Uspešno registrovan korisnik " + email, "Uspešno", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Greška prilikom registracije na sistem", "Greška", JOptionPane.ERROR_MESSAGE);
         }
@@ -644,11 +662,10 @@ public class PrijavaForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordFieldPodesavanjaActionPerformed
 
     private void jButtonSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajActionPerformed
-        if (proveriPodesavanja()) {
+        if (!proveriPodesavanja()) {
             JOptionPane.showMessageDialog(this, "Unesite sve podatke", "Greška", JOptionPane.ERROR_MESSAGE);
             return;
         }
-  
 
         String url = jTextFieldURL.getText().trim();
         String username = jTextFieldUsername.getText().trim();
@@ -668,7 +685,7 @@ public class PrijavaForma extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonSacuvajActionPerformed
 
-    private void jButtonPronadjiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPronadjiActionPerformed
+    private void jButtonPronadjiExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPronadjiExcelActionPerformed
         JFileChooser fileChooser = new JFileChooser();
 
         fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Excel Files", "xls", "xlsx"));
@@ -681,7 +698,7 @@ public class PrijavaForma extends javax.swing.JFrame {
             jTextFieldPutanja.setText(selectedFile.getAbsolutePath());
 
         }
-    }//GEN-LAST:event_jButtonPronadjiActionPerformed
+    }//GEN-LAST:event_jButtonPronadjiExcelActionPerformed
 
     private void jButtonPronadjiWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPronadjiWordActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -738,10 +755,11 @@ public class PrijavaForma extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonPrijava;
-    private javax.swing.JButton jButtonPronadji;
+    private javax.swing.JButton jButtonPronadjiExcel;
     private javax.swing.JButton jButtonPronadjiWord;
     private javax.swing.JButton jButtonRegistracija;
     private javax.swing.JButton jButtonSacuvaj;
+    private javax.swing.JCheckBox jCheckBoxSacuvajPodatke;
     private javax.swing.JComboBox<Privilegija> jComboBoxPrivilegija;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -804,10 +822,11 @@ public class PrijavaForma extends javax.swing.JFrame {
     }
 
     private void inicijalizacija() {
+        proveriSacuvanePodatke();
         jPanelPrijava.setVisible(true);
         jPanelRegistracija.setVisible(false);
         jPanelPodesavanja.setVisible(false);
-        
+
         jTextFieldURL.setText(Konfiguracija.getInstance().getPropertie("url"));
         jTextFieldUsername.setText(Konfiguracija.getInstance().getPropertie("username"));
         jTextFieldPutanja.setText(Konfiguracija.getInstance().getPropertie("excel.file.path"));
@@ -816,5 +835,15 @@ public class PrijavaForma extends javax.swing.JFrame {
 
     private boolean proveriPodesavanja() {
         return !jTextFieldPutanja.getText().isEmpty() && !jTextFieldPutanjaWord.getText().isEmpty() && !jTextFieldURL.getText().isEmpty() && !jTextFieldUsername.getText().isEmpty();
+    }
+
+    private void proveriSacuvanePodatke() {
+        String sacuvaniJmbg = Konfiguracija.getInstance().getPropertie("jmbg");
+        String sacuvanaLozinka = Konfiguracija.getInstance().getPropertie("lozinka");
+        if (!"".equals(sacuvaniJmbg) && !"".equals(sacuvanaLozinka)) {
+            jTextFieldJmbgPrijava.setText(sacuvaniJmbg);
+            jPasswordField.setText(sacuvanaLozinka);
+            jCheckBoxSacuvajPodatke.setSelected(true);
+        }
     }
 }

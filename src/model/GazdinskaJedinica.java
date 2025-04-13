@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
 import java.sql.ResultSet;
@@ -55,9 +52,10 @@ public class GazdinskaJedinica implements OpstiDomenskiObjekat{
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 23 * hash + this.sifra;
-        hash = 23 * hash + Objects.hashCode(this.lokalitet);
+        int hash = 3;
+        hash = 97 * hash + this.sifra;
+        hash = 97 * hash + Objects.hashCode(this.lokalitet);
+        hash = 97 * hash + Objects.hashCode(this.naziv);
         return hash;
     }
 
@@ -76,8 +74,13 @@ public class GazdinskaJedinica implements OpstiDomenskiObjekat{
         if (this.sifra != other.sifra) {
             return false;
         }
+        if (!Objects.equals(this.naziv, other.naziv)) {
+            return false;
+        }
         return Objects.equals(this.lokalitet, other.lokalitet);
     }
+
+    
 
     @Override
     public String toString() {
@@ -129,19 +132,22 @@ public class GazdinskaJedinica implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiUslovNadjiSlog() {
-        return "";
+        return "sifra="+this.sifra;
     }
 
     @Override
     public String vratiUslovNadjiSlogove() {
-        return "";
+        return null;
     }
 
     @Override
     public boolean postojiRelacija() {
         return true;
     }
-    
-    
+
+    @Override
+    public String vratiUslovObrisiSlog() {
+        return "gazdinskaJedinica="+this.getSifra();
+    }
     
 }

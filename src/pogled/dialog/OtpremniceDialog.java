@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package pogled.dialog;
 
 import controller.Controller;
-import java.awt.BorderLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.text.ParseException;
@@ -37,12 +32,10 @@ public class OtpremniceDialog extends javax.swing.JDialog {
     private double sumiranaCena = 0;
     Otpremnica otpremnica;
 
-    /**
-     * Creates new form OtpremniceDialog
-     */
     public OtpremniceDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        popuniComboBox();
         inicijalizacija();
         setLocationRelativeTo(parent);
         setResizable(false);
@@ -54,12 +47,12 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.otpremnica = otpremnica;
+        popuniComboBox();
         inicijalizacija(otpremnica);
         setLocationRelativeTo(parent);
         setResizable(false);
         this.parent = (GlavnaForma) parent;
         setTitle("Otpremnica");
-
     }
 
     /**
@@ -205,6 +198,11 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         jLabel24.setText("Gazdinska jedinica");
 
         jComboBoxGJ.setPreferredSize(new java.awt.Dimension(100, 26));
+        jComboBoxGJ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxGJActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -398,7 +396,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
 
         jLabel15.setText("PDV");
 
-        jComboBoxPDV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "15", "20" }));
+        jComboBoxPDV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "20" }));
 
         jButtonObrisi1.setText("Ukloni proizvod");
         jButtonObrisi1.addActionListener(new java.awt.event.ActionListener() {
@@ -669,12 +667,15 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         double rabat = 0;
         if (!jTextFieldRabat.getText().isEmpty()) {
             rabat = Double.parseDouble(jTextFieldRabat.getText());
-            iznos = iznos - iznos*rabat/100;
+            iznos = iznos - iznos * rabat / 100;
         }
         int pdv = Integer.parseInt((String) jComboBoxPDV.getSelectedItem());
-        double iznosPdv = (pdv/100) * iznos;
-        double ukupnoSaPdv = iznos+iznosPdv;
+        double pdvZaSlanje = pdv;
+        double iznosPdv = (pdvZaSlanje / 100) * iznos;
+        double ukupnoSaPdv = iznos + iznosPdv;
         OdeljenjeOdsek oo = (OdeljenjeOdsek) jComboBoxOO.getSelectedItem();
+        System.out.println(pdv);
+        System.out.println(iznosPdv);
 
         StavkaOtpremnice so = new StavkaOtpremnice(0, otpremnica, ukupnaKolicina, iznos, rabat, pdv, iznosPdv, ukupnoSaPdv, proizvod, oo);
         StavkaOtpremniceModelTabele somt = (StavkaOtpremniceModelTabele) jTableStavkeOtpremnice.getModel();
@@ -758,6 +759,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         if (proizvod != null) {
             jTextFieldCena.setText(proizvod.getCena() + "");
             jTextFieldMernaJedinica.setText(proizvod.getJedinicaMere().toString());
+            jComboBoxPDV.setSelectedItem(proizvod.getPdv() + "");
         }
     }//GEN-LAST:event_jComboBoxProizvodiActionPerformed
 
@@ -776,6 +778,17 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         somt.ukloniStavku(red);
         azurirajRedneBrojeve();
     }//GEN-LAST:event_jButtonObrisi1ActionPerformed
+
+    private void jComboBoxGJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxGJActionPerformed
+
+        GazdinskaJedinica gj = (GazdinskaJedinica) jComboBoxGJ.getSelectedItem();
+        List<OdeljenjeOdsek> listaOO = new ArrayList<>();
+        Controller.getInstance().vratiListuOdeljenjeOdsekForGazdinskaJedinica(gj, listaOO);
+        jComboBoxOO.removeAllItems();
+        for (OdeljenjeOdsek oo : listaOO) {
+            jComboBoxOO.addItem(oo);
+        }
+    }//GEN-LAST:event_jComboBoxGJActionPerformed
 
     /**
      * @param args the command line arguments
@@ -889,7 +902,6 @@ public class OtpremniceDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void inicijalizacija() {
-        popuniComboBox();
         StavkaOtpremniceModelTabele somt = new StavkaOtpremniceModelTabele(new ArrayList<>(), false);
         jTableStavkeOtpremnice.setModel(somt);
         jButtonKreirajOtpremnicu.setVisible(true);
@@ -900,10 +912,11 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         jTextFieldDatumOtpremnice.setText(datumString);
         jTextFieldDatumOtpremnice.setEnabled(false);
         jTextFieldMernaJedinica.setEnabled(false);
-//        jTextFieldBrojOtpremnice.setEnabled(false);
+        jTextFieldBrojOtpremnice.setEnabled(false);
         jTextFieldCena.setEnabled(false);
         jComboBoxMenadzer.setSelectedItem(Controller.getInstance().getUlovovani());
         jComboBoxMenadzer.setEnabled(false);
+        jComboBoxPDV.setEnabled(false);
         jTextFieldUkupnaCena.setEnabled(false);
 
         String broj = generisiBrojOtpremnice();
@@ -913,8 +926,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
     }
 
     private void inicijalizacija(Otpremnica otpremnica) {
-        System.out.println(otpremnica.getMenadzer().getImePrezime());
-        popuniComboBox();
+
         List<StavkaOtpremnice> lista = new ArrayList<>();
         boolean uspesno = Controller.getInstance().vratiListuStavkiOtpremnica(lista, otpremnica);
         if (uspesno) {
@@ -926,6 +938,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         jTextFieldBrojOtpremnice.setText(otpremnica.getBroj() + "");
         jComboBoxMenadzer.setSelectedItem((Menadzer) otpremnica.getMenadzer());
         jComboBoxOtpremac.setSelectedItem((Otpremac) otpremnica.getOtpremac());
+
         jComboBoxGJ.setSelectedItem((GazdinskaJedinica) otpremnica.getGazdinskaJedinica());
 
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy.");
@@ -937,6 +950,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         jTextFieldCena.setEnabled(false);
         jComboBoxMenadzer.setEnabled(false);
         jTextFieldUkupnaCena.setEnabled(false);
+        jComboBoxPDV.setEnabled(false);
         saberiStavke();
 
         if (otpremnica.isVerifikovana()) {
@@ -972,9 +986,6 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         Klasa[] klase = Klasa.values();
         List<Kupac> kupci = new ArrayList<>();
         Controller.getInstance().vratiListuKupac(kupci);
-        List<OdeljenjeOdsek> listaOO = new ArrayList<>();
-        Controller.getInstance().vratiListuOdeljenjeOdsek(listaOO);
-        
 
         popuniProizvod();
 
@@ -995,7 +1006,6 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         for (Tip t : tipovi) {
             jComboBoxTip.addItem(t);
         }
-        jComboBoxMenadzer.setSelectedItem(null);
 
         jComboBoxVrsta.addItem(null);
         for (Vrsta v : vrste) {
@@ -1013,18 +1023,16 @@ public class OtpremniceDialog extends javax.swing.JDialog {
             jComboBoxFirma.addItem(k);
         }
 
-        for (OdeljenjeOdsek oo : listaOO) {
-            jComboBoxOO.addItem(oo);
-        }
-
     }
 
     private void popuniProizvod() {
         List<Proizvod> proizvodi = new ArrayList<>();
         Controller.getInstance().vratiListuProizvoda(proizvodi);
+        jComboBoxProizvodi.addItem(null);
         for (Proizvod p : proizvodi) {
             jComboBoxProizvodi.addItem(p);
         }
+        jComboBoxProizvodi.setSelectedIndex(0);
     }
 
     private void azurirajRedneBrojeve() {
@@ -1039,8 +1047,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
 
         }
 
-        jTextFieldUkupnaCena.setText(sumiranaCena + "");
-
+        jTextFieldUkupnaCena.setText(String.format("%.3f", sumiranaCena) + "");
     }
 
     private void setValidationLabels() {
@@ -1100,7 +1107,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         for (StavkaOtpremnice so : somt.getLista()) {
             sumiranaCena += so.getIznos();
         }
-        jTextFieldUkupnaCena.setText(sumiranaCena + "");
+        jTextFieldUkupnaCena.setText(String.format("%.3f", sumiranaCena) + "");
     }
 
 }

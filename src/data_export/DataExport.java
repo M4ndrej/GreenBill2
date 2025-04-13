@@ -35,7 +35,7 @@ public class DataExport {
                 lastRow += 1; // Inače, dodaj novi red na kraju
             }
             Row newRow = sheet.createRow(lastRow);
-            
+
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             String datum = format.format(so.getOtpremnica().getDatum());
 
@@ -48,14 +48,17 @@ public class DataExport {
             newRow.createCell(5).setCellValue(so.getProizvod().getTip() + "");
             newRow.createCell(6).setCellValue(so.getProizvod().getVrsta() + "");
             newRow.createCell(7).setCellValue(so.getProizvod().getKlasa() + "");
-            newRow.createCell(8).setCellValue(so.getProizvod().getJedinicaMere()+ "");
-            newRow.createCell(9).setCellValue(so.getProizvod().getCena() + "");
-            newRow.createCell(10).setCellValue(so.getUkupnaKolicina()+ "");
-            newRow.createCell(11).setCellValue(String.format("%.2f", so.getIznos()));
-
+            newRow.createCell(8).setCellValue(so.getProizvod().getJedinicaMere() + "");
+            newRow.createCell(9).setCellValue(so.getProizvod().getPdv() + "");
+            newRow.createCell(10).setCellValue(so.getProizvod().getCena() + "");
+            double cenaSaPdv = so.getProizvod().getCena() + so.getProizvod().getCena() * so.getProizvod().getPdv() / 100;
+            newRow.createCell(11).setCellValue(String.format("%.2f",cenaSaPdv));
+            newRow.createCell(12).setCellValue(so.getUkupnaKolicina() + "");
+            newRow.createCell(13).setCellValue(String.format("%.2f", so.getUkupnoSaPdv()));
+            
             try (FileOutputStream fos = new FileOutputStream(excelFilePath)) {
                 workbook.write(fos);
-            } 
+            }
 
             System.out.println("Podaci uspešno dodati u Excel!");
 

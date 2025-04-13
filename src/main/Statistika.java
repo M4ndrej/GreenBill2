@@ -2,7 +2,6 @@ package main;
 
 //import database.DBBroker;
 //import database.Konekcija;
-import com.sun.mail.imap.ACL;
 import database.Konekcija;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -49,75 +48,31 @@ public class Statistika {
                 select.append(" YEAR(o.datum) ");
                 groupBy.append(" YEAR(o.datum)");
             }
-            //lokaliteti
-//            if(so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet() == null && !"UDEO".equals(prosekUkupnoUdeo)){
-//                select.append(" ,oo.gazdinskaJedinica ");
-//                groupBy.append(" ,oo.gazdinskaJedinica ");
-//            }
-//            else{
-//                if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica() != null) {
-//                    if (prev) {
-//                        where.append(" AND ");
-//                    }
-//                    prev = true;
-//                    where.append(" gj.naziv LIKE '" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() + "'");
-//                }
-//                if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet() != null && so.getOdeljenjeOdsek() != null) {
-//                    if (prev) {
-//                        where.append(" AND ");
-//                    }
-//                    prev = true;
-//                    where.append(" oo.naziv LIKE '" + so.getOdeljenjeOdsek().getNaziv() + "'");
-//                }
-//            }
-//            if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getNaziv() == null ) {
-//                if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() == null) {
-//                    if (so.getOdeljenjeOdsek().getNaziv() == null) {
-//
-//                    } else {
-//                        if (prev) {
-//                            where.append(" AND ");
-//                        }
-//                        prev = true;
-//                        where.append(" so.odeljenjeOdsek = " + so.getOdeljenjeOdsek().getId());
-//                    }
-//                } else {
-//                    if (prev) {
-//                        where.append(" AND ");
-//                    }
-//                    prev = true;
-//                    where.append(" so.gazdinskaJedinica = " + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
-//                }
-//            } else {
-//                if (prev) {
-//                    where.append(" AND ");
-//                }
-//                prev = true;
-//                where.append(" so.lokalitet = " + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
-//            }
-            if (so.getOdeljenjeOdsek().getNaziv() == null) {  // Prvo proveravamo da li je odeljenjeOdsek null
-                if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() == null) {  // Zatim proveravamo gazdinsku jedinicu
-                    if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getNaziv() == null) {  // Na kraju proveravamo lokalitet
-                        // Ovde možeš dodati logiku ako je sve null
-                    } else {  // Ako lokalitet nije null
+
+            if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() == null) {  // Ako je OdeljenjeOdsek nije null, počinjemo od njega
+                if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() == null) {  // Ako je GazdinskaJedinica nije null
+                    if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getNaziv() != null) {
                         if (prev) {
                             where.append(" AND ");
                         }
                         prev = true;
+                        // Dodajemo uslov za Lokalitet
                         where.append(" so.lokalitet = " + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
                     }
-                } else {  // Ako gazdinska jedinica nije null
+                } else if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() != null) {  // Ako je samo GazdinskaJedinica definisana, a Lokalitet nije
                     if (prev) {
                         where.append(" AND ");
                     }
                     prev = true;
+                    // Dodajemo uslov za GazdinskuJedinicu
                     where.append(" so.gazdinskaJedinica = " + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
                 }
-            } else {  // Ako je odeljenjeOdsek nije null
+            } else if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() != null) {  // Ako je samo OdeljenjeOdsek definisano
                 if (prev) {
                     where.append(" AND ");
                 }
                 prev = true;
+                // Dodajemo uslov za OdeljenjeOdsek
                 where.append(" so.odeljenjeOdsek = " + so.getOdeljenjeOdsek().getId());
             }
 
@@ -126,7 +81,11 @@ public class Statistika {
                 if ("CENA".equals(cenaKolicina)) {
                     select.append(", SUM(iznos) / SUM(ukupnaKolicina)");
                 } else {
-                    select.append(", SUM(ukupnaKolicina)/COUNT(DISTINCT o.broj) ");
+                    select.append(", SUM(ukupnaKolicina)/(SELECT COUNT(*) FROM otpremnica o2 WHERE YEAR(o2.datum) = YEAR(o.datum)");
+                    if (so.getOtpremnica().getDatum() != null) {
+                        select.append(" AND MONTH(o.datum) = MONTH(o2.datum) ");
+                    }
+                    select.append(")");
                 }
             } else if ("UKUPNO".equals(prosekUkupnoUdeo)) {
                 if ("CENA".equals(cenaKolicina)) {
@@ -142,48 +101,98 @@ public class Statistika {
                     select.append(",(SUM(so.iznos) ");
                     podSelect.append("/ (SELECT SUM(so2.iznos) FROM stavka_otpremnice so2 JOIN otpremnica o2 ON so2.otpremnica = o2.broj JOIN proizvod p2 ON so2.proizvod=p2.id");
                     podWhere.append(" WHERE YEAR(o2.datum)=YEAR(o.datum)");
-                    if (so.getProizvod() != null && so.getProizvod().getTip() != null && so.getProizvod().getVrsta() != null) {
+                    if (so.getProizvod() != null && so.getProizvod().getKlasa() != null
+                            && so.getProizvod().getVrsta() != null && so.getProizvod().getTip() != null) {
+                        podWhere.append(" AND tip='" + so.getProizvod().getTip() + "' AND vrsta='" + so.getProizvod().getVrsta() + "'");
+                    } else if (so.getProizvod() != null && so.getProizvod().getTip() != null
+                            && so.getProizvod().getVrsta() != null) {
                         podWhere.append(" AND vrsta='" + so.getProizvod().getVrsta() + "'");
-                    } else if (so.getProizvod() != null && so.getProizvod().getKlasa() != null && so.getProizvod().getTip() != null) {
-                        podWhere.append(" AND klasa='" + so.getProizvod().getKlasa() + "'");
-                    } else if (so.getProizvod() != null && so.getProizvod().getKlasa() != null && so.getProizvod().getVrsta() != null) {
-                        podWhere.append(" AND klasa='" + so.getProizvod().getKlasa() + "'");
-                    } else if (so.getProizvod() != null && so.getProizvod().getKlasa() != null && so.getProizvod().getVrsta() != null && so.getProizvod().getTip() != null) {
-                        podWhere.append(" AND klasa='" + so.getProizvod().getKlasa() + "' AND vrsta='" + so.getProizvod().getVrsta() + "'");
+                    } else if (so.getProizvod() != null && so.getProizvod().getKlasa() != null
+                            && so.getProizvod().getTip() != null) {
+                        podWhere.append(" AND tip='" + so.getProizvod().getTip() + "'");
+                    } else if (so.getProizvod() != null && so.getProizvod().getKlasa() != null
+                            && so.getProizvod().getVrsta() != null) {
+                        podWhere.append(" AND vrsta='" + so.getProizvod().getVrsta() + "'");
                     }
-                    if (so.getOdeljenjeOdsek().getNaziv() != null) {
-                        if (radio == "LOKALITET") {
-                            podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
-                        } else if (radio == "GJ") {
-                            podWhere.append(" AND so2.gazdinskaJedinica=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
-                        } else if (radio == "OO") {
-                            podWhere.append(" AND so2.odeljenjeOdsek=" + so.getOdeljenjeOdsek().getId());
+                    if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() == null) {
+                        if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() == null) {
+                            if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getNaziv() != null) {
+                                if (radio == "LOKALITET") {
+                                    podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
+                                } else if (radio == "GJ" || radio == "OO") {
+                                    return false;
+                                }
+                            } else if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() != null) {
+                                if (radio == "LOKALITET") {
+                                    podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
+                                } else if (radio == "GJ") {
+                                    podWhere.append(" AND so2.gazdinskaJedinica=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
+                                } else if (radio == "OO") {
+                                    return false;
+                                }
+                            }
+                        } else if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() != null) {
+                            if (radio == "LOKALITET") {
+                                podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
+                            } else if (radio == "GJ") {
+                                podWhere.append(" AND so2.gazdinskaJedinica=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
+                            } else if (radio == "OO") {
+                                podWhere.append(" AND so2.odeljenjeOdsek=" + so.getOdeljenjeOdsek().getId());
+                            }
                         }
-                    } else if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() != null) {
-                        if (radio == "LOKALITET") {
-                            podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
-                        } else if (radio == "GJ") {
-                            podWhere.append(" AND so2.gazdinskaJedinica=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
-                        } else if (radio == "OO") {
-                            return false;
-                        }
-                    } else if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getNaziv() != null) {
-                        if (radio == "LOKALITET") {
-                            podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
-                        } else if (radio == "GJ" || radio == "OO") {
-                            return false;
-                        }
+
                     }
 
                     podWhere.append(")*100)");
                     select.append(podSelect.append(podWhere));
                 } else {
-                    select.append(",(SUM(so.ukupnaKolicina) / (SELECT SUM(ukupnaKolicina) FROM stavka_otpremnice JOIN otpremnica o2 ON o2.broj = stavka_otpremnice.otpremnica "
-                            + "     WHERE (YEAR(o2.datum) = YEAR(o.datum)) ");
-                    if (so.getProizvod() != null && so.getProizvod().getTip() != null && so.getProizvod().getVrsta() != null) {
-                        select.append(" AND vrsta='" + so.getProizvod().getVrsta() + "'");
+                    select.append(",(SUM(so.ukupnaKolicina) ");
+                    podSelect.append("/ (SELECT SUM(so2.ukupnaKolicina) FROM stavka_otpremnice so2 JOIN otpremnica o2 ON so2.otpremnica = o2.broj JOIN proizvod p2 ON so2.proizvod=p2.id");
+                    podWhere.append(" WHERE YEAR(o2.datum)=YEAR(o.datum)");
+                    if (so.getProizvod() != null && so.getProizvod().getKlasa() != null
+                            && so.getProizvod().getVrsta() != null && so.getProizvod().getTip() != null) {
+                        podWhere.append(" AND tip='" + so.getProizvod().getTip() + "' AND vrsta='" + so.getProizvod().getVrsta() + "'");
+                    } else if (so.getProizvod() != null && so.getProizvod().getTip() != null
+                            && so.getProizvod().getVrsta() != null) {
+                        podWhere.append(" AND vrsta='" + so.getProizvod().getVrsta() + "'");
+                    } else if (so.getProizvod() != null && so.getProizvod().getKlasa() != null
+                            && so.getProizvod().getTip() != null) {
+                        podWhere.append(" AND tip='" + so.getProizvod().getTip() + "'");
+                    } else if (so.getProizvod() != null && so.getProizvod().getKlasa() != null
+                            && so.getProizvod().getVrsta() != null) {
+                        podWhere.append(" AND vrsta='" + so.getProizvod().getVrsta() + "'");
                     }
-                    select.append(") *100)");
+                    if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() == null) {
+                        if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() == null) {
+                            if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getNaziv() != null) {
+                                if (radio == "LOKALITET") {
+                                    podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
+                                } else if (radio == "GJ" || radio == "OO") {
+                                    return false;
+                                }
+                            } else if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() != null) {
+                                if (radio == "LOKALITET") {
+                                    podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
+                                } else if (radio == "GJ") {
+                                    podWhere.append(" AND so2.gazdinskaJedinica=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
+                                } else if (radio == "OO") {
+                                    return false;
+                                }
+                            }
+                        } else if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() != null) {
+                            if (radio == "LOKALITET") {
+                                podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
+                            } else if (radio == "GJ") {
+                                podWhere.append(" AND so2.gazdinskaJedinica=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
+                            } else if (radio == "OO") {
+                                podWhere.append(" AND so2.odeljenjeOdsek=" + so.getOdeljenjeOdsek().getId());
+                            }
+                        }
+
+                    }
+
+                    podWhere.append(")*100)");
+                    select.append(podSelect.append(podWhere));
                 }
             }
             //
@@ -211,7 +220,8 @@ public class Statistika {
             if (so.getProizvod().getTip() == null
                     && so.getProizvod().getVrsta() == null
                     && so.getProizvod().getKlasa() == null
-                    && so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet() == null) {
+                    && so.getOdeljenjeOdsek() == null
+                    && so.getOtpremnica().getDatum() == null) {
                 where = new StringBuilder();
             }
             String upit = select.toString() + from.toString() + (where.length() > 8 ? where.toString() : "") + groupBy.toString();

@@ -1,21 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import data_export.DataExport;
 import database.DBBroker;
+import database.Konekcija;
 import java.util.ArrayList;
 import java.util.List;
 import model.Kupac;
 import model.Lokalitet;
 import model.Menadzer;
-import model.MenadzerPrivilegija;
 import model.OpstiDomenskiObjekat;
 import model.Otpremac;
 import model.Otpremnica;
-import model.Privilegija;
 import model.Proizvod;
 import model.StavkaOtpremnice;
 import main.Statistika;
@@ -32,8 +27,7 @@ public class Controller {
     private static Controller instance;
     private List<Menadzer> menadzeri = new ArrayList<>();
     private Menadzer ulogovani;
-    private DBBroker dbb = new DBBroker();
-    private Privilegija privilegija;
+    private final DBBroker dbb = new DBBroker();
 
     private Controller() {
 
@@ -44,10 +38,6 @@ public class Controller {
             instance = new Controller();
         }
         return instance;
-    }
-
-    public Privilegija getPrivilegija() {
-        return privilegija;
     }
 
     public Menadzer getUlovovani() {
@@ -90,10 +80,10 @@ public class Controller {
     }
 
     public boolean obrisiKupca(Kupac kupac) {
-//        boolean uspesno = dbb.existRelation(kupac, new Otpremnica());
-//        if (uspesno) {
-//            return false;
-//        }
+        boolean uspesno = dbb.existRelation(kupac, new Otpremnica());
+        if (uspesno) {
+            return false;
+        }
         return dbb.delete(kupac);
     }
 
@@ -107,10 +97,10 @@ public class Controller {
     }
 
     public boolean obrisiLokalitet(Lokalitet lokalitet) {
-//        boolean uspesno = dbb.existRelation(lokalitet, new Otpremac());
-//        if (uspesno) {
-//            return false;
-//        }
+        boolean uspesno = dbb.existRelation(lokalitet, new Otpremac());
+        if (uspesno) {
+            return false;
+        }
         return dbb.delete(lokalitet);
     }
 
@@ -141,11 +131,12 @@ public class Controller {
         List<OpstiDomenskiObjekat> listaOdo = dbb.read(new Menadzer());
         if (listaOdo == null) {
             menadzeri = null;
+            return false;
         }
         for (OpstiDomenskiObjekat o : listaOdo) {
             menadzeri.add((Menadzer) o);
         }
-        
+
         for (Menadzer m : menadzeri) {
             if (m.getJmbg().equals(jmbg) && m.getLozinka().equals(lozinka)) {
                 ulogovani = m;
@@ -191,20 +182,20 @@ public class Controller {
     }
 
     public boolean obrisiOtpremaca(Otpremac otpremac) {
-//        boolean uspesno = dbb.existRelation(otpremac, new Otpremnica());
-//        if (uspesno) {
-//            return false;
-//        }
+        boolean uspesno = dbb.existRelation(otpremac, new Otpremnica());
+        if (uspesno) {
+            return false;
+        }
         return dbb.delete(otpremac);
     }
 
     public boolean vratiListuOtpremaca(List<Otpremac> lista) {
         List<OpstiDomenskiObjekat> listaOdo = dbb.read(new Otpremac());
-        if(listaOdo == null){
+        if (listaOdo == null) {
             return false;
         }
-        for(OpstiDomenskiObjekat o: listaOdo){
-            lista.add((Otpremac)o);
+        for (OpstiDomenskiObjekat o : listaOdo) {
+            lista.add((Otpremac) o);
         }
         return true;
     }
@@ -212,10 +203,6 @@ public class Controller {
     public boolean kreirajOtpremac(Otpremac otpremac) {
         return dbb.create(otpremac);
     }
-
-//    public boolean vratiListuSviOtpremac(Otpremac otpremac, List<Otpremac> lista) {
-//        return dbb.readWithConditionOtpremacLokalitet(otpremac, lista);
-//    }
 
     //proizvod
     public boolean kreirajProizvod(Proizvod proizvod) {
@@ -227,10 +214,10 @@ public class Controller {
     }
 
     public boolean orbisiProizvod(Proizvod proizvod) {
-//        boolean uspesno = dbb.existRelation(proizvod, new StavkaOtpremnice());
-//        if (uspesno) {
-//            return false;
-//        }
+        boolean uspesno = dbb.existRelation(proizvod, new StavkaOtpremnice());
+        if (uspesno) {
+            return false;
+        }
         return dbb.delete(proizvod);
     }
 
@@ -275,7 +262,7 @@ public class Controller {
 
     //otpremnica
     public boolean kreirajOtpremnicu(Otpremnica otpremnica, List<StavkaOtpremnice> listaStavki) {
-//        DataExport de = new DataExport();
+        DataExport de = new DataExport();
 
         if (dbb.create(otpremnica)) {
             for (StavkaOtpremnice stavkaOtpremnice : listaStavki) {
@@ -285,7 +272,7 @@ public class Controller {
                     return false;
                 }
                 if (otpremnica.isVerifikovana()) {
-//                    de.dodajPodatkeUExcel(stavkaOtpremnice);
+                    de.dodajPodatkeUExcel(stavkaOtpremnice);
                 }
             }
         }
@@ -293,11 +280,11 @@ public class Controller {
     }
 
     public boolean azurirajOtpremnicu(Otpremnica otpremnica) {
-//        DataExport de = new DataExport();
-//
-//        if (otpremnica.isVerifikovana()) {
-//            upisiExcel(de,otpremnica);
-//        }
+        DataExport de = new DataExport();
+
+        if (otpremnica.isVerifikovana()) {
+            upisiExcel(de, otpremnica);
+        }
         return dbb.update(otpremnica);
     }
 
@@ -305,62 +292,25 @@ public class Controller {
         return dbb.readWithConditionOtpremnicaKupacOtpremac(otpremnica, lista);
     }
 
-    //privilegija
-    public boolean vratiListuPrivilegija(List<Privilegija> privilegije) {
-        List<OpstiDomenskiObjekat> listaOdo = dbb.read(new Privilegija());
-        if (listaOdo == null) {
-            return false;
-        }
-        for (OpstiDomenskiObjekat o : listaOdo) {
-            privilegije.add((Privilegija) o);
-        }
-        return true;
-    }
-
-    public boolean kreirajMenadzerPrivilegija(MenadzerPrivilegija mp) {
-        return dbb.create(mp);
-    }
-
-    public boolean vratiListuMenadzerPrivilegija(List<MenadzerPrivilegija> listaMenadzerPrivilegija) {
-        List<OpstiDomenskiObjekat> listaOdo = dbb.readMenadzerPrivilegijaWithPrivilegijaMenadzer(new MenadzerPrivilegija());
-        if (listaOdo == null) {
-            return false;
-        }
-        for (OpstiDomenskiObjekat o : listaOdo) {
-            listaMenadzerPrivilegija.add((MenadzerPrivilegija) o);
-        }
-        return true;
-    }
-
-    private void postaviPrivilegiju() {
-        List<MenadzerPrivilegija> listaMenadzerPrivilegija = new ArrayList<>();
-        Controller.getInstance().vratiListuMenadzerPrivilegija(listaMenadzerPrivilegija);
-        for (MenadzerPrivilegija mp : listaMenadzerPrivilegija) {
-            if (mp.getMenadzer().equals(ulogovani)) {
-                privilegija = mp.getPrivilegija();
-                return;
-            }
-        }
-    }
-
     //dodatno
     public boolean analiziraj(StavkaOtpremnice so, String prosekUkupno, String cenaKolicina, String radio, List<Object[]> lista) {
         Statistika statistika = new Statistika();
-        return statistika.analize(so, prosekUkupno, cenaKolicina, radio,  lista);
+        return statistika.analize(so, prosekUkupno, cenaKolicina, radio, lista);
     }
 
     public boolean vratiListuDoznakaOtprema(List<Object[]> podaci) {
         return dbb.readWithConditionDoznakaOtprema(podaci);
     }
 
-//    private void upisiExcel(DataExport de, Otpremnica otpremnica) {
-//        List<StavkaOtpremnice> stavke = new ArrayList<>();
-//        vratiListuStavkiOtpremnica(stavke,otpremnica);
-//        for(StavkaOtpremnice s: stavke){
-//            de.dodajPodatkeUExcel(s);
-//        }
-//    }
+    private void upisiExcel(DataExport de, Otpremnica otpremnica) {
+        List<StavkaOtpremnice> stavke = new ArrayList<>();
+        vratiListuStavkiOtpremnica(stavke, otpremnica);
+        for (StavkaOtpremnice s : stavke) {
+            de.dodajPodatkeUExcel(s);
+        }
+    }
 
+    //Gazdinska jedinica
     public boolean kreirajGazdinskaJedinica(GazdinskaJedinica gj) {
         return dbb.create(gj);
     }
@@ -375,15 +325,16 @@ public class Controller {
 
     public boolean vratiListuGazdinskaJedinica(List<GazdinskaJedinica> lista) {
         List<OpstiDomenskiObjekat> listaOdo = dbb.readGazdinskaJedinicaWithLokalitet();
-        if(listaOdo == null){
+        if (listaOdo == null) {
             return false;
         }
-        for(OpstiDomenskiObjekat o: listaOdo){
-            lista.add((GazdinskaJedinica)o);
+        for (OpstiDomenskiObjekat o : listaOdo) {
+            lista.add((GazdinskaJedinica) o);
         }
         return true;
     }
 
+    //Odeljenje odsek
     public boolean izmeniOdeljenjeOdsek(OdeljenjeOdsek oo) {
         return dbb.update(oo);
     }
@@ -398,26 +349,27 @@ public class Controller {
 
     public boolean vratiListuOdeljenjeOdsek(List<OdeljenjeOdsek> lista) {
         List<OpstiDomenskiObjekat> listaOdo = dbb.readOdeljenjeOdsekWithGazdinskaJedinicaLokalitet();
-        if(listaOdo == null){
+        if (listaOdo == null) {
             return false;
         }
-        for(OpstiDomenskiObjekat o: listaOdo){
-            lista.add((OdeljenjeOdsek)o);
+        for (OpstiDomenskiObjekat o : listaOdo) {
+            lista.add((OdeljenjeOdsek) o);
         }
         return true;
     }
 
+    //Racun
     public boolean kreirajRacun(Racun racun) {
         return dbb.create(racun);
     }
 
     public boolean vratiListuRacun(List<Racun> lista) {
         List<OpstiDomenskiObjekat> listaOdo = dbb.readRacunWithOtpremnica();
-        if(listaOdo == null){
+        if (listaOdo == null) {
             return false;
         }
-        for(OpstiDomenskiObjekat o: listaOdo){
-            lista.add((Racun)o);
+        for (OpstiDomenskiObjekat o : listaOdo) {
+            lista.add((Racun) o);
         }
         return true;
     }
@@ -428,13 +380,18 @@ public class Controller {
 
     public boolean vratiListuSviRacun(Racun racun, List<Racun> racuni) {
         dbb.readWithConditionRacunOtpremnica(racun, racuni);
-        if(racuni == null){
-            return false;
-        }
-        return true;
+        return racuni != null;
     }
 
+    public void vratiListuOdeljenjeOdsekForGazdinskaJedinica(GazdinskaJedinica gj, List<OdeljenjeOdsek> listaOO) {
+        dbb.readOdeljenjeOdsekForGazdinskaJedinica(gj, listaOO);
+    }
 
+    public boolean proveriKonekciju() {
+    if (!Konekcija.getInstance().isConnected()) {
+        Konekcija.getInstance().reconnect(); 
+    }
+    return Konekcija.getInstance().isConnected();
+}
 
-    
 }

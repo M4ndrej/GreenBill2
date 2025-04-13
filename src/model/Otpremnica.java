@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
 import java.sql.ResultSet;
@@ -184,21 +181,21 @@ public class Otpremnica implements OpstiDomenskiObjekat {
 //        sb.append("");
         boolean prev = false;
         if(this.broj.matches("^\\d+$")){
-            sb.append("broj = "+this.broj);
+            sb.append("otp_doc.broj = "+this.broj);
             prev = true;
         }
         if(!this.kupac.getNaziv().isEmpty()){
             if(prev){
                 sb.append(" AND ");
             }
-            sb.append(" naziv LIKE LOWER ('"+this.kupac.getNaziv().toLowerCase()+"%') ");
+            sb.append(" k.naziv LIKE LOWER ('"+this.kupac.getNaziv().toLowerCase()+"%') ");
             prev = true;
         }
         if(this.otpremac != null){
             if(prev){
                 sb.append(" AND ");
             }
-            sb.append(" otpremac LIKE ('"+this.otpremac.getJmbg()+"')");
+            sb.append(" otp.otpremac LIKE ('"+this.otpremac.getJmbg()+"')");
         }
         return sb.toString();
     }
@@ -206,6 +203,11 @@ public class Otpremnica implements OpstiDomenskiObjekat {
     @Override
     public boolean postojiRelacija() {
         return true;
+    }
+
+    @Override
+    public String vratiUslovObrisiSlog() {
+        return "otpremnica="+this.getBroj();
     }
 
 }

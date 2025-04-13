@@ -79,10 +79,11 @@ public class PanelGJ extends javax.swing.JPanel {
         add(jPanel6, java.awt.BorderLayout.EAST);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 10));
         jPanel5.setPreferredSize(new java.awt.Dimension(600, 700));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 10));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(550, 650));
 
         jTableGJ.setModel(new javax.swing.table.DefaultTableModel(
@@ -97,6 +98,7 @@ public class PanelGJ extends javax.swing.JPanel {
             }
         ));
         jTableGJ.setPreferredSize(new java.awt.Dimension(550, 650));
+        jTableGJ.setShowGrid(true);
         jScrollPane1.setViewportView(jTableGJ);
 
         jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);

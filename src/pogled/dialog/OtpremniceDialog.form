@@ -198,6 +198,9 @@
                       <Dimension value="[100, 26]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxGJActionPerformed"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;GazdinskaJedinica&gt;"/>
                   </AuxValues>
@@ -715,10 +718,9 @@
                 <Component class="javax.swing.JComboBox" name="jComboBoxPDV">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="3">
+                      <StringArray count="2">
                         <StringItem index="0" value="10"/>
-                        <StringItem index="1" value="15"/>
-                        <StringItem index="2" value="20"/>
+                        <StringItem index="1" value="20"/>
                       </StringArray>
                     </Property>
                   </Properties>

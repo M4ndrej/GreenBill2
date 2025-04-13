@@ -108,30 +108,23 @@
                                   <Component id="jLabel8" alignment="0" min="-2" pref="98" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jComboBoxOdeljenjeOdsek" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
-                                          <Component id="jComboBoxLokalitet" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
-                                          <Component id="jComboBoxGazdinskaJedinica" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jRadioButtonOO" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jRadioButtonLokalitet" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jRadioButtonGJ" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jTextFieldGodina" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jRadioButtonReset" min="-2" pref="80" max="-2" attributes="0"/>
-                                  </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jComboBoxOdeljenjeOdsek" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
+                                  <Component id="jComboBoxLokalitet" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
+                                  <Component id="jComboBoxGazdinskaJedinica" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldGodina" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jRadioButtonReset" min="-2" pref="80" max="-2" attributes="0"/>
+                                  <Component id="jRadioButtonOO" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jRadioButtonLokalitet" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jRadioButtonGJ" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="jButtonAnaliza" min="-2" pref="402" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="166" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -447,6 +440,13 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder thickness="10">
+              <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
+            </LineBorder>
+          </Border>
+        </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[1000, 300]"/>
         </Property>
@@ -463,18 +463,18 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="1000" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="980" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="994" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="974" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="406" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="380" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -490,13 +490,13 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder thickness="10">
-                  <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
+                <LineBorder>
+                  <Color PropertyName="color" blue="cc" green="cc" red="cc" type="rgb"/>
                 </LineBorder>
               </Border>
             </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[800, 400]"/>
+              <Dimension value="[800, 350]"/>
             </Property>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
           </Properties>
@@ -508,13 +508,6 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="jTableDoznake">
               <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder>
-                      <Color PropertyName="color" blue="cc" green="cc" red="cc" type="rgb"/>
-                    </LineBorder>
-                  </Border>
-                </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="4">
                     <Column editable="true" title="Title 1" type="java.lang.Object"/>

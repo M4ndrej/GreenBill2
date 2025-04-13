@@ -44,10 +44,7 @@ public class Konfiguracija {
         }
         return instance;
     }
-    
-//    public void setConfig(String path){
-//        CONFIG_PATH = path;
-//    }
+   
     
     public String getPropertie(String key){
         return config.getProperty(key,"");

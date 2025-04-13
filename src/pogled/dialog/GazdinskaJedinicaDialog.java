@@ -29,8 +29,8 @@ public class GazdinskaJedinicaDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         setTitle("Kreiraj gazdinsku jedinicu");
-        inicijalizacija();
         popuniComboBox();
+        inicijalizacija();
         this.parent = (GlavnaForma) parent;
     }
 
@@ -40,8 +40,8 @@ public class GazdinskaJedinicaDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         setTitle("Izmeni gazdinsku jedinicu");
-        inicijalizacija(gj);
         popuniComboBox();
+        inicijalizacija(gj);
         this.parent = (GlavnaForma) parent;
     }
 
@@ -245,6 +245,7 @@ public class GazdinskaJedinicaDialog extends javax.swing.JDialog {
     private void jButtonIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIzmeniActionPerformed
         jButtonSacuvajIzmene.setEnabled(true);
         jTextFieldNaziv.setEnabled(true);
+        jTextFieldSifra.setEnabled(true);
     }//GEN-LAST:event_jButtonIzmeniActionPerformed
 
     private void jButtonSacuvajIzmeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajIzmeneActionPerformed
@@ -266,6 +267,8 @@ public class GazdinskaJedinicaDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Greška prilikom izmene gazdinske jedinice", "Greška", JOptionPane.ERROR_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Uspešno izmenjena gazdinska jedinica", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+            parent.azurirajTabelu("gj");
+            this.dispose();
         }
     }//GEN-LAST:event_jButtonSacuvajIzmeneActionPerformed
 
@@ -356,9 +359,12 @@ public class GazdinskaJedinicaDialog extends javax.swing.JDialog {
     }
 
     private void inicijalizacija(GazdinskaJedinica gj) {
+        jTextFieldSifra.setText(gj.getSifra()+"");
         jTextFieldNaziv.setText(gj.getNaziv());
         jComboBoxLokaliteti.setSelectedItem(gj.getLokalitet());
+        jComboBoxLokaliteti.setEnabled(false);
 
+        jTextFieldSifra.setEnabled(false);
         jTextFieldNaziv.setEnabled(false);
         jButtonIzmeni.setVisible(true);
         jButtonSacuvajIzmene.setVisible(true);

@@ -54,12 +54,12 @@ public class PanelKupci extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 10));
         jPanel9.setPreferredSize(new java.awt.Dimension(1200, 600));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 20));
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
-        jTableKupci.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTableKupci.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -71,6 +71,7 @@ public class PanelKupci extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableKupci.setShowGrid(true);
         jScrollPane3.setViewportView(jTableKupci);
 
         jPanel9.add(jScrollPane3, java.awt.BorderLayout.CENTER);

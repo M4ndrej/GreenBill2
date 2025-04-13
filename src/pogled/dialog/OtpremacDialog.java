@@ -242,10 +242,10 @@ public class OtpremacDialog extends javax.swing.JDialog {
 
     private void jButtonSacuvajIzmeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajIzmeneActionPerformed
         if (jTextFieldJMBG.getText().isEmpty() 
-                || !jTextFieldJMBG.getText().matches("^d{13}$")
+                || !jTextFieldJMBG.getText().matches("^\\d{13}$")
                 || jTextFieldImePrezime.getText().isEmpty() 
              ) {
-            jLabelJmbgError.setText(jTextFieldJMBG.getText().isEmpty() ? "Unesite JMBG" : !jTextFieldJMBG.getText().matches("^d{13}$") ? "Pogrešan format JMBG-a":"");
+            jLabelJmbgError.setText(jTextFieldJMBG.getText().isEmpty() ? "Unesite JMBG" : !jTextFieldJMBG.getText().matches("^\\d{13}$") ? "Pogrešan format JMBG-a":"");
             jLabelImePrezimeError.setText(jTextFieldImePrezime.getText().isEmpty() ? "Unesite ime i prezime" : "");
             return;
         }

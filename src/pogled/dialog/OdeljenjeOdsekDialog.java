@@ -31,8 +31,8 @@ public class OdeljenjeOdsekDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         setTitle("Kreiraj odeljenje i odsek");
-        inicijalizacija();
         popuniComboBox();
+        inicijalizacija();
         this.parent = (GlavnaForma) parent;
     }
 
@@ -42,8 +42,8 @@ public class OdeljenjeOdsekDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);
         setTitle("Detalji mesta");
-        inicijalizacija(oo);
         popuniComboBox();
+        inicijalizacija(oo);
         this.parent = (GlavnaForma) parent;
         this.staraDoznaka = oo.getDoznaka();
 
@@ -290,7 +290,6 @@ public class OdeljenjeOdsekDialog extends javax.swing.JDialog {
         jTextFieldNaziv.setEnabled(true);
         jTextFieldDatumDoznake.setEnabled(false);
         jTextFieldDoznaka.setEnabled(true);
-        jComboBoxJG.setEnabled(true);
         jButtonIzmeni.setEnabled(false);
         jButtonSacuvajIzmene.setEnabled(true);
     }//GEN-LAST:event_jButtonIzmeniActionPerformed

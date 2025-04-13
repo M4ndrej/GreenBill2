@@ -86,12 +86,10 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jButtonOcisti" pref="210" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jButtonFilter" max="32767" attributes="0"/>
-                                      <Component id="jTextFieldKupac" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jTextFieldBrojOtpremnice" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jComboBoxOtpremac" pref="210" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="jButtonFilter" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldKupac" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldBrojOtpremnice" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jComboBoxOtpremac" pref="210" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -234,6 +232,13 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder thickness="20">
+              <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
+            </LineBorder>
+          </Border>
+        </Property>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[600, 700]"/>
         </Property>
@@ -250,8 +255,8 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder thickness="20">
-                  <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
+                <LineBorder>
+                  <Color PropertyName="color" blue="cc" green="cc" red="cc" type="rgb"/>
                 </LineBorder>
               </Border>
             </Property>
@@ -272,13 +277,6 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="jTableOtpremnice">
               <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder>
-                      <Color PropertyName="color" blue="cc" green="cc" red="cc" type="rgb"/>
-                    </LineBorder>
-                  </Border>
-                </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="4">
                     <Column editable="true" title="Title 1" type="java.lang.Object"/>
@@ -288,7 +286,7 @@
                   </Table>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[600, 600]"/>
+                  <Dimension value="[600, 700]"/>
                 </Property>
                 <Property name="showGrid" type="boolean" value="true"/>
               </Properties>

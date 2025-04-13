@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
 import java.sql.ResultSet;
@@ -163,17 +160,22 @@ public class Menadzer implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiUslovNadjiSlog() {
-        return "";
+        return "jmbg='"+this.jmbg+"'";
     }
 
     @Override
     public String vratiUslovNadjiSlogove() {
-        return "";
+        return null;
     }
 
     @Override
     public boolean postojiRelacija() {
         return true;
+    }
+
+    @Override
+    public String vratiUslovObrisiSlog() {
+        return "menadzer="+this.getJmbg();
     }
 
 }

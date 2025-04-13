@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import konfiguracija.Konfiguracija;
 
 /**
  *
@@ -18,9 +13,23 @@ public class Konekcija {
 
     private static Konekcija instance;
     private Connection connection;
+    private boolean connected = false;
+
+    private Konekcija() {
+        try {
+            String url = Konfiguracija.getInstance().getPropertie("url");
+            String username = Konfiguracija.getInstance().getPropertie("username");
+            String password = Konfiguracija.getInstance().getPropertie("password");
+            connection = DriverManager.getConnection(url, username, password);
+            connection.setAutoCommit(false);
+            connected = true;
+        } catch (SQLException ex) {
+            connected = false;
+        }
+    }
 
     public static Konekcija getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new Konekcija();
         }
         return instance;
@@ -30,18 +39,27 @@ public class Konekcija {
         return connection;
     }
 
-    public Konekcija() {
-        
+    public boolean isConnected() {
         try {
-            String url = "jdbc:mysql://localhost:3306/greenbill";
-            String username = "root";
-            String password = "";
-            connection = DriverManager.getConnection(url, username, password);
-            connection.setAutoCommit(false);
-        } catch (SQLException ex) {
-            Logger.getLogger(Konekcija.class.getName()).log(Level.SEVERE, null, ex);
+            return connected && connection != null && !connection.isClosed();
+        } catch (SQLException e) {
+            return false;
         }
-        
+    }
+
+    public void reconnect() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                String url = Konfiguracija.getInstance().getPropertie("url");
+                String username = Konfiguracija.getInstance().getPropertie("username");
+                String password = Konfiguracija.getInstance().getPropertie("password");
+                connection = DriverManager.getConnection(url, username, password);
+                connection.setAutoCommit(false);
+                connected = true;
+            }
+        } catch (SQLException ex) {
+            connected = false;
+        }
     }
 
 }

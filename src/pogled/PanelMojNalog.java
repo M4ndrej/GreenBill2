@@ -5,6 +5,11 @@
 package pogled;
 
 import controller.Controller;
+import hashing.Hash;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.Menadzer;
 
 /**
@@ -13,13 +18,14 @@ import model.Menadzer;
  */
 public class PanelMojNalog extends javax.swing.JPanel {
 
-    private Menadzer menadzer = Controller.getInstance().getUlovovani();
+    private Menadzer menadzer;
 
     /**
      * Creates new form PanelMojNalog
      */
     public PanelMojNalog() {
         initComponents();
+        menadzer = Controller.getInstance().getUlovovani();
         inicijalizacija();
     }
 
@@ -61,12 +67,12 @@ public class PanelMojNalog extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(1000, 700));
         setPreferredSize(new java.awt.Dimension(1000, 700));
-        setLayout(new java.awt.BorderLayout());
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 30));
         jPanel7.setMaximumSize(new java.awt.Dimension(800, 500));
         jPanel7.setPreferredSize(new java.awt.Dimension(800, 500));
+        jPanel7.setLayout(new javax.swing.BoxLayout(jPanel7, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setPreferredSize(new java.awt.Dimension(800, 50));
@@ -88,7 +94,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jTextFieldJMBG, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -99,7 +105,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(jTextFieldJMBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel7.add(jPanel10);
@@ -119,7 +125,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
                 .addComponent(jTextFieldImePrezime, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -130,7 +136,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(jTextFieldImePrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel7.add(jPanel8);
@@ -155,7 +161,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
                 .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -166,7 +172,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28)
                     .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel7.add(jPanel16);
@@ -186,7 +192,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
                 .addComponent(jTextFieldKontakt, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -197,7 +203,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
                     .addComponent(jTextFieldKontakt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel7.add(jPanel11);
@@ -217,7 +223,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
                 .addComponent(jTextFieldPrivilegija, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -228,7 +234,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
                     .addComponent(jTextFieldPrivilegija, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel7.add(jPanel12);
@@ -248,7 +254,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabelStaraLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 416, Short.MAX_VALUE)
                 .addComponent(jPasswordFieldStaraLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -259,7 +265,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelStaraLozinka)
                     .addComponent(jPasswordFieldStaraLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel7.add(jPanel13);
@@ -279,7 +285,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabelNovaLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 416, Short.MAX_VALUE)
                 .addComponent(jPasswordFieldNovaLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -290,7 +296,7 @@ public class PanelMojNalog extends javax.swing.JPanel {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNovaLozinka)
                     .addComponent(jPasswordFieldNovaLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel7.add(jPanel14);
@@ -309,11 +315,25 @@ public class PanelMojNalog extends javax.swing.JPanel {
 
         jButtonSacuvajIzmene.setText("Sačuvaj izmene");
         jButtonSacuvajIzmene.setPreferredSize(new java.awt.Dimension(800, 30));
+        jButtonSacuvajIzmene.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSacuvajIzmeneActionPerformed(evt);
+            }
+        });
         jPanel15.add(jButtonSacuvajIzmene);
 
         jPanel7.add(jPanel15);
 
-        add(jPanel7, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextFieldJMBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldJMBGActionPerformed
@@ -321,12 +341,61 @@ public class PanelMojNalog extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextFieldJMBGActionPerformed
 
     private void jButtonIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIzmeniActionPerformed
-        // TODO add your handling code here:
+        jLabelStaraLozinka.setVisible(true);
+        jLabelNovaLozinka.setVisible(true);
+        jPasswordFieldStaraLozinka.setVisible(true);
+        jPasswordFieldNovaLozinka.setVisible(true);
+        jTextFieldJMBG.setEnabled(false);
+        jTextFieldImePrezime.setEnabled(true);
+        jTextFieldEmail.setEnabled(false);
+        jTextFieldKontakt.setEnabled(true);
+        jButtonSacuvajIzmene.setEnabled(true);
     }//GEN-LAST:event_jButtonIzmeniActionPerformed
 
     private void jTextFieldEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldEmailActionPerformed
+
+    private void jButtonSacuvajIzmeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajIzmeneActionPerformed
+        String jmbg = jTextFieldJMBG.getText();
+        String imePrezime = jTextFieldImePrezime.getText();
+        String kontakt = jTextFieldKontakt.getText();
+        String staraLozinka = new String(jPasswordFieldStaraLozinka.getPassword());
+        String novaLozinka = new String(jPasswordFieldNovaLozinka.getPassword());
+        String email = jTextFieldEmail.getText();
+        jButtonIzmeni.setEnabled(false);
+
+        if (jmbg.isEmpty() || imePrezime.isEmpty() || kontakt.isEmpty() || staraLozinka.isEmpty() || novaLozinka.isEmpty() || email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Proverite podatke", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Menadzer ulogovani = this.menadzer;
+        String kriptovana = "";
+        try {
+            kriptovana = Hash.kriptuj(staraLozinka);
+        } catch (NoSuchAlgorithmException ex) {
+        }
+        if (!kriptovana.equals(ulogovani.getLozinka())) {
+            JOptionPane.showMessageDialog(this, "Pogrešna lozinka", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            kriptovana = Hash.kriptuj(novaLozinka);
+        } catch (NoSuchAlgorithmException ex) {
+        }
+        Menadzer noviMenadzer = new Menadzer(jmbg, imePrezime, email, kriptovana, kontakt, Controller.getInstance().getUlovovani().getPrivilegija());
+        menadzer = noviMenadzer;
+        Controller.getInstance().setUlogovani(ulogovani);
+        boolean uspesno = Controller.getInstance().izmeniMenadzera(noviMenadzer);
+        if (!uspesno) {
+            JOptionPane.showMessageDialog(this, "Greška prilikom izmene naloga", "Greška", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Controller.getInstance().setUlogovani(noviMenadzer);
+            JOptionPane.showMessageDialog(this, "Uspešno izmenjen nalog", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+        }
+        inicijalizacija();
+    }//GEN-LAST:event_jButtonSacuvajIzmeneActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -372,13 +441,15 @@ public class PanelMojNalog extends javax.swing.JPanel {
         jTextFieldKontakt.setEnabled(false);
         jButtonSacuvajIzmene.setEnabled(false);
         jTextFieldPrivilegija.setEnabled(false);
+        jButtonIzmeni.setEnabled(true);
 
         jTextFieldEmail.setText(menadzer.getEmail());
         jTextFieldImePrezime.setText(menadzer.getImePrezime());
         jTextFieldJMBG.setText(menadzer.getJmbg());
         jTextFieldKontakt.setText(menadzer.getKontakt());
         jTextFieldPrivilegija.setText(String.valueOf(menadzer.getPrivilegija()));
+        jPasswordFieldStaraLozinka.setText("");
+        jPasswordFieldNovaLozinka.setText("");
 
-     
     }
 }

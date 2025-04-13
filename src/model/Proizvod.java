@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model_enum.JedinicaMere;
@@ -26,11 +24,13 @@ public class Proizvod implements OpstiDomenskiObjekat {
     private double cena;
     private String opis;
     private JedinicaMere jedinicaMere;
+    private int pdv;
+    private java.util.Date datumIzmene;
 
     public Proizvod() {
     }
 
-    public Proizvod(int id, Tip tip, Vrsta vrsta, Klasa klasa, double cena, String opis, JedinicaMere jedinicaMere) {
+    public Proizvod(int id, Tip tip, Vrsta vrsta, Klasa klasa, double cena, String opis, JedinicaMere jedinicaMere, int pdv, Date datumIzmene) {
         this.id = id;
         this.tip = tip;
         this.vrsta = vrsta;
@@ -38,6 +38,8 @@ public class Proizvod implements OpstiDomenskiObjekat {
         this.cena = cena;
         this.opis = opis;
         this.jedinicaMere = jedinicaMere;
+        this.pdv = pdv;
+        this.datumIzmene = datumIzmene;
     }
 
     public int getId() {
@@ -96,6 +98,22 @@ public class Proizvod implements OpstiDomenskiObjekat {
         this.jedinicaMere = jedinicaMere;
     }
 
+    public int getPdv() {
+        return pdv;
+    }
+
+    public void setPdv(int pdv) {
+        this.pdv = pdv;
+    }
+
+    public Date getDatumIzmene() {
+        return datumIzmene;
+    }
+
+    public void setDatumIzmene(Date datumIzmene) {
+        this.datumIzmene = datumIzmene;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -133,6 +151,9 @@ public class Proizvod implements OpstiDomenskiObjekat {
             cena = rs.getDouble("p.cena");
             opis = rs.getString("p.opis");
             jedinicaMere = JedinicaMere.valueOf(rs.getString("p.mernaJedinica"));
+            pdv = rs.getInt("p.pdv");
+            java.sql.Date datumSql = rs.getDate("p.datumIzmene");
+            datumIzmene = new Date(datumSql.getTime());
         } catch (SQLException ex) {
             Logger.getLogger(Proizvod.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -157,17 +178,19 @@ public class Proizvod implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiVrednostAtributa() {
-        return "('" + tip + "','" + vrsta + "','" + klasa + "'," + cena + ",'" + opis + "','" + jedinicaMere + "')";
+        java.sql.Date datumSql = new java.sql.Date(datumIzmene.getTime());
+        return "('" + tip + "','" + vrsta + "','" + klasa + "'," + cena + ",'" + opis + "','" + jedinicaMere + "'," + pdv + ",'" + datumSql + "')";
     }
 
     @Override
     public String postaviVrednostAtributa() {
-        return "tip='" + tip + "',vrsta='" + vrsta + "',klasa='" + klasa + "',cena=" + cena + ",opis='" + opis + "',mernaJedinica='" + jedinicaMere+"'";
+        java.sql.Date datumSql = new java.sql.Date(datumIzmene.getTime());
+        return "tip='" + tip + "',vrsta='" + vrsta + "',klasa='" + klasa + "',cena=" + cena + ",opis='" + opis + "',mernaJedinica='" + jedinicaMere + "',pdv=" + pdv + ",datumIzmene='" + datumSql + "'";
     }
 
     @Override
     public String vratiListuAtributa() {
-        return "(tip,vrsta,klasa,cena,opis,mernaJedinica)";
+        return "(tip,vrsta,klasa,cena,opis,mernaJedinica,pdv,datumIzmene)";
     }
 
     @Override
@@ -227,6 +250,11 @@ public class Proizvod implements OpstiDomenskiObjekat {
     public void filterCena(double cenaOd, double cenaDo) {
         this.cenaOd = cenaOd;
         this.cenaDo = cenaDo;
+    }
+
+    @Override
+    public String vratiUslovObrisiSlog() {
+        return "proizvod=" + this.getId();
     }
 
 }

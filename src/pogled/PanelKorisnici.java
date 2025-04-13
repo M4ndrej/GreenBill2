@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Menadzer;
-import tabela_model.MenadzerModelTabele;
+import table_models.MenadzerModelTabele;
 
 /**
  *
@@ -37,10 +37,11 @@ public class PanelKorisnici extends javax.swing.JPanel {
         jScrollPane5 = new javax.swing.JScrollPane();
         jTableZaposleni = new javax.swing.JTable();
 
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 10));
         setPreferredSize(new java.awt.Dimension(1000, 700));
         setLayout(new java.awt.BorderLayout());
 
-        jScrollPane5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 10));
+        jScrollPane5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         jTableZaposleni.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -53,6 +54,7 @@ public class PanelKorisnici extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableZaposleni.setShowGrid(true);
         jScrollPane5.setViewportView(jTableZaposleni);
 
         add(jScrollPane5, java.awt.BorderLayout.CENTER);
@@ -76,6 +78,6 @@ public class PanelKorisnici extends javax.swing.JPanel {
     }
 
     void azurirajTabelu() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        inicijalizacija();
     }
 }

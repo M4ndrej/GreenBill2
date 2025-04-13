@@ -27,7 +27,7 @@ public class StackedDiagram {
 
         JFreeChart chart = ChartFactory.createBarChart(
                 (prosekUkupno.equals("PROSEK")?"Prosečna ":(prosekUkupno.equals("UKUPNO")?"Ukupna ":"Udeo "))+(cenaKolicina.equals("CENA")?"cena po ":"količina po ")+(isGodina ? "godinama":"mesecima"),
-                (isGodina ? "Godine":"Meseci"),                 
+                (isGodina ? "Godina":"Mesec"),                 
                 "Ukupna količina",            
                 dataset                     
         );

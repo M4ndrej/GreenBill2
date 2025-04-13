@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package database;
 
 import java.sql.SQLException;
@@ -16,11 +12,9 @@ import model.GazdinskaJedinica;
 import model.Kupac;
 import model.Lokalitet;
 import model.Menadzer;
-import model.MenadzerPrivilegija;
 import model.OdeljenjeOdsek;
 import model.Otpremac;
 import model.Otpremnica;
-import model.Privilegija;
 import model.Proizvod;
 import model.Racun;
 import model.StavkaOtpremnice;
@@ -86,7 +80,8 @@ public class DBBroker {
             String upit = "SELECT * FROM otpremnica otp_doc JOIN menadzer m ON otp_doc.menadzer = m.jmbg "
                     + "JOIN otpremac otp ON otp_doc.otpremac = otp.jmbg "
                     + "JOIN kupac k ON (otp_doc.kupacPib = k.pib AND otp_doc.kupacMaticniBroj = k.MaticniBroj) "
-                    + "JOIN gazdinska_jedinica gj ON (otp_doc.gazdinskaJedinica = gj.sifra AND otp_doc.lokalitet = gj.lokalitet)";
+                    + "JOIN gazdinska_jedinica gj ON (otp_doc.gazdinskaJedinica = gj.sifra AND otp_doc.lokalitet = gj.lokalitet) "
+                    + "JOIN lokalitet l ON l.id = gj.lokalitet";
             System.out.println(upit);
             statement = konekcija.getConnection().createStatement();
 
@@ -101,6 +96,9 @@ public class DBBroker {
                 kupac.napuni(rs);
                 GazdinskaJedinica gj = new GazdinskaJedinica();
                 gj.napuni(rs);
+                Lokalitet l = new Lokalitet();
+                l.napuni(rs);
+                gj.setLokalitet(l);
                 Otpremnica otpremnica = new Otpremnica();
                 otpremnica.napuni(rs);
                 otpremnica.setMenadzer(menadzer);
@@ -122,7 +120,7 @@ public class DBBroker {
                     + "JOIN proizvod p ON s.proizvod = p.id "
                     + "JOIN odeljenje_odsek oo ON s.odeljenjeOdsek=oo.id "
                     + "JOIN gazdinska_jedinica gj ON oo.gazdinskaJedinica=gj.sifra "
-                    +"WHERE o.broj = " + otpremnica.getBroj() + " ORDER BY s.redniBroj";
+                    + "WHERE o.broj = " + otpremnica.getBroj() + " ORDER BY s.redniBroj";
             statement = konekcija.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(upit);
             while (rs.next()) {
@@ -181,6 +179,7 @@ public class DBBroker {
         int affectedRows = 0;
         try {
             String upit = "DELETE FROM " + odo.vratiImeKlaseUpisi() + " WHERE " + odo.vratiUslovNadjiSlog();
+            System.out.println(upit);
             statement = konekcija.getConnection().createStatement();
             affectedRows = statement.executeUpdate(upit);
             konekcija.getConnection().commit();
@@ -216,25 +215,6 @@ public class DBBroker {
         return lista;
     }
 
-//    public boolean readWithConditionOtpremacLokalitet(Otpremac otpremac, List<Otpremac> lista) {
-//        try {
-//            statement = konekcija.getConnection().createStatement();
-//            String upit = "SELECT * FROM otpremac o JOIN lokalitet l ON o.lokalitet = l.id WHERE " + otpremac.vratiUslovNadjiSlogove();
-//            ResultSet rs = statement.executeQuery(upit);
-//            while (rs.next()) {
-//                Otpremac o = new Otpremac();
-//                Lokalitet l = new Lokalitet();
-//                if (o.napuni(rs) && l.napuni(rs)) {
-//                    o.setLokalitet(l);
-//                    lista.add(o);
-//                }
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-//            return false;
-//        }
-//        return true;
-//    }
     public boolean readWithConditionOtpremnicaKupacOtpremac(Otpremnica otpremnica, List<Otpremnica> lista) {
         try {
             statement = konekcija.getConnection().createStatement();
@@ -264,14 +244,14 @@ public class DBBroker {
         try {
             statement = konekcija.getConnection().createStatement();
             String upit = "SELECT oo.naziv, gj.sifra,  oo.doznaka , SUM(ukupnaKolicina) AS otprema FROM stavka_otpremnice so"
-                    + " JOIN odeljenje_odsek oo ON so.odeljenjeOdsek=oo.id AND so.gazdinskaJedinica=oo.gazdinskaJedinica AND so.lokalitet=oo.lokalitet" 
+                    + " JOIN odeljenje_odsek oo ON so.odeljenjeOdsek=oo.id AND so.gazdinskaJedinica=oo.gazdinskaJedinica AND so.lokalitet=oo.lokalitet"
                     + " JOIN gazdinska_jedinica gj ON gj.sifra=oo.gazdinskaJedinica"
                     + " GROUP BY oo.id ";
 
             System.out.println(upit);
             ResultSet rs = statement.executeQuery(upit);
             while (rs.next()) {
-                
+
                 String odsek = rs.getString("oo.naziv");
                 int gj = rs.getInt("gj.sifra");
                 double doznaka = rs.getDouble("oo.doznaka");
@@ -285,29 +265,6 @@ public class DBBroker {
         return true;
     }
 
-    public List<OpstiDomenskiObjekat> readMenadzerPrivilegijaWithPrivilegijaMenadzer(MenadzerPrivilegija menadzerPrivilegija) {
-        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
-        try {
-            String upit = "SELECT * FROM menadzer_privilegija mp JOIN menadzer m ON mp.menadzer = m.jmbgMenadzer "
-                    + "JOIN privilegija p ON mp.privilegija = p.id ";
-            statement = konekcija.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(upit);
-            while (rs.next()) {
-                Menadzer menadzer = new Menadzer();
-                menadzer.napuni(rs);
-                Privilegija privilegija = new Privilegija();
-                privilegija.napuni(rs);
-                MenadzerPrivilegija mp = new MenadzerPrivilegija();
-                mp.napuni(rs);
-                mp.setMenadzer(menadzer);
-                mp.setPrivilegija(privilegija);
-                lista.add(mp);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return lista;
-    }
 
     public List<OpstiDomenskiObjekat> readGazdinskaJedinicaWithLokalitet() {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
@@ -395,7 +352,7 @@ public class DBBroker {
 
             // Iteriramo kroz rezultate i punimo objekat otpremnice
             while (rs.next()) {
-                Kupac k  = new Kupac();
+                Kupac k = new Kupac();
                 k.napuni(rs);
                 otpremnica.setKupac(k);
                 otpremnica.napuni(rs);
@@ -407,11 +364,10 @@ public class DBBroker {
         return otpremnica;
     }
 
-    public List<Racun> readWithConditionRacunOtpremnica(Racun racun,List<Racun> lista) {
+    public List<Racun> readWithConditionRacunOtpremnica(Racun racun, List<Racun> lista) {
         try {
             statement = konekcija.getConnection().createStatement();
             String upit = "SELECT * FROM racun r JOIN otpremnica otp_doc ON r.otpremnica = otp_doc.broj WHERE " + racun.vratiUslovNadjiSlogove();
-            System.out.println(upit);
             ResultSet rs = statement.executeQuery(upit);
             while (rs.next()) {
                 Racun r = new Racun();
@@ -428,5 +384,50 @@ public class DBBroker {
         }
         return lista;
     }
+    
+     public void readOdeljenjeOdsekForGazdinskaJedinica(GazdinskaJedinica gj, List<OdeljenjeOdsek> listaOO) {
+         try {
+            statement = konekcija.getConnection().createStatement();
+            String upit = "SELECT * FROM odeljenje_odsek oo WHERE "
+                    +"oo.gazdinskaJedinica="+gj.getSifra();
+            System.out.println(upit);
+            ResultSet rs = statement.executeQuery(upit);
+            while (rs.next()) {
+                OdeljenjeOdsek o = new OdeljenjeOdsek();
+                o.napuni(rs);
+                o.setGazdinskaJedinica(gj);
+                listaOO.add(o);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+         return;
+     }
+
+    public boolean existsInDb(OpstiDomenskiObjekat odo) {
+
+        try (Statement statement = Konekcija.getInstance().getConnection().createStatement()) {
+            String upit = "SELECT * FROM " + odo.vratiImeKlaseUcitaj() + " WHERE " + odo.vratiUslovNadjiSlog();
+            try (ResultSet rs = statement.executeQuery(upit)) {
+                return rs.next();
+            }
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
+    public boolean existRelation(OpstiDomenskiObjekat subjekat, OpstiDomenskiObjekat objekat) {
+        try (Statement statement = Konekcija.getInstance().getConnection().createStatement()) {
+            String upit = "SELECT * FROM " + objekat.vratiImeKlaseUcitaj() + " WHERE " + subjekat.vratiUslovObrisiSlog();
+            try (ResultSet rs = statement.executeQuery(upit)) {
+                return rs.next();
+            }
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
+   
 
 }

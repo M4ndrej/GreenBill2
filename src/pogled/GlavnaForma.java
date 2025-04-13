@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package pogled;
 
 import controller.Controller;
@@ -9,7 +6,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -564,6 +560,7 @@ public class GlavnaForma extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new GlavnaForma().setVisible(true);
             }
@@ -661,8 +658,12 @@ public class GlavnaForma extends javax.swing.JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 // Ako je panel već selektovan, ništa se ne menja
-                if (selectedPanel != panel && panel != jPanelAnaliza) {
+                if (selectedPanel != panel) {
                     // Vratimo boju prethodnog selektovanog panela
+                    if(panel == jPanelAnaliza && !"ADMINISTRATOR".equals(Controller.getInstance().getUlovovani().getPrivilegija().toString())){
+                        return;
+                    }
+                    
                     if (selectedPanel != null) {
                         selectedPanel.setBackground(new Color(0, 153, 51));
                     }
@@ -673,58 +674,58 @@ public class GlavnaForma extends javax.swing.JFrame {
 
                 // Prikazivanje samo odgovarajuće kartice
                 switch (naziv) {
-                case "proizvodi":
+                case "proizvodi" -> {
                     cardLayout.show(mainPanel, "proizvodi");
                     ((PanelProizvodi) cardProizvodi).azurirajTabelu();  // Resetujte panel kad se otvori
-                    break;
-                case "analiza":
+                    }
+                case "analiza" -> {
                     if ("ADMINISTRATOR".equals(Controller.getInstance().getUlovovani().getPrivilegija().toString())) {
                         cardLayout.show(mainPanel, "analiza");
                         ((PanelAnaliza) cardAnaliza).azurirajTabelu();  // Resetujte panel kad se otvori
                     }
-                    break;
-                case "otpremnice":
+                    }
+                case "otpremnice" -> {
                     cardLayout.show(mainPanel, "otpremnice");
                     ((PanelOtpremnice) cardOtpremnice).azurirajTabelu();  // Resetujte panel kad se otvori
-                    break;
-                case "kupci":
+                    }
+                case "kupci" -> {
                     cardLayout.show(mainPanel, "kupci");
                     ((PanelKupci) cardKupci).azurirajTabelu();  // Resetujte panel kad se otvori
-                    break;
-                case "oo":
+                    }
+                case "oo" -> {
                     cardLayout.show(mainPanel, "oo");
                     ((PanelOO) cardOO).azurirajTabelu();  // Resetujte panel kad se otvori
-                    break;
-                case "racuni":
+                    }
+                case "racuni" -> {
                     cardLayout.show(mainPanel, "racuni");
                     ((PanelRacuni) cardRacuni).azurirajTabelu();  // Resetujte panel kad se otvori
-                    break;
-                case "lokaliteti":
+                    }
+                case "lokaliteti" -> {
                     cardLayout.show(mainPanel, "lokaliteti");
                     ((PanelLokaliteti) cardLokaliteti).azurirajTabelu();  // Resetujte panel kad se otvori
-                    break;
-                case "gj":
+                    }
+                case "gj" -> {
                     cardLayout.show(mainPanel, "gj");
                     ((PanelGJ) cardGJ).azurirajTabelu();// Resetujte panel kad se otvori
-                    break;
-                case "otpremaci":
+                    }
+                case "otpremaci" -> {
                     cardLayout.show(mainPanel, "otpremaci");
                     ((PanelOtpremaci) cardOtpremaci).azurirajTabelu();  // Resetujte panel kad se otvori
-                    break;
-                case "korisnici":
+                    }
+                case "korisnici" -> {
                     cardLayout.show(mainPanel, "korisnici");
                     ((PanelKorisnici) cardKorisnici).azurirajTabelu();  // Resetujte panel kad se otvori
-                    break;
-                case "mojnalog":
+                    }
+                case "mojnalog" -> {
                     cardLayout.show(mainPanel, "nalog");
                     ((PanelMojNalog) cardMojNalog).azurirajTabelu();  // Resetujte panel kad se otvori
-                    break;
-                case "odjavise":
+                    }
+                case "odjavise" -> {
                     dispose();
                     new PrijavaForma().setVisible(true);
-                    break;
-                default:
-                    break;
+                    }
+                default -> {
+                    }
                 }
             }
 
@@ -763,29 +764,15 @@ public class GlavnaForma extends javax.swing.JFrame {
 
     public void azurirajTabelu(String naziv) {
         switch (naziv) {
-        case "otpremaci":
-            cardOtpremaci.azurirajTabelu();
-            break;
-        case "kupci":
-            cardKupci.azurirajTabelu();
-            break;
-        case "lokaliteti":
-            cardLokaliteti.azurirajTabelu();
-            break;
-        case "gj":
-            cardGJ.azurirajTabelu();
-            break;
-        case "oo":
-            cardOO.azurirajTabelu();
-            break;
-        case "proizvodi":
-            cardProizvodi.azurirajTabelu();
-            break;
-        case "otpremnice":
-            cardOtpremnice.azurirajTabelu();
-            break;
-        default:
-            break;
+        case "otpremaci" -> cardOtpremaci.azurirajTabelu();
+        case "kupci" -> cardKupci.azurirajTabelu();
+        case "lokaliteti" -> cardLokaliteti.azurirajTabelu();
+        case "gj" -> cardGJ.azurirajTabelu();
+        case "oo" -> cardOO.azurirajTabelu();
+        case "proizvodi" -> cardProizvodi.azurirajTabelu();
+        case "otpremnice" -> cardOtpremnice.azurirajTabelu();
+        default -> {
+            }
         }
     }
 

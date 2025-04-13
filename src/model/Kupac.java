@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
 import java.sql.ResultSet;
@@ -163,17 +160,22 @@ public class Kupac implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiUslovNadjiSlog() {
-        return "";
+        return "pib='"+this.pib + "' AND maticniBroj='"+this.maticniBroj+"'";
     }
 
     @Override
     public String vratiUslovNadjiSlogove() {
-        return "naziv LIKE LOWER ('"+this.getNaziv().toLowerCase()+"%')";
+        return "k.naziv LIKE LOWER ('"+this.getNaziv().toLowerCase()+"%')";
     }
 
     @Override
     public boolean postojiRelacija() {
         return true;
+    }
+
+    @Override
+    public String vratiUslovObrisiSlog() {
+        return "kupacPib='"+this.getPib()+"' AND kupacMaticniBroj='"+this.getMaticniBroj()+"'";
     }
     
     

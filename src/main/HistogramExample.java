@@ -24,7 +24,7 @@ public class HistogramExample {
 
         JFreeChart chart = ChartFactory.createBarChart(
                 (prosekUkupno.equals("PROSEK")?"Prosečna ":(prosekUkupno.equals("UKUPNO")?"Ukupna ":"Udeo "))+(cenaKolicina.equals("CENA")?"cena po ":"količina po ")+(isGodina ? "godinama":"mesecima"),
-                (isGodina ? "Godine" : "Meseci"),
+                (isGodina ? "Godina" : "Mesec"),
                 "Vrednost", 
                 dataset, 
                 PlotOrientation.VERTICAL,

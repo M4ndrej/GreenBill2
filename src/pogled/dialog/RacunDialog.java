@@ -284,8 +284,10 @@ public class RacunDialog extends javax.swing.JDialog {
             List<StavkaOtpremnice> listaStavki = new ArrayList<>();
             Controller.getInstance().vratiListuStavkiOtpremnica(listaStavki, otpremnica);
             try {
-                InvoiceExport.replacePlaceholdersInDocument(Konfiguracija.getInstance().getPropertie("word.file.path"), putanja +"\\Racun-"+ racun.getBroj() + ".docx", listaStavki, otpremnica, racun);
+                InvoiceExport.generisiRacun(listaStavki,otpremnica,racun,Konfiguracija.getInstance().getPropertie("word.file.path"), putanja +"\\Racun-"+ racun.getBroj() + ".docx");
             } catch (IOException ex) {
+                Logger.getLogger(RacunDialog.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
                 Logger.getLogger(RacunDialog.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(parent, "Kreiran dokument Racun_" + racun.getBroj() + ".docx", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
@@ -330,6 +332,8 @@ public class RacunDialog extends javax.swing.JDialog {
         boolean uspesno = Controller.getInstance().kreirajRacun(racun);
         if (uspesno) {
             JOptionPane.showMessageDialog(this, "Uspešno kreiran račun", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+            otpremnica.setVerifikovana(true);
+            Controller.getInstance().azurirajOtpremnicu(otpremnica);
             this.dispose();  // Zatvara prozor
         } else {
             JOptionPane.showMessageDialog(this, "Greška prilikom kreiranja računa", "Greška", JOptionPane.ERROR_MESSAGE);
@@ -400,9 +404,12 @@ public class RacunDialog extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne može da učita listu otpremnica", "Greška", JOptionPane.ERROR_MESSAGE);
         }
-        jTextFieldOsnovica.setText(izracunajOsnovicu(lista) + "");
+        
+        double osnovica = izracunajOsnovicu(lista);
+        double pdv = izracunajPDV(lista);
+        jTextFieldOsnovica.setText(String.format("%.3f", osnovica));
         jTextFieldOsnovica.setEnabled(false);
-        jTextFieldPDV.setText(izracunajPDV(lista) + "");
+        jTextFieldPDV.setText(String.format("%.3f", pdv));
         jTextFieldPDV.setEnabled(false);
     }
 
@@ -443,9 +450,9 @@ public class RacunDialog extends javax.swing.JDialog {
         jTextFieldMesto.setEnabled(false);
         jTextFieldNacinPlacanja.setText(racun.getNacinPlacanja());
         jTextFieldNacinPlacanja.setEnabled(false);
-        jTextFieldOsnovica.setText(racun.getOsnovica() + "");
+        jTextFieldOsnovica.setText(String.format("%.3f", racun.getOsnovica()));
         jTextFieldOsnovica.setEnabled(false);
-        jTextFieldPDV.setText(racun.getPdv() + "");
+        jTextFieldPDV.setText(String.format("%.3f", racun.getPdv()));
         jTextFieldPDV.setEnabled(false);
         jTextFieldPozivNaBroj.setText(racun.getPozivNaBroj());
         jTextFieldPozivNaBroj.setEnabled(false);

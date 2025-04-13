@@ -5,6 +5,7 @@
 package pogled.dialog;
 
 import controller.Controller;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import model.Proizvod;
 import model_enum.JedinicaMere;
@@ -12,8 +13,6 @@ import model_enum.Klasa;
 import model_enum.Tip;
 import model_enum.Vrsta;
 import pogled.GlavnaForma;
-import view.ProizvodForma;
-
 
 /**
  *
@@ -75,6 +74,11 @@ public class ProizvodDialog extends javax.swing.JDialog {
         jLabelCenaError = new javax.swing.JLabel();
         jLabelMernaJedinicaError = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBoxPDV = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jTextFieldDatum = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButtonIzmeni = new javax.swing.JButton();
         jButtonSacuvajIzmene = new javax.swing.JButton();
@@ -124,6 +128,12 @@ public class ProizvodDialog extends javax.swing.JDialog {
 
         jLabel7.setText("din");
 
+        jLabel8.setText("PDV");
+
+        jComboBoxPDV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "20" }));
+
+        jLabel9.setText("Datum poslednje izmene");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -157,18 +167,31 @@ public class ProizvodDialog extends javax.swing.JDialog {
                                     .addComponent(jLabelTipError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelCenaError, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jTextFieldCena, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jComboBoxMernaJedinica, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextFieldCena, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(196, 196, 196))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                        .addComponent(jComboBoxPDV, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(291, 291, 291))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxMernaJedinica, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelMernaJedinicaError, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -194,11 +217,9 @@ public class ProizvodDialog extends javax.swing.JDialog {
                 .addComponent(jLabelKlasaError, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
-                .addGap(38, 38, 38)
+                    .addComponent(jLabel4)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldCena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
@@ -211,7 +232,16 @@ public class ProizvodDialog extends javax.swing.JDialog {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelMernaJedinicaError, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jComboBoxPDV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel9))
+                .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -257,7 +287,7 @@ public class ProizvodDialog extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
                     .addComponent(jButtonIzmeni, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonSacuvajIzmene, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                    .addComponent(jButtonSacuvajIzmene, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                     .addComponent(jButtonKreiraj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonObrisi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -307,10 +337,12 @@ public class ProizvodDialog extends javax.swing.JDialog {
         jComboBoxVrsta.setEnabled(true);
         jComboBoxKlasa.setEnabled(true);
         jComboBoxMernaJedinica.setEnabled(true);
+        jComboBoxPDV.setEnabled(true);
         jTextAreaOpis.setEnabled(true);
         jTextFieldCena.setEnabled(true);
         jButtonObrisi.setEnabled(false);
         jButtonSacuvajIzmene.setEnabled(true);
+        
 
     }//GEN-LAST:event_jButtonIzmeniActionPerformed
 
@@ -318,8 +350,9 @@ public class ProizvodDialog extends javax.swing.JDialog {
         if (jComboBoxTip.getSelectedItem() == null
                 || jComboBoxVrsta.getSelectedItem() == null
                 || jComboBoxKlasa.getSelectedItem() == null
-                || jTextFieldCena.getText().isEmpty() 
-                || !jTextFieldCena.getText().matches("\\d+(\\.\\d+)?")) {
+                || jTextFieldCena.getText().isEmpty()
+                || !jTextFieldCena.getText().matches("\\d+(\\.\\d+)?")
+                || jComboBoxMernaJedinica.getSelectedItem() == null) {
             jLabelTipError.setText(jComboBoxTip.getSelectedItem() == null ? "Unesite tip" : "");
             jLabelVrstaError.setText(jComboBoxVrsta.getSelectedItem() == null ? "Unesite vrstu" : "");
             jLabelKlasaError.setText(jComboBoxKlasa.getSelectedItem() == null ? "Unesite klasu" : "");
@@ -333,7 +366,9 @@ public class ProizvodDialog extends javax.swing.JDialog {
         double cena = Double.parseDouble(jTextFieldCena.getText());
         JedinicaMere mj = (JedinicaMere) jComboBoxMernaJedinica.getSelectedItem();
         String opis = jTextAreaOpis.getText();
-        Proizvod proizvod = new Proizvod(WIDTH, tip, vrsta, klasa, cena, opis, mj);
+        int pdv = Integer.valueOf((String) jComboBoxPDV.getSelectedItem());
+        
+        Proizvod proizvod = new Proizvod(WIDTH, tip, vrsta, klasa, cena, opis, mj, pdv,new java.util.Date());
         boolean uspesno = Controller.getInstance().kreirajProizvod(proizvod);
         if (uspesno) {
             JOptionPane.showMessageDialog(this, "Proizvod uspešno kreiran", "Obaveštenje", JOptionPane.INFORMATION_MESSAGE);
@@ -346,12 +381,12 @@ public class ProizvodDialog extends javax.swing.JDialog {
 
     private void jButtonSacuvajIzmeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajIzmeneActionPerformed
 
-        if (jComboBoxTip.getSelectedItem() == null 
-                || jComboBoxVrsta.getSelectedItem() == null 
-                || jComboBoxKlasa.getSelectedItem() == null 
-                || jTextFieldCena.getText().isEmpty() 
-                || !jTextFieldCena.getText().matches("\\d+(\\.\\d+)?") 
-                || jTextAreaOpis.getText().isEmpty() 
+        if (jComboBoxTip.getSelectedItem() == null
+                || jComboBoxVrsta.getSelectedItem() == null
+                || jComboBoxKlasa.getSelectedItem() == null
+                || jTextFieldCena.getText().isEmpty()
+                || !jTextFieldCena.getText().matches("\\d+(\\.\\d+)?")
+                || jTextAreaOpis.getText().isEmpty()
                 || jComboBoxMernaJedinica.getSelectedItem() == null) {
             jLabelTipError.setText(jComboBoxTip.getSelectedItem() == null ? "Unesite tip" : "");
             jLabelVrstaError.setText(jComboBoxVrsta.getSelectedItem() == null ? "Unesite vrstu" : "");
@@ -360,19 +395,22 @@ public class ProizvodDialog extends javax.swing.JDialog {
             jLabelMernaJedinicaError.setText(jComboBoxMernaJedinica.getSelectedItem() == null ? "Unesite mernu jedinicu" : "");
             return;
         }
-        
+
         Tip tip = (Tip) jComboBoxTip.getSelectedItem();
         Vrsta vrsta = (Vrsta) jComboBoxVrsta.getSelectedItem();
         Klasa klasa = (Klasa) jComboBoxKlasa.getSelectedItem();
         JedinicaMere jm = (JedinicaMere) jComboBoxMernaJedinica.getSelectedItem();
         String opis = jTextAreaOpis.getText();
         double cena = Double.parseDouble(jTextFieldCena.getText());
+        int pdv = Integer.valueOf((String) jComboBoxPDV.getSelectedItem());
         proizvod.setTip(tip);
         proizvod.setVrsta(vrsta);
         proizvod.setKlasa(klasa);
         proizvod.setJedinicaMere(jm);
         proizvod.setOpis(opis);
         proizvod.setCena(cena);
+        proizvod.setPdv(pdv);
+        proizvod.setDatumIzmene(new java.util.Date());
         boolean uspesno = Controller.getInstance().izmeniProizvod(proizvod);
         if (uspesno) {
             JOptionPane.showMessageDialog(this, "Proizvod uspešno ažuriran", "Obaveštenje", JOptionPane.INFORMATION_MESSAGE);
@@ -401,7 +439,6 @@ public class ProizvodDialog extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonIzmeni;
@@ -410,15 +447,19 @@ public class ProizvodDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButtonSacuvajIzmene;
     private javax.swing.JComboBox<Klasa> jComboBoxKlasa;
     private javax.swing.JComboBox<JedinicaMere> jComboBoxMernaJedinica;
+    private javax.swing.JComboBox<String> jComboBoxPDV;
     private javax.swing.JComboBox<Tip> jComboBoxTip;
     private javax.swing.JComboBox<Vrsta> jComboBoxVrsta;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelCenaError;
     private javax.swing.JLabel jLabelKlasaError;
     private javax.swing.JLabel jLabelMernaJedinicaError;
@@ -430,6 +471,7 @@ public class ProizvodDialog extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextAreaOpis;
     private javax.swing.JTextField jTextFieldCena;
+    private javax.swing.JTextField jTextFieldDatum;
     // End of variables declaration//GEN-END:variables
 
     private void inicijalizuj() {
@@ -444,6 +486,9 @@ public class ProizvodDialog extends javax.swing.JDialog {
         jLabelCenaError.setText("");
         jLabelMernaJedinicaError.setText("");
 
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        jTextFieldDatum.setText(format.format(new java.util.Date()));
+        jTextFieldDatum.setEnabled(false);
     }
 
     private void inicijalizuj(Proizvod proizvod) {
@@ -460,8 +505,14 @@ public class ProizvodDialog extends javax.swing.JDialog {
         jComboBoxVrsta.setEnabled(false);
         jComboBoxKlasa.setEnabled(false);
         jComboBoxMernaJedinica.setEnabled(false);
+        jComboBoxPDV.setEnabled(false);
         jTextAreaOpis.setEnabled(false);
         jTextFieldCena.setEnabled(false);
+
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        jTextFieldDatum.setText(format.format(proizvod.getDatumIzmene()));
+        jTextFieldDatum.setEnabled(false);
+
         this.proizvod = proizvod;
 
         jLabelTipError.setText("");

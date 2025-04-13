@@ -25,7 +25,7 @@ import model_enum.Tip;
 import model_enum.Vrsta;
 import table_models.StatistikaModelTabele;
 
-import view.StatistikaForma;
+import pogled.dialog.StatistikaDialog;
 
 /**
  *
@@ -196,23 +196,19 @@ public class PanelAnaliza extends javax.swing.JPanel {
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(24, 24, 24)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBoxOdeljenjeOdsek, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxLokalitet, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxGazdinskaJedinica, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRadioButtonOO)
-                                    .addComponent(jRadioButtonLokalitet)
-                                    .addComponent(jRadioButtonGJ)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jTextFieldGodina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jRadioButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxOdeljenjeOdsek, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxLokalitet, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxGazdinskaJedinica, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldGodina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButtonReset, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRadioButtonOO)
+                            .addComponent(jRadioButtonLokalitet)
+                            .addComponent(jRadioButtonGJ)))
                     .addComponent(jButtonAnaliza, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(166, 166, 166))
+                .addGap(105, 105, 105))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,14 +270,14 @@ public class PanelAnaliza extends javax.swing.JPanel {
         add(jPanel1, java.awt.BorderLayout.NORTH);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 10));
         jPanel2.setMinimumSize(new java.awt.Dimension(1000, 300));
         jPanel2.setPreferredSize(new java.awt.Dimension(1000, 400));
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 10));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(800, 400));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(800, 350));
         jScrollPane1.setRequestFocusEnabled(false);
 
-        jTableDoznake.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jTableDoznake.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -301,15 +297,15 @@ public class PanelAnaliza extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 980, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 994, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 406, Short.MAX_VALUE)
+            .addGap(0, 380, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
@@ -340,7 +336,6 @@ public class PanelAnaliza extends javax.swing.JPanel {
             try {
                 datum = format.parse(datumString);
             } catch (ParseException ex) {
-                Logger.getLogger(StatistikaForma.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -383,14 +378,16 @@ public class PanelAnaliza extends javax.swing.JPanel {
         so.setProizvod(proizvod);
 //        gjZaSlanje.setLokalitet(lokalitet == null ? l2 : lokalitet);
 //        ooZaSlanje.setGazdinskaJedinica(gazdinskaJedinica == null ? gj2 : gazdinskaJedinica);
-        if(jComboBoxOdeljenjeOdsek != null){
+        if(odeljenjeOdsek != null){
             ooZaSlanje = odeljenjeOdsek;
-        }else if(jComboBoxGazdinskaJedinica != null){
+        }else if(gazdinskaJedinica != null){
             oo2.setGazdinskaJedinica(gazdinskaJedinica);
             ooZaSlanje = oo2;
-        }else if(jComboBoxLokalitet != null){
+        }else if(lokalitet != null){
             gj2.setLokalitet(lokalitet);
             oo2.setGazdinskaJedinica(gj2);
+            ooZaSlanje = oo2;
+        }else{
             ooZaSlanje = oo2;
         }
         
@@ -411,7 +408,7 @@ public class PanelAnaliza extends javax.swing.JPanel {
                     vrednosti.add((Double) lista.get(i)[2]);
                 }
                 boolean isGodina = jTextFieldGodina.getText().isEmpty();
-                view.dialog.StatistikaDialog sd = new view.dialog.StatistikaDialog(parent, true, vreme, isGodina, mesta, vrednosti, cenaKolicina, prosekUkupnoUdeo);
+                StatistikaDialog sd = new StatistikaDialog(parent, true, vreme, isGodina, mesta, vrednosti, cenaKolicina, prosekUkupnoUdeo);
                 sd.setVisible(true);
             } else {
                 ArrayList<Integer> vreme = new ArrayList<>();
@@ -421,7 +418,7 @@ public class PanelAnaliza extends javax.swing.JPanel {
                     vrednosti.add((Double) lista.get(i)[1]);
                 }
                 boolean isGodina = jTextFieldGodina.getText().isEmpty();
-                view.dialog.StatistikaDialog sd = new view.dialog.StatistikaDialog(parent, true, vreme, isGodina, vrednosti, cenaKolicina, prosekUkupnoUdeo);
+                StatistikaDialog sd = new StatistikaDialog(parent, true, vreme, isGodina, vrednosti, cenaKolicina, prosekUkupnoUdeo);
                 sd.setVisible(true);
             }
         } else {

@@ -357,6 +357,7 @@ public class KupciDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Greška prilikom izmene kupca", "Greška", JOptionPane.ERROR_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Uspešno izmenjen kupac", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         }
     }//GEN-LAST:event_jButtonSacuvajIzmeneActionPerformed
 
