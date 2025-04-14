@@ -195,7 +195,7 @@ public class Otpremnica implements OpstiDomenskiObjekat {
             if(prev){
                 sb.append(" AND ");
             }
-            sb.append(" otp.otpremac LIKE ('"+this.otpremac.getJmbg()+"')");
+            sb.append(" otp_doc.otpremac LIKE ('"+this.otpremac.getJmbg()+"')");
         }
         return sb.toString();
     }

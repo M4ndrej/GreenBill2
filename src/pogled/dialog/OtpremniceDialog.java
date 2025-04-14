@@ -624,11 +624,11 @@ public class OtpremniceDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPronadjiKupacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPronadjiKupacActionPerformed
-        jComboBoxFirma.removeAllItems();
         if (jTextFieldKupac.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Unesite kriterijum pretrage", "Greška", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        jComboBoxFirma.removeAllItems();
         String naziv = jTextFieldKupac.getText();
         List<Kupac> lista = new ArrayList<>();
         Kupac kupac = new Kupac();
@@ -656,7 +656,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         this.setValidationLabels();
         if (jTextFieldKolicina.getText().isEmpty() || jComboBoxProizvodi.getSelectedItem() == null || !jTextFieldKolicina.getText().matches("\\d+(\\.\\d+)?")) {
             jLabelKolicinaError.setText(jTextFieldKolicina.getText().isEmpty() ? "Unesite količinu" : !jTextFieldKolicina.getText().matches("\\d+(\\.\\d+)?") ? "Unesite broj" : "");
-            jLabelRabatError.setText(!jTextFieldKolicina.getText().matches("^\\d*$") ? "Unesite broj" : "");
+            jLabelRabatError.setText(!jTextFieldRabat.getText().matches("^\\d*$") ? "Unesite broj" : "");
             jLabelProizvodError.setText(jComboBoxProizvodi.getSelectedItem() == null ? "Izaberite proizvod" : "");
             return;
         }
@@ -760,6 +760,9 @@ public class OtpremniceDialog extends javax.swing.JDialog {
             jTextFieldCena.setText(proizvod.getCena() + "");
             jTextFieldMernaJedinica.setText(proizvod.getJedinicaMere().toString());
             jComboBoxPDV.setSelectedItem(proizvod.getPdv() + "");
+        } else {
+            jTextFieldCena.setText("");
+            jTextFieldMernaJedinica.setText("");
         }
     }//GEN-LAST:event_jComboBoxProizvodiActionPerformed
 
@@ -783,7 +786,11 @@ public class OtpremniceDialog extends javax.swing.JDialog {
 
         GazdinskaJedinica gj = (GazdinskaJedinica) jComboBoxGJ.getSelectedItem();
         List<OdeljenjeOdsek> listaOO = new ArrayList<>();
-        Controller.getInstance().vratiListuOdeljenjeOdsekForGazdinskaJedinica(gj, listaOO);
+        boolean uspesno = Controller.getInstance().vratiListuOdeljenjeOdsekForGazdinskaJedinica(gj, listaOO);
+        if (!uspesno) {
+            JOptionPane.showMessageDialog(this, "Ne postoji odeljenje i odsek za izabranu gazdinsku jedinicu", "Obaveštenje", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         jComboBoxOO.removeAllItems();
         for (OdeljenjeOdsek oo : listaOO) {
             jComboBoxOO.addItem(oo);
@@ -918,6 +925,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         jComboBoxMenadzer.setEnabled(false);
         jComboBoxPDV.setEnabled(false);
         jTextFieldUkupnaCena.setEnabled(false);
+        jTextFieldMernaJedinica.setEnabled(false);
 
         String broj = generisiBrojOtpremnice();
 
@@ -950,6 +958,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         jTextFieldCena.setEnabled(false);
         jComboBoxMenadzer.setEnabled(false);
         jTextFieldUkupnaCena.setEnabled(false);
+        jTextFieldMernaJedinica.setEnabled(false);
         jComboBoxPDV.setEnabled(false);
         saberiStavke();
 

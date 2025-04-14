@@ -1,7 +1,7 @@
-
 package pogled;
 
 import controller.Controller;
+import database.Konekcija;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -660,10 +660,7 @@ public class GlavnaForma extends javax.swing.JFrame {
                 // Ako je panel već selektovan, ništa se ne menja
                 if (selectedPanel != panel) {
                     // Vratimo boju prethodnog selektovanog panela
-                    if(panel == jPanelAnaliza && !"ADMINISTRATOR".equals(Controller.getInstance().getUlovovani().getPrivilegija().toString())){
-                        return;
-                    }
-                    
+
                     if (selectedPanel != null) {
                         selectedPanel.setBackground(new Color(0, 153, 51));
                     }
@@ -677,55 +674,55 @@ public class GlavnaForma extends javax.swing.JFrame {
                 case "proizvodi" -> {
                     cardLayout.show(mainPanel, "proizvodi");
                     ((PanelProizvodi) cardProizvodi).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
+                }
                 case "analiza" -> {
-                    if ("ADMINISTRATOR".equals(Controller.getInstance().getUlovovani().getPrivilegija().toString())) {
-                        cardLayout.show(mainPanel, "analiza");
-                        ((PanelAnaliza) cardAnaliza).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
-                    }
+                    cardLayout.show(mainPanel, "analiza");
+                    ((PanelAnaliza) cardAnaliza).azurirajTabelu();  // Resetujte panel kad se otvori
+                }
                 case "otpremnice" -> {
                     cardLayout.show(mainPanel, "otpremnice");
                     ((PanelOtpremnice) cardOtpremnice).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
+                }
                 case "kupci" -> {
                     cardLayout.show(mainPanel, "kupci");
                     ((PanelKupci) cardKupci).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
+                }
                 case "oo" -> {
                     cardLayout.show(mainPanel, "oo");
                     ((PanelOO) cardOO).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
+                }
                 case "racuni" -> {
                     cardLayout.show(mainPanel, "racuni");
                     ((PanelRacuni) cardRacuni).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
+                }
                 case "lokaliteti" -> {
                     cardLayout.show(mainPanel, "lokaliteti");
                     ((PanelLokaliteti) cardLokaliteti).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
+                }
                 case "gj" -> {
                     cardLayout.show(mainPanel, "gj");
                     ((PanelGJ) cardGJ).azurirajTabelu();// Resetujte panel kad se otvori
-                    }
+                }
                 case "otpremaci" -> {
                     cardLayout.show(mainPanel, "otpremaci");
                     ((PanelOtpremaci) cardOtpremaci).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
+                }
                 case "korisnici" -> {
                     cardLayout.show(mainPanel, "korisnici");
                     ((PanelKorisnici) cardKorisnici).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
+                }
                 case "mojnalog" -> {
                     cardLayout.show(mainPanel, "nalog");
                     ((PanelMojNalog) cardMojNalog).azurirajTabelu();  // Resetujte panel kad se otvori
-                    }
+                }
                 case "odjavise" -> {
+                    Controller.getInstance().setUlogovani(null);
+                    Konekcija.getInstance().zatvoriKonekciju();
                     dispose();
                     new PrijavaForma().setVisible(true);
-                    }
+                }
                 default -> {
-                    }
+                }
                 }
             }
 
@@ -740,7 +737,7 @@ public class GlavnaForma extends javax.swing.JFrame {
             ) {
                 // Promenju boju na nijansu RGB(0, 153, 51) kada pređeš mišem
                 if (selectedPanel != panel) {
-                    panel.setBackground(new Color(0, 140, 51));  
+                    panel.setBackground(new Color(0, 140, 51));
                 }
             }
         }
@@ -764,15 +761,22 @@ public class GlavnaForma extends javax.swing.JFrame {
 
     public void azurirajTabelu(String naziv) {
         switch (naziv) {
-        case "otpremaci" -> cardOtpremaci.azurirajTabelu();
-        case "kupci" -> cardKupci.azurirajTabelu();
-        case "lokaliteti" -> cardLokaliteti.azurirajTabelu();
-        case "gj" -> cardGJ.azurirajTabelu();
-        case "oo" -> cardOO.azurirajTabelu();
-        case "proizvodi" -> cardProizvodi.azurirajTabelu();
-        case "otpremnice" -> cardOtpremnice.azurirajTabelu();
+        case "otpremaci" ->
+            cardOtpremaci.azurirajTabelu();
+        case "kupci" ->
+            cardKupci.azurirajTabelu();
+        case "lokaliteti" ->
+            cardLokaliteti.azurirajTabelu();
+        case "gj" ->
+            cardGJ.azurirajTabelu();
+        case "oo" ->
+            cardOO.azurirajTabelu();
+        case "proizvodi" ->
+            cardProizvodi.azurirajTabelu();
+        case "otpremnice" ->
+            cardOtpremnice.azurirajTabelu();
         default -> {
-            }
+        }
         }
     }
 

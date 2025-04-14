@@ -273,6 +273,7 @@ public class Controller {
                 }
                 if (otpremnica.isVerifikovana()) {
                     de.dodajPodatkeUExcel(stavkaOtpremnice);
+                    
                 }
             }
         }
@@ -383,8 +384,9 @@ public class Controller {
         return racuni != null;
     }
 
-    public void vratiListuOdeljenjeOdsekForGazdinskaJedinica(GazdinskaJedinica gj, List<OdeljenjeOdsek> listaOO) {
+    public boolean vratiListuOdeljenjeOdsekForGazdinskaJedinica(GazdinskaJedinica gj, List<OdeljenjeOdsek> listaOO) {
         dbb.readOdeljenjeOdsekForGazdinskaJedinica(gj, listaOO);
+        return listaOO != null;
     }
 
     public boolean proveriKonekciju() {

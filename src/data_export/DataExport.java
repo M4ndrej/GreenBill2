@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package data_export;
 
 import java.io.FileInputStream;
@@ -26,7 +23,6 @@ public class DataExport {
 
         try (FileInputStream fis = new FileInputStream(excelFilePath); Workbook workbook = new XSSFWorkbook(fis)) {
 
-            System.out.println("poceo");
             Sheet sheet = workbook.getSheetAt(0); // Prva radna sveska
             int lastRow = sheet.getLastRowNum();
             if (lastRow == -1) {
@@ -60,10 +56,7 @@ public class DataExport {
                 workbook.write(fos);
             }
 
-            System.out.println("Podaci uspešno dodati u Excel!");
-
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

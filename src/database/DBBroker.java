@@ -215,23 +215,36 @@ public class DBBroker {
         return lista;
     }
 
-    public boolean readWithConditionOtpremnicaKupacOtpremac(Otpremnica otpremnica, List<Otpremnica> lista) {
+    public boolean readWithConditionOtpremnicaKupacOtpremac(Otpremnica otp, List<Otpremnica> lista) {
         try {
             statement = konekcija.getConnection().createStatement();
-            String upit = "SELECT * FROM otpremnica otp_doc JOIN kupac k ON otp_doc.kupacPib = k.pib AND otp_doc.kupacMaticniBroj = k.maticniBroj JOIN otpremac otp ON otp_doc.otpremac = otp.jmbg JOIN menadzer m ON otp_doc.menadzer = m.jmbg WHERE " + otpremnica.vratiUslovNadjiSlogove();
+            String upit = "SELECT * FROM otpremnica otp_doc JOIN menadzer m ON otp_doc.menadzer = m.jmbg "
+                    + "JOIN otpremac otp ON otp_doc.otpremac = otp.jmbg "
+                    + "JOIN kupac k ON (otp_doc.kupacPib = k.pib AND otp_doc.kupacMaticniBroj = k.MaticniBroj) "
+                    + "JOIN gazdinska_jedinica gj ON (otp_doc.gazdinskaJedinica = gj.sifra AND otp_doc.lokalitet = gj.lokalitet) "
+                    + "JOIN lokalitet l ON l.id = gj.lokalitet"
+                    + " WHERE " + otp.vratiUslovNadjiSlogove();
             ResultSet rs = statement.executeQuery(upit);
             System.out.println(upit);
             while (rs.next()) {
-                Otpremac otp = new Otpremac();
-                Kupac k = new Kupac();
-                Menadzer m = new Menadzer();
-                Otpremnica o = new Otpremnica();
-                if (otp.napuni(rs) && k.napuni(rs) && o.napuni(rs) && m.napuni(rs)) {
-                    o.setOtpremac(otp);
-                    o.setKupac(k);
-                    o.setMenadzer(m);
-                    lista.add(o);
-                }
+                Menadzer menadzer = new Menadzer();
+                menadzer.napuni(rs);
+                Otpremac otpremac = new Otpremac();
+                otpremac.napuni(rs);
+                Kupac kupac = new Kupac();
+                kupac.napuni(rs);
+                GazdinskaJedinica gj = new GazdinskaJedinica();
+                gj.napuni(rs);
+                Lokalitet l = new Lokalitet();
+                l.napuni(rs);
+                gj.setLokalitet(l);
+                Otpremnica otpremnica = new Otpremnica();
+                otpremnica.napuni(rs);
+                otpremnica.setMenadzer(menadzer);
+                otpremnica.setOtpremac(otpremac);
+                otpremnica.setKupac(kupac);
+                otpremnica.setGazdinskaJedinica(gj);
+                lista.add(otpremnica);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);

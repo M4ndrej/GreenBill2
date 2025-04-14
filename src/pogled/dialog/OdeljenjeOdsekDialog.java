@@ -5,12 +5,14 @@
 package pogled.dialog;
 
 import controller.Controller;
+import email.Email;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
 import model.GazdinskaJedinica;
 import model.OdeljenjeOdsek;
@@ -329,13 +331,13 @@ public class OdeljenjeOdsekDialog extends javax.swing.JDialog {
         oo.setDatumDoznake(datum);
 
         boolean uspesno = Controller.getInstance().izmeniOdeljenjeOdsek(oo);
-//        if (staraDoznaka != novaDoznaka) {
-//            try {
-//                Email.promeniDoznaku(staraDoznaka, novaDoznaka, Controller.getInstance().getUlovovani(), oo);
-//            } catch (MessagingException ex) {
-//                Logger.getLogger(OdeljenjeOdsekDialog.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+        if (staraDoznaka != novaDoznaka) {
+            try {
+                Email.promeniDoznaku(staraDoznaka, novaDoznaka, Controller.getInstance().getUlovovani(), oo);
+            } catch (MessagingException ex) {
+                Logger.getLogger(OdeljenjeOdsekDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         if (!uspesno) {
             JOptionPane.showMessageDialog(this, "Greška prilikom izmene odeljenja i odseka", "Greška", JOptionPane.ERROR_MESSAGE);
         } else {

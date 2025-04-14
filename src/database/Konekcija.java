@@ -1,5 +1,6 @@
 package database;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -59,6 +60,18 @@ public class Konekcija {
             }
         } catch (SQLException ex) {
             connected = false;
+        }
+    }
+
+    public void zatvoriKonekciju() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                System.out.println("Konekcija sa bazom je zatvorena.");
+            }
+        } catch (SQLException ex) {
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
 

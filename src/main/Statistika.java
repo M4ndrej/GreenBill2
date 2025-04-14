@@ -81,7 +81,19 @@ public class Statistika {
                 if ("CENA".equals(cenaKolicina)) {
                     select.append(", SUM(iznos) / SUM(ukupnaKolicina)");
                 } else {
-                    select.append(", SUM(ukupnaKolicina)/(SELECT COUNT(*) FROM otpremnica o2 WHERE YEAR(o2.datum) = YEAR(o.datum)");
+                    select.append(", SUM(ukupnaKolicina)/(SELECT COUNT(*) FROM otpremnica o2 JOIN stavka_otpremnice so2 ON so2.otpremnica = o2.broj WHERE YEAR(o2.datum) = YEAR(o.datum)");
+                    if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() == null) {  // Ako je OdeljenjeOdsek nije null, počinjemo od njega
+                        if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() == null) {  // Ako je GazdinskaJedinica nije null
+                            if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getNaziv() != null) {
+                                select.append(" AND o2.lokalitet = o.lokalitet ");
+                            }
+                        } else if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() != null) {  // Ako je samo GazdinskaJedinica definisana, a Lokalitet nije
+                            select.append(" AND o2.gazdinskaJedinica = o.gazdinskaJedinica");
+                        }
+                    } else if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() != null) {  // Ako je samo OdeljenjeOdsek definisano
+                        select.append(" AND so.odeljenjeOdsek = so2.odeljenjeOdsek ");
+                    }
+
                     if (so.getOtpremnica().getDatum() != null) {
                         select.append(" AND MONTH(o.datum) = MONTH(o2.datum) ");
                     }
@@ -115,34 +127,40 @@ public class Statistika {
                         podWhere.append(" AND vrsta='" + so.getProizvod().getVrsta() + "'");
                     }
                     if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() == null) {
+                        System.out.println("usao");
                         if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() == null) {
+                            System.out.println("usao 2");
                             if (so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getNaziv() != null) {
+                                System.out.println("usao3");
                                 if (radio == "LOKALITET") {
                                     podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
                                 } else if (radio == "GJ" || radio == "OO") {
                                     return false;
                                 }
-                            } else if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() != null) {
-                                if (radio == "LOKALITET") {
-                                    podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
-                                } else if (radio == "GJ") {
-                                    podWhere.append(" AND so2.gazdinskaJedinica=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
-                                } else if (radio == "OO") {
-                                    return false;
-                                }
                             }
-                        } else if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() != null) {
+                        } else if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() != null) {
+                            System.out.println("gj");
+
                             if (radio == "LOKALITET") {
                                 podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
                             } else if (radio == "GJ") {
                                 podWhere.append(" AND so2.gazdinskaJedinica=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
                             } else if (radio == "OO") {
-                                podWhere.append(" AND so2.odeljenjeOdsek=" + so.getOdeljenjeOdsek().getId());
+                                return false;
                             }
                         }
 
-                    }
+                    } else if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() != null) {
+                        System.out.println("oo");
 
+                        if (radio == "LOKALITET") {
+                            podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
+                        } else if (radio == "GJ") {
+                            podWhere.append(" AND so2.gazdinskaJedinica=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getSifra());
+                        } else if (radio == "OO") {
+                            podWhere.append(" AND so2.odeljenjeOdsek=" + so.getOdeljenjeOdsek().getId());
+                        }
+                    }
                     podWhere.append(")*100)");
                     select.append(podSelect.append(podWhere));
                 } else {
@@ -170,7 +188,8 @@ public class Statistika {
                                 } else if (radio == "GJ" || radio == "OO") {
                                     return false;
                                 }
-                            } else if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() != null) {
+                            } 
+                        }else if (so.getOdeljenjeOdsek().getGazdinskaJedinica() != null && so.getOdeljenjeOdsek().getGazdinskaJedinica().getNaziv() != null) {
                                 if (radio == "LOKALITET") {
                                     podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
                                 } else if (radio == "GJ") {
@@ -178,8 +197,9 @@ public class Statistika {
                                 } else if (radio == "OO") {
                                     return false;
                                 }
-                            }
-                        } else if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() != null) {
+                            } 
+
+                    }else if (so.getOdeljenjeOdsek() != null && so.getOdeljenjeOdsek().getNaziv() != null) {
                             if (radio == "LOKALITET") {
                                 podWhere.append(" AND so2.lokalitet=" + so.getOdeljenjeOdsek().getGazdinskaJedinica().getLokalitet().getId());
                             } else if (radio == "GJ") {
@@ -188,8 +208,6 @@ public class Statistika {
                                 podWhere.append(" AND so2.odeljenjeOdsek=" + so.getOdeljenjeOdsek().getId());
                             }
                         }
-
-                    }
 
                     podWhere.append(")*100)");
                     select.append(podSelect.append(podWhere));

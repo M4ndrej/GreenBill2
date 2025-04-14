@@ -638,7 +638,7 @@ public class PrijavaForma extends javax.swing.JFrame {
         Menadzer menadzer = new Menadzer(jmbg, imePrezime, email, kriptovana, kontakt, privilegija);
         boolean uspesno = Controller.getInstance().kreirajMenadzer(menadzer);
         if (uspesno) {
-            JOptionPane.showMessageDialog(this, "Uspešno registrovan korisnik " + email, "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Uspešno registrovan korisnik " + imePrezime, "Uspešno", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Greška prilikom registracije na sistem", "Greška", JOptionPane.ERROR_MESSAGE);
         }
@@ -830,7 +830,9 @@ public class PrijavaForma extends javax.swing.JFrame {
         jTextFieldURL.setText(Konfiguracija.getInstance().getPropertie("url"));
         jTextFieldUsername.setText(Konfiguracija.getInstance().getPropertie("username"));
         jTextFieldPutanja.setText(Konfiguracija.getInstance().getPropertie("excel.file.path"));
+        jTextFieldPutanja.setEnabled(false);
         jTextFieldPutanjaWord.setText(Konfiguracija.getInstance().getPropertie("word.file.path"));
+        jTextFieldPutanjaWord.setEnabled(false);
     }
 
     private boolean proveriPodesavanja() {
