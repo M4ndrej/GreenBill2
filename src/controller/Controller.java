@@ -273,7 +273,7 @@ public class Controller {
                 }
                 if (otpremnica.isVerifikovana()) {
                     de.dodajPodatkeUExcel(stavkaOtpremnice);
-                    
+
                 }
             }
         }
@@ -291,6 +291,10 @@ public class Controller {
 
     public boolean vratiListuSviOtpremnica(Otpremnica otpremnica, List<Otpremnica> lista) {
         return dbb.readWithConditionOtpremnicaKupacOtpremac(otpremnica, lista);
+    }
+
+    public Otpremnica vratiOtpremnicaForRacun(Racun racun) {
+        return dbb.readOtpremnicaForRacun(racun);
     }
 
     //dodatno
@@ -359,6 +363,11 @@ public class Controller {
         return true;
     }
 
+    public boolean vratiListuOdeljenjeOdsekForGazdinskaJedinica(GazdinskaJedinica gj, List<OdeljenjeOdsek> listaOO) {
+        dbb.readOdeljenjeOdsekForGazdinskaJedinica(gj, listaOO);
+        return listaOO != null;
+    }
+
     //Racun
     public boolean kreirajRacun(Racun racun) {
         return dbb.create(racun);
@@ -375,25 +384,18 @@ public class Controller {
         return true;
     }
 
-    public Otpremnica vratiOtpremnicaForRacun(Racun racun) {
-        return dbb.readOtpremnicaForRacun(racun);
-    }
-
     public boolean vratiListuSviRacun(Racun racun, List<Racun> racuni) {
         dbb.readWithConditionRacunOtpremnica(racun, racuni);
         return racuni != null;
     }
-
-    public boolean vratiListuOdeljenjeOdsekForGazdinskaJedinica(GazdinskaJedinica gj, List<OdeljenjeOdsek> listaOO) {
-        dbb.readOdeljenjeOdsekForGazdinskaJedinica(gj, listaOO);
-        return listaOO != null;
-    }
+    
+    //konekcija
 
     public boolean proveriKonekciju() {
-    if (!Konekcija.getInstance().isConnected()) {
-        Konekcija.getInstance().reconnect(); 
+        if (!Konekcija.getInstance().isConnected()) {
+            Konekcija.getInstance().reconnect();
+        }
+        return Konekcija.getInstance().isConnected();
     }
-    return Konekcija.getInstance().isConnected();
-}
 
 }

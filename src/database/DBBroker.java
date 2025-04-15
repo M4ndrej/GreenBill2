@@ -1,5 +1,6 @@
 package database;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import model.Proizvod;
 import model.Racun;
 import model.StavkaOtpremnice;
 import java.sql.PreparedStatement;
+import main.LoggerConfig;
 
 /**
  *
@@ -28,6 +30,7 @@ public class DBBroker {
 
     private final Konekcija konekcija = Konekcija.getInstance();
     private Statement statement;
+    static final Logger logger = LoggerConfig.getLogger();
 
     public List<OpstiDomenskiObjekat> read(OpstiDomenskiObjekat odo) {
         try {
@@ -43,14 +46,15 @@ public class DBBroker {
                     if (noviObjekat.napuni(rs)) {
                         lista.add(noviObjekat);
                     }
-                } catch (Exception ex) {
-                    Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-
+                } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
+//                    Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.log(Level.SEVERE, "Greška->kreiranje instance klase koja implementira interface, read metoda", ex);
                 }
             }
             return lista;
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->read metoda", ex);
             return null;
         }
     }
@@ -68,7 +72,8 @@ public class DBBroker {
                 lista.add(otpremac);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readOtpremacWithLokalitet metoda", ex);
             return false;
         }
         return true;
@@ -108,7 +113,8 @@ public class DBBroker {
                 lista.add(otpremnica);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readOtpremnicaWithMenadzerOtpremacKupac metoda", ex);
             return false;
         }
         return true;
@@ -139,14 +145,15 @@ public class DBBroker {
                 lista.add(stavka);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readStavkeOtpremniceForOtpremnica metoda", ex);
             return false;
         }
         return true;
     }
 
     public boolean create(OpstiDomenskiObjekat odo) {
-        int affectedRows = 0;
+        int affectedRows;
         try {
             String upit = "INSERT INTO " + odo.vratiImeKlaseUpisi() + " " + odo.vratiListuAtributa() + " VALUES " + odo.vratiVrednostAtributa();
             System.out.println(upit);
@@ -154,14 +161,15 @@ public class DBBroker {
             affectedRows = statement.executeUpdate(upit);
             konekcija.getConnection().commit();
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->create metoda", ex);
             return false;
         }
         return (affectedRows > 0);
     }
 
     public boolean update(OpstiDomenskiObjekat odo) {
-        int affectedRows = 0;
+        int affectedRows;
         try {
 
             String upit = "UPDATE " + odo.vratiImeKlaseUpisi() + " SET " + odo.postaviVrednostAtributa() + " WHERE " + odo.vratiUslovNadjiSlog();
@@ -169,14 +177,15 @@ public class DBBroker {
             affectedRows = statement.executeUpdate(upit);
             konekcija.getConnection().commit();
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->update metoda", ex);
             return false;
         }
         return (affectedRows > 0);
     }
 
     public boolean delete(OpstiDomenskiObjekat odo) {
-        int affectedRows = 0;
+        int affectedRows;
         try {
             String upit = "DELETE FROM " + odo.vratiImeKlaseUpisi() + " WHERE " + odo.vratiUslovNadjiSlog();
             System.out.println(upit);
@@ -184,7 +193,8 @@ public class DBBroker {
             affectedRows = statement.executeUpdate(upit);
             konekcija.getConnection().commit();
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->delete metoda", ex);
             return false;
         }
         return (affectedRows > 0);
@@ -204,12 +214,14 @@ public class DBBroker {
                     if (noviObjekat.napuni(rs)) {
                         lista.add(noviObjekat);
                     }
-                } catch (Exception ex) {
-                    Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
+//                    Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.log(Level.SEVERE, "Greška->kreiranje instance klase koja implementira interface, readWithCondition metoda", ex);
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readWithCondition metoda", ex);
             return null;
         }
         return lista;
@@ -247,7 +259,8 @@ public class DBBroker {
                 lista.add(otpremnica);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readWithConditionOtpremnicaKupacOtpremac metoda", ex);
             return false;
         }
         return true;
@@ -272,12 +285,12 @@ public class DBBroker {
                 podaci.add(new Object[]{odsek, gj, doznaka, otprema});
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readWithConditionDoznakaOtprema metoda", ex);
             return false;
         }
         return true;
     }
-
 
     public List<OpstiDomenskiObjekat> readGazdinskaJedinicaWithLokalitet() {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
@@ -295,7 +308,8 @@ public class DBBroker {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readGazdinskaJedinicaWithLokalitet metoda", ex);
             return null;
         }
         return lista;
@@ -320,7 +334,8 @@ public class DBBroker {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readOdeljenjeOdsekWithGazdinskaJedinica metoda", ex);
             return null;
         }
         return lista;
@@ -342,7 +357,8 @@ public class DBBroker {
                 lista.add(racun);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readRacunWithOtpremnica metoda", ex);
             return null;
         }
         return lista;
@@ -371,7 +387,8 @@ public class DBBroker {
                 otpremnica.napuni(rs);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readOtpremnicaForRacun metoda", ex);
             return null;
         }
         return otpremnica;
@@ -392,17 +409,18 @@ public class DBBroker {
                 System.out.println(r.getBroj());
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readWithConditionRacunOtpremnica metoda", ex);
             return null;
         }
         return lista;
     }
-    
-     public void readOdeljenjeOdsekForGazdinskaJedinica(GazdinskaJedinica gj, List<OdeljenjeOdsek> listaOO) {
-         try {
+
+    public void readOdeljenjeOdsekForGazdinskaJedinica(GazdinskaJedinica gj, List<OdeljenjeOdsek> listaOO) {
+        try {
             statement = konekcija.getConnection().createStatement();
             String upit = "SELECT * FROM odeljenje_odsek oo WHERE "
-                    +"oo.gazdinskaJedinica="+gj.getSifra();
+                    + "oo.gazdinskaJedinica=" + gj.getSifra();
             System.out.println(upit);
             ResultSet rs = statement.executeQuery(upit);
             while (rs.next()) {
@@ -412,11 +430,10 @@ public class DBBroker {
                 listaOO.add(o);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-            return;
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "Greška->readOdeljenjeOdsekForGazdinskaJedinica metoda", ex);
         }
-         return;
-     }
+    }
 
     public boolean existsInDb(OpstiDomenskiObjekat odo) {
 
@@ -426,6 +443,7 @@ public class DBBroker {
                 return rs.next();
             }
         } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Greška->existsInDb metoda", ex);
             return false;
         }
     }
@@ -437,10 +455,9 @@ public class DBBroker {
                 return rs.next();
             }
         } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Greška->existsRelation metoda", ex);
             return false;
         }
     }
-
-   
 
 }

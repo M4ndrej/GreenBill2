@@ -14,7 +14,7 @@ import java.util.Base64;
  */
 public class Hash {
 
-    private static String salt = "sviUBlokade";
+    private static final String salt = "sviUBlokade";
     public static String kriptuj(String sifra) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         String kombinacija = sifra + salt;

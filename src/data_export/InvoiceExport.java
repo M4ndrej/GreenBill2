@@ -1,8 +1,8 @@
 
 package data_export;
+
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
- 
 import java.io.*;
 import java.util.*;
 import java.math.BigInteger;
@@ -23,33 +23,31 @@ public class InvoiceExport {
             String outputPath
     ) throws Exception {
  
-        FileInputStream fis = new FileInputStream(templatePath);
-        XWPFDocument doc = new XWPFDocument(fis);
- 
-        // Zameni tekstualne placeholder-e
-        for (XWPFParagraph p : doc.getParagraphs()) {
-            zameniPlaceholdereUParagrafu(p,stavke, otpremnica, racun);
-        }
- 
-        // Ubaci tabelu na mesto {stab}
-        insertTable(doc, stavke);
- 
-        // Zameni tekst u tabelama
-        for (XWPFTable tbl : doc.getTables()) {
-            for (XWPFTableRow row : tbl.getRows()) {
-                for (XWPFTableCell cell : row.getTableCells()) {
-                    for (XWPFParagraph p : cell.getParagraphs()) {
-                        zameniPlaceholdereUParagrafu(p,stavke, otpremnica, racun);
+        try (FileInputStream fis = new FileInputStream(templatePath); XWPFDocument doc = new XWPFDocument(fis)) {
+            
+            // Zameni tekstualne placeholder-e
+            for (XWPFParagraph p : doc.getParagraphs()) {
+                zameniPlaceholdereUParagrafu(p,stavke, otpremnica, racun);
+            }
+            
+            // Ubaci tabelu na mesto {stab}
+            insertTable(doc, stavke);
+            
+            // Zameni tekst u tabelama
+            for (XWPFTable tbl : doc.getTables()) {
+                for (XWPFTableRow row : tbl.getRows()) {
+                    for (XWPFTableCell cell : row.getTableCells()) {
+                        for (XWPFParagraph p : cell.getParagraphs()) {
+                            zameniPlaceholdereUParagrafu(p,stavke, otpremnica, racun);
+                        }
                     }
                 }
             }
+            
+            try (FileOutputStream out = new FileOutputStream(outputPath)) {
+                doc.write(out);
+            }
         }
- 
-        FileOutputStream out = new FileOutputStream(outputPath);
-        doc.write(out);
-        out.close();
-        doc.close();
-        fis.close();
     }
  
     private static void zameniPlaceholdereUParagrafu(XWPFParagraph p, List<StavkaOtpremnice> stavke, Otpremnica o, Racun r) {

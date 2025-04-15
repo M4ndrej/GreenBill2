@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package table_models;
 
 import java.util.ArrayList;
@@ -15,7 +12,7 @@ import model.StavkaOtpremnice;
  */
 public class StavkaOtpremniceModelTabele extends AbstractTableModel {
 
-    private String[] kolone;
+    private final String[] kolone;
     private final String[] kolone1 = {"Redni broj", "Proizvod", "Odeljenje i odsek", "Ukupna količina", "Ukupna cena"};
     private final String[] kolone2 = {"Redni broj", "Proizvod", "Odeljenje i odsek", "Ukupna količina", "Iznos bez PDV-a", "Rabat", "PDV", "Iznos PDV-a", "Iznos sa PDV-om"};
 

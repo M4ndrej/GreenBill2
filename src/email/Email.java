@@ -70,10 +70,10 @@ public class Email {
         String from = "sluzbaupravljanjeprojektima@gmail.com";
         String sifra = "seru qtiw cgux ppch";
         String host = "smtp.gmail.com";
-        Transport transport = novaSesija.getTransport("smtp");
-        transport.connect(host, from, sifra);
-        transport.sendMessage(poruka, poruka.getAllRecipients());
-        transport.close();
+        try (Transport transport = novaSesija.getTransport("smtp")) {
+            transport.connect(host, from, sifra);
+            transport.sendMessage(poruka, poruka.getAllRecipients());
+        }
         System.out.println("Uspesno poslato!");
     }
 

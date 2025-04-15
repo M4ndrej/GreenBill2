@@ -28,7 +28,7 @@ import pogled.dialog.StatistikaDialog;
  */
 public class PanelAnaliza extends javax.swing.JPanel {
 
-    private JFrame parent;
+    private final JFrame parent;
 
     /**
      * Creates new form PanelAnaliza

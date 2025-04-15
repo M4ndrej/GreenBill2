@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package pogled;
 
 import controller.Controller;
@@ -19,7 +16,7 @@ import table_models.OtpremacModelTabele;
  */
 public class PanelOtpremaci extends javax.swing.JPanel {
 
-    private JFrame parent;
+    private final JFrame parent;
     /**
      * Creates new form PanelOtpremaci
      */

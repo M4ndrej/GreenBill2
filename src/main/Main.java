@@ -5,6 +5,7 @@
 package main;
 
 
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import pogled.PrijavaForma;
 
@@ -16,6 +17,10 @@ public class Main {
 
     public static void main(String[] args) {
      
+        LoggerConfig.setup(); // Pokreni logger konfiguraciju
+        Logger logger = LoggerConfig.getLogger();
+
+        logger.info("Aplikacija pokrenuta");
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package pogled.dialog;
 
 import controller.Controller;
@@ -341,7 +338,7 @@ public class OdeljenjeOdsekDialog extends javax.swing.JDialog {
         if (!uspesno) {
             JOptionPane.showMessageDialog(this, "Greška prilikom izmene odeljenja i odseka", "Greška", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Uspešno izmenjeno mesto", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Uspešno izmenjeno odeljenje i odsek", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
             parent.azurirajTabelu("oo");
             this.dispose();
         }

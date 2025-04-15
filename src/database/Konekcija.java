@@ -1,9 +1,10 @@
 package database;
 
-
+import static database.DBBroker.logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
 import konfiguracija.Konfiguracija;
 
 /**
@@ -25,6 +26,7 @@ public class Konekcija {
             connection.setAutoCommit(false);
             connected = true;
         } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Greška->konekcija metoda", ex);
             connected = false;
         }
     }
@@ -70,8 +72,8 @@ public class Konekcija {
                 System.out.println("Konekcija sa bazom je zatvorena.");
             }
         } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Greška->zatvoriKonekciju metoda", ex);
 //            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-
         }
     }
 

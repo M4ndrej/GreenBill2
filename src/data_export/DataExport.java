@@ -4,8 +4,11 @@ package data_export;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.text.SimpleDateFormat;
 import konfiguracija.Konfiguracija;
+import main.LoggerConfig;
 import model.StavkaOtpremnice;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,6 +20,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author Andrej
  */
 public class DataExport {
+    
+    Logger logger = LoggerConfig.getLogger();
 
     public void dodajPodatkeUExcel(StavkaOtpremnice so) {
         String excelFilePath = Konfiguracija.getInstance().getPropertie("excel.file.path");
@@ -57,6 +62,7 @@ public class DataExport {
             }
 
         } catch (IOException e) {
+            logger.log(Level.SEVERE,"Greška prilikom upisa u excel", e);
         }
     }
 }
