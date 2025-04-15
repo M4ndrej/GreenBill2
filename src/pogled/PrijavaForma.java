@@ -608,6 +608,10 @@ public class PrijavaForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPrijavaActionPerformed
 
     private void jButtonRegistracijaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistracijaActionPerformed
+        if (!Controller.getInstance().proveriKonekciju()) {
+            JOptionPane.showMessageDialog(this, "Greška u konekciji sa bazom podataka", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if (jTextFieldJMBG.getText().isEmpty()
                 || !jTextFieldJMBG.getText().matches("^\\d{13}$")
                 || jTextFieldImePrezime.getText().isEmpty()

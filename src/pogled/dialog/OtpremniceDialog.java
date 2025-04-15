@@ -687,7 +687,15 @@ public class OtpremniceDialog extends javax.swing.JDialog {
     private void jButtonKreirajOtpremnicuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKreirajOtpremnicuActionPerformed
         this.setValidationLabels();
         StavkaOtpremniceModelTabele somt = (StavkaOtpremniceModelTabele) jTableStavkeOtpremnice.getModel();
-        if (somt.getLista().size() == 0) {
+        if (jComboBoxMenadzer.getSelectedItem() == null
+                || jComboBoxGJ.getSelectedItem() == null
+                || jComboBoxFirma.getSelectedItem() == null
+                || jComboBoxOtpremac.getSelectedItem() == null
+                || jComboBoxOO.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Popuniti sve podatke otpremnice", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (somt.getLista().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Otpremnica mora imati stavku", "Greška", JOptionPane.ERROR_MESSAGE);
             return;
         }

@@ -27,6 +27,7 @@ public class Konekcija {
             connected = true;
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Greška->konekcija metoda", ex);
+            ex.printStackTrace();
             connected = false;
         }
     }
