@@ -220,13 +220,13 @@ public class LokalitetDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonSacuvajIzmeneActionPerformed
 
     private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
-        int odgovor = JOptionPane.showConfirmDialog(this, "Da li ste sigurni da želite da obrišete kupca?", "Potvrda", JOptionPane.YES_NO_OPTION);
+        int odgovor = JOptionPane.showConfirmDialog(this, "Da li ste sigurni da želite da obrišete lokalitet?", "Potvrda", JOptionPane.YES_NO_OPTION);
         if (odgovor == JOptionPane.YES_OPTION) {
             boolean uspesno = Controller.getInstance().obrisiLokalitet(lokalitet);
             if (!uspesno) {
-                JOptionPane.showMessageDialog(this, "Greška prilikom brisanja kupca", "Greška", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Greška prilikom brisanja lokaliteta", "Greška", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Uspešno obrisan kupac", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Uspešno obrisan lokalitet", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
                 parent.azurirajTabelu("lokaliteti");
                 this.dispose();
             }

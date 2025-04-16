@@ -221,6 +221,11 @@ public class GazdinskaJedinicaDialog extends javax.swing.JDialog {
         String naziv = jTextFieldNaziv.getText();
         Lokalitet lokalitet = (Lokalitet) jComboBoxLokaliteti.getSelectedItem();
 
+        if(lokalitet == null){
+            JOptionPane.showMessageDialog(this, "Gazdinska jedinica mora biti vezana za lokalitet","Greška",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if (sifra.isEmpty() || !sifra.matches("^\\d+$") || naziv.isEmpty()) {
             jLabelSifraError.setText(sifra.isEmpty() ? "Unesite šifru" : (!sifra.matches("^\\d+$") ? "Pogrešan format" : ""));
             jLabelNazivError.setText(naziv.isEmpty() ? "Unesite naziv" : "");
@@ -249,7 +254,11 @@ public class GazdinskaJedinicaDialog extends javax.swing.JDialog {
         String naziv = jTextFieldNaziv.getText();
         String sifra = jTextFieldSifra.getText();
         Lokalitet l = (Lokalitet) jComboBoxLokaliteti.getSelectedItem();
-
+        
+        if(l == null){
+            JOptionPane.showMessageDialog(this, "Gazdinska jedinica mora biti vezana za lokalitet","Greška",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if (sifra.isEmpty() || !sifra.matches("^\\d+$") || naziv.isEmpty()) {
             jLabelSifraError.setText(sifra.isEmpty() ? "Unesite šifru" : (!sifra.matches("^\\d+$") ? "Pogrešan format" : ""));
             jLabelNazivError.setText(naziv.isEmpty() ? "Unesite naziv" : "");
@@ -377,9 +386,11 @@ public class GazdinskaJedinicaDialog extends javax.swing.JDialog {
         List<Lokalitet> lista = new ArrayList<>();
         boolean uspesno = Controller.getInstance().vratiListuLokalitet(lista);
         if (uspesno) {
+            jComboBoxLokaliteti.addItem(null);
             for (Lokalitet l : lista) {
                 jComboBoxLokaliteti.addItem(l);
             }
+            jComboBoxLokaliteti.setSelectedIndex(0);
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne može da učita listu lokaliteta", "Greška", JOptionPane.ERROR_MESSAGE);
         }

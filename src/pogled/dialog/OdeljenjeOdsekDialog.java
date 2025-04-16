@@ -302,6 +302,10 @@ public class OdeljenjeOdsekDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldNazivActionPerformed
 
     private void jButtonSacuvajIzmeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajIzmeneActionPerformed
+        if(jComboBoxJG.getSelectedItem() == null){
+            JOptionPane.showMessageDialog(this, "Odeljenje i odsek moraju biti vezani za gazdinsku jedinicu","Greška",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if (jTextFieldDoznaka.getText().isEmpty()
                 || !jTextFieldDoznaka.getText().matches("\\d+(\\.\\d+)?")
                 || jTextFieldDatumDoznake.getText().isEmpty()) {
@@ -347,6 +351,10 @@ public class OdeljenjeOdsekDialog extends javax.swing.JDialog {
 
     private void jButtonKreirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKreirajActionPerformed
         this.setValidationLabels();
+        if(jComboBoxJG.getSelectedItem() == null){
+            JOptionPane.showMessageDialog(this, "Odeljenje i odsek moraju biti vezani za gazdinsku jedinicu","Greška",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if (jTextFieldDoznaka.getText().isEmpty()
                 || !jTextFieldDoznaka.getText().matches("\\d+(\\.\\d+)?")
                 || jTextFieldDatumDoznake.getText().isEmpty()) {
@@ -394,7 +402,7 @@ public class OdeljenjeOdsekDialog extends javax.swing.JDialog {
             if (!uspesno) {
                 JOptionPane.showMessageDialog(this, "Greška prilikom brisanja odeljenja i odseka", "Greška", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Uspešno obrisano odeljenjei odsek", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Uspešno obrisano odeljenje i odsek", "Uspešno", JOptionPane.INFORMATION_MESSAGE);
                 parent.azurirajTabelu("oo");
                 this.dispose();
             }
@@ -485,5 +493,6 @@ public class OdeljenjeOdsekDialog extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(this, "Sistem ne može da učita listu gazdinskih jedinica", "Greška", JOptionPane.ERROR_MESSAGE);
         }
+        
     }
 }

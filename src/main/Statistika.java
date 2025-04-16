@@ -42,7 +42,7 @@ public class Statistika {
                 if (prev) {
                     where.append(" AND ");
                 }
-                where.append(" YEAR(o.datum) = ").append(so.getOtpremnica().getDatum().getYear()).append(1900);
+                where.append(" YEAR(o.datum) = ").append(so.getOtpremnica().getDatum().getYear()+1900);
                 prev = true;
 
             } else {

@@ -721,6 +721,7 @@ public class OtpremniceDialog extends javax.swing.JDialog {
         }
         boolean uspesno = Controller.getInstance().kreirajOtpremnicu(otpremnica, listaStavki);
         if (uspesno) {
+            JOptionPane.showMessageDialog(this, "Otpremnica uspešno kreirana", "Obaveštenje", JOptionPane.INFORMATION_MESSAGE);
             int odg = JOptionPane.showConfirmDialog(this, "Da li želite da kreirate račun za ovu otpremnicu", "Potvrda", JOptionPane.YES_NO_OPTION);
             if (odg == JOptionPane.YES_OPTION) {
                 new RacunDialog(parent, true, otpremnica).setVisible(true);
@@ -728,11 +729,10 @@ public class OtpremniceDialog extends javax.swing.JDialog {
 
         } else {
             JOptionPane.showMessageDialog(this, "Greška prilikom kreiranja otpremnice", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        JOptionPane.showMessageDialog(this, "Otpremnica uspešno kreirana", "Obaveštenje", JOptionPane.INFORMATION_MESSAGE);
         parent.azurirajTabelu("otpremnice");
         System.out.println(listaStavki.get(0));
-
         this.dispose();
     }//GEN-LAST:event_jButtonKreirajOtpremnicuActionPerformed
 

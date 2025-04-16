@@ -200,3 +200,113 @@ Apr 15, 2025 5:27:16 PM main.Main main
 INFO: Aplikacija pokrenuta
 Apr 15, 2025 5:37:57 PM main.Main main
 INFO: Aplikacija pokrenuta
+Apr 16, 2025 9:04:39 AM main.Main main
+INFO: Aplikacija pokrenuta
+Apr 16, 2025 9:59:20 AM main.Main main
+INFO: Aplikacija pokrenuta
+Apr 16, 2025 10:25:05 AM main.Main main
+INFO: Aplikacija pokrenuta
+Apr 16, 2025 10:32:17 AM main.Main main
+INFO: Aplikacija pokrenuta
+Apr 16, 2025 10:34:25 AM main.Main main
+INFO: Aplikacija pokrenuta
+Apr 16, 2025 10:35:56 AM main.Main main
+INFO: Aplikacija pokrenuta
+Apr 16, 2025 10:43:46 AM main.Main main
+INFO: Aplikacija pokrenuta
+Apr 16, 2025 10:47:47 AM main.Main main
+INFO: Aplikacija pokrenuta
+Apr 16, 2025 10:54:35 AM main.Main main
+INFO: Aplikacija pokrenuta
+Apr 16, 2025 10:55:34 AM database.DBBroker existRelation
+SEVERE: Greška->existsRelation metoda
+java.sql.SQLSyntaxErrorException: Unknown column 'lokalitet' in 'WHERE'
+	at mysql.connector.j@9.1.0/com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:112)
+	at mysql.connector.j@9.1.0/com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114)
+	at mysql.connector.j@9.1.0/com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1312)
+	at database.DBBroker.existRelation(DBBroker.java:454)
+	at controller.Controller.obrisiLokalitet(Controller.java:100)
+	at pogled.dialog.LokalitetDialog.jButtonObrisiActionPerformed(LokalitetDialog.java:225)
+	at pogled.dialog.LokalitetDialog$4.actionPerformed(LokalitetDialog.java:124)
+	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
+	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
+	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6621)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3398)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6386)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4996)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:98)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:747)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:744)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:117)
+	at java.desktop/java.awt.WaitDispatchSupport$2.run(WaitDispatchSupport.java:191)
+	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:236)
+	at java.desktop/java.awt.WaitDispatchSupport$4.run(WaitDispatchSupport.java:234)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:319)
+	at java.desktop/java.awt.WaitDispatchSupport.enter(WaitDispatchSupport.java:234)
+	at java.desktop/java.awt.Dialog.show(Dialog.java:1079)
+	at java.desktop/java.awt.Component.show(Component.java:1728)
+	at java.desktop/java.awt.Component.setVisible(Component.java:1675)
+	at java.desktop/java.awt.Window.setVisible(Window.java:1036)
+	at java.desktop/java.awt.Dialog.setVisible(Dialog.java:1015)
+	at pogled.PanelLokaliteti.jButtonDetaljiActionPerformed(PanelLokaliteti.java:136)
+	at pogled.PanelLokaliteti$1.actionPerformed(PanelLokaliteti.java:60)
+	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314)
+	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407)
+	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6621)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3398)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6386)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4996)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2780)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4828)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:775)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:98)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:747)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:745)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:744)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+Apr 16, 2025 11:02:41 AM main.Main main
+INFO: Aplikacija pokrenuta
